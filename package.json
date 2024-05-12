@@ -1,7 +1,6 @@
 {
   "name": "chat-app",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
@@ -48,5 +47,6 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.3"
-  }
+  },
+  "description": ""
 }

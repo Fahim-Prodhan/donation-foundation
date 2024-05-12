@@ -19,7 +19,7 @@ const useLogout = () => {
 				throw new Error(data.error);
 			}
             toast.success("Successfully logged out!");
-			localStorage.removeItem("cais-user");
+			localStorage.removeItem("foundation");
 			setAuthUser(null);
 		} catch (error) {
 			toast.error(error.message);

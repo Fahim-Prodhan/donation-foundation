@@ -72,7 +72,7 @@ const Navbar = () => {
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           {/* Left side website name and logo */}
           <Link
-            href="/"
+            to="/"
             className="flex items-center space-x-3 rtl:space-x-reverse"
           >
             <img src={logo} className="w-16" alt="" />
@@ -118,19 +118,20 @@ const Navbar = () => {
               </div>
             }
 
-            {
-              authUser && <div className={`flex items-center space-x-3 gap-2`}>
-                <Link className="hidden md:flex" to="/login">
+            <div className={`flex items-center space-x-3 gap-2`}>
+              {
+                authUser && authUser.role === "user" && <Link className="hidden md:flex">
                   <button
-                    onClick={logout}
                     type="button"
                     className=" text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
                   >
                     My Profile
                   </button>
                 </Link>
+              }
 
-                <Link className="hidden md:flex" to="/login">
+              {
+                authUser && <Link className="hidden md:flex" to="/login">
                   <button
                     onClick={logout}
                     type="button"
@@ -139,8 +140,8 @@ const Navbar = () => {
                     Logout
                   </button>
                 </Link>
-              </div>
-            }
+              }
+            </div>
 
             {/* Hamburger button */}
             <button
@@ -187,39 +188,44 @@ const Navbar = () => {
           </button>
           <ul className="font-semibold space-y-3 mt-6 ">{links}</ul>
 
-          <div className={`md:hidden flex gap-4 mt-6`}>
-            <Link onClick={handleHamburger} to="/login">
-              <button
-                type="button"
-                className="text-[#111] bg-[#FDDE55] hover:bg-[#FDDE55] px-2 py-1 rounded-lg font-semibold"
+          {
+            !authUser && <div className={`md:hidden flex gap-4 mt-6`}>
+              <Link onClick={handleHamburger} to="/login">
+                <button
+                  type="button"
+                  className="text-[#111] bg-[#FDDE55] hover:bg-[#FDDE55] px-2 py-1 rounded-lg font-semibold"
+                >
+                  Login
+                </button>
+              </Link>
+              <Link onClick={handleHamburger} to="/register">
+                <button
+                  type="button"
+                  className="text-[#111] bg-[#FDDE55] hover:bg-[#FDDE55] px-2 py-1 rounded-lg font-semibold"
+                >
+                  Register
+                </button>
+              </Link>
+            </div>
+          }
+          {
+            authUser && <div className={`md:hidden flex gap-4 mt-6`}>
+              <Link
+                onClick={() => {
+                  handleHamburger();
+                  logout()
+                }}
+                to="/login"
               >
-                Login
-              </button>
-            </Link>
-            <Link onClick={handleHamburger} to="/register">
-              <button
-                type="button"
-                className="text-[#111] bg-[#FDDE55] hover:bg-[#FDDE55] px-2 py-1 rounded-lg font-semibold"
-              >
-                Register
-              </button>
-            </Link>
-          </div>
-          <div className={`md:hidden flex gap-4 mt-6`}>
-            <Link
-              onClick={() => {
-                handleHamburger();
-              }}
-              to="/login"
-            >
-              <button
-                type="button"
-                className="text-[#111] bg-[#FDDE55] hover:bg-[#FDDE55] px-2 py-1 rounded-lg font-semibold"
-              >
-                Logout
-              </button>
-            </Link>
-          </div>
+                <button
+                  type="button"
+                  className="text-[#111] bg-[#FDDE55] hover:bg-[#FDDE55] px-2 py-1 rounded-lg font-semibold"
+                >
+                  Logout
+                </button>
+              </Link>
+            </div>
+          }
         </div>
       </nav>
     </div>
