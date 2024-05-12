@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react';
 import { TiTick } from "react-icons/ti";
 import { FaRegEyeSlash } from "react-icons/fa";

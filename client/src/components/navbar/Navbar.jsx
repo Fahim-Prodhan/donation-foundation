@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { Link, NavLink } from "react-router-dom";
 import logo from '../../assets/images/Logo-FUNDAPROTAN-white.png'
+import useLogout from "../../Hooks/useLogout";
+import { AuthContext } from "../../Context/AuthContext";
 
 const Navbar = () => {
   const [hamburger, setHamburger] = useState(false);
+  const { logout } = useLogout()
+
+  const { authUser } = useContext(AuthContext)
+  console.log(authUser);
 
   const handleHamburger = () => {
     setHamburger(!hamburger);
@@ -12,47 +18,47 @@ const Navbar = () => {
 
   const links = (
     <>
-      <li><NavLink 
+      <li><NavLink
         onClick={hamburger}
         to="/"
         style={({ isActive }) => ({
           color: isActive ? "#fff" : "#fff",
-          border: isActive? '2px solid #FDDE55': '',
-          borderRadius:isActive? '5px':'',
-          padding:isActive? '5px 12px':'',
+          border: isActive ? '2px solid #FDDE55' : '',
+          borderRadius: isActive ? '5px' : '',
+          padding: isActive ? '5px 12px' : '',
           background: isActive ? "#1111111f" : "transparent",
         })}>Home</NavLink>
       </li>
-      <li><NavLink 
+      <li><NavLink
         onClick={hamburger}
         to="/about"
         style={({ isActive }) => ({
           color: isActive ? "#fff" : "#fff",
-          border: isActive? '2px solid #FDDE55': 'none',
-          borderRadius:isActive? '5px':'',
-          padding:isActive? '5px 12px':'',
+          border: isActive ? '2px solid #FDDE55' : 'none',
+          borderRadius: isActive ? '5px' : '',
+          padding: isActive ? '5px 12px' : '',
           background: isActive ? "#1111111f" : "transparent",
         })}>About</NavLink>
       </li>
-      <li><NavLink 
+      <li><NavLink
         onClick={hamburger}
         to="/projects"
         style={({ isActive }) => ({
           color: isActive ? "#fff" : "#fff",
-          border: isActive? '2px solid #FDDE55': 'none',
-          borderRadius:isActive? '5px':'',
-          padding:isActive? '5px 12px':'',
+          border: isActive ? '2px solid #FDDE55' : 'none',
+          borderRadius: isActive ? '5px' : '',
+          padding: isActive ? '5px 12px' : '',
           background: isActive ? "#1111111f" : "transparent",
         })}>Projects</NavLink>
       </li>
-      <li><NavLink 
+      <li><NavLink
         onClick={hamburger}
         to="/blogs"
         style={({ isActive }) => ({
           color: isActive ? "#fff" : "#fff",
-          border: isActive? '2px solid #FDDE55': 'none',
-          borderRadius:isActive? '5px':'',
-          padding:isActive? '5px 12px':'',
+          border: isActive ? '2px solid #FDDE55' : 'none',
+          borderRadius: isActive ? '5px' : '',
+          padding: isActive ? '5px 12px' : '',
           background: isActive ? "#1111111f" : "transparent",
         })}>Blogs</NavLink>
       </li>
@@ -77,41 +83,64 @@ const Navbar = () => {
 
           {/* Right side Buttons */}
           <div className="flex lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse">
-            <div className={`md:block space-x-3 gap-4 hidden`}>
-              <Link to="/admin/dashboard">
-                <button
-                  type="button"
-                  className="text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
-                >
-                  Dashboard
-                </button>
-                <button
-                  type="button"
-                  className="text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
-                >
-                  Login
-                </button>
-              </Link>
-              <Link to={"/register"}>
-                <button
-                  type="button"
-                  className="text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center "
-                >
-                  Register
-                </button>
-              </Link>
-            </div>
+            {
+              authUser && authUser.role == 'admin' && <div className={`md:block space-x-3 gap-4 hidden mr-3`}>
+                <Link to="/admin/dashboard">
+                  <button
+                    type="button"
+                    className="text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
+                  >
+                    Dashboard
+                  </button>
+                </Link>
+              </div>
+            }
 
-            <div className={`flex items-center space-x-3 gap-4`}>
-              <Link className="hidden md:flex" to="/login">
-                <button
-                  type="button"
-                  className="text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
-                >
-                  Logout
-                </button>
-              </Link>
-            </div>
+            {
+              !authUser && <div className={`md:block space-x-3 gap-4 hidden`}>
+                <Link to="/login">
+                  <button
+                    type="button"
+                    className="text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
+                  >
+                    Login
+                  </button>
+                </Link>
+
+                <Link to={"/register"}>
+                  <button
+                    type="button"
+                    className="text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center "
+                  >
+                    Register
+                  </button>
+                </Link>
+              </div>
+            }
+
+            {
+              authUser && <div className={`flex items-center space-x-3 gap-2`}>
+                <Link className="hidden md:flex" to="/login">
+                  <button
+                    onClick={logout}
+                    type="button"
+                    className=" text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
+                  >
+                    My Profile
+                  </button>
+                </Link>
+
+                <Link className="hidden md:flex" to="/login">
+                  <button
+                    onClick={logout}
+                    type="button"
+                    className="text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
+                  >
+                    Logout
+                  </button>
+                </Link>
+              </div>
+            }
 
             {/* Hamburger button */}
             <button
