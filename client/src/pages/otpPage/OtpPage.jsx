@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import logo from '../../assets/images/Logo-FUNDAPROTAN.png';
 import toast from 'react-hot-toast';
+import useLogout from '../../Hooks/useLogout';
 
 const OtpPage = () => {
     const [otp, setOtp] = useState('');
     const [error, setError] = useState('');
+    const { logout } = useLogout()
+
 
     const handleVerifyOTP = async (e) => {
         e.preventDefault();
@@ -14,9 +17,12 @@ const OtpPage = () => {
             if (response.data.error) {
                 throw new Error(response.data.error);
             }
-            toast.success('OTP verified successfully');
-            // Redirect to login page
-            window.location.href = '/';
+            toast.success('OTP verified! Please login you account');
+            setTimeout(() => {
+                logout()
+                // Redirect to login page
+                window.location.href = '/login';
+            }, 2800);
         } catch (error) {
             // Handle error
             setError(error.message);
