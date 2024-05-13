@@ -29,9 +29,9 @@ const ResetPassword = () => {
               password,
               resetToken: window.location.pathname.split('/').pop(), // Extract reset token from URL
             });
-      
             
             toast.success(response.data.message)
+          
           } catch (error) {
             console.error(error);
             toast.error(error.message)
