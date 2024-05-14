@@ -11,8 +11,8 @@ const generateOTP = () => {
 const transporter = nodemailer.createTransport({
   service: "gmail", // Change to your email service provider
   auth: {
-    user: "fahimboss31@gmail.com", // Replace with your email
-    pass: "ytpykwymugdzhfmv", // Replace with your email password
+    user: "fundaprotan.official@gmail.com", // Replace with your email
+    pass: "yzmw dixq epdw mzfy", // Replace with your email password
   },
 });
 
@@ -59,7 +59,7 @@ export const signup = async (req, res) => {
 
     // Send OTP via email
     await transporter.sendMail({
-      from: "fahimboss31@gmail.com",
+      from: "fundaprotan.official@gmail.com",
       to: email,
       subject: "OTP for Email Verification",
       text: `Your OTP for email verification is: ${otp}`,
@@ -167,7 +167,7 @@ export const forgotPass = async (req, res) => {
 
     // Send password reset email
     await transporter.sendMail({
-      from: "fahimboss31@gmail.com",
+      from: "fundaprotan.official@gmail.com",
       to: `${user.email}`,
       subject: "Password Reset",
       text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
