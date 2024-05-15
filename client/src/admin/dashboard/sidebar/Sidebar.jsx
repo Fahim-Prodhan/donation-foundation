@@ -56,7 +56,7 @@ const Sidebar = () => {
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to='/admin/dashboard' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                            <NavLink to='/admin/blogs' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                                 <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' >< FaBlogger /></span></p>
                                 <span className="ms-3">Blogs</span>
                                 

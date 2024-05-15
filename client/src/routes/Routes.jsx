@@ -9,6 +9,8 @@ import Home from "../pages/HomoComponents/home/Home";
 import AdminDashboard from "../admin/dashboard/adminDashboard/AdminDashboard";
 import DashboardContent from "../admin/dashboard/dashboardContent/DashboardContent";
 import Projects from "../admin/projectComponents/porjects/Projects";
+import Blogs from "../admin/blogs/Blogs";
+import AddAdmin from "../admin/addAdmin/AddAdmin";
 
 const router = createBrowserRouter([
     {
@@ -53,6 +55,14 @@ const router = createBrowserRouter([
             {
                 path:'projects',
                 element:<Projects></Projects>
+            },
+            {
+                path:'blogs',
+                element:<Blogs></Blogs>
+            },
+            {
+                path:'add-admin',
+                element:<AddAdmin></AddAdmin>
             }
         ]
     }
