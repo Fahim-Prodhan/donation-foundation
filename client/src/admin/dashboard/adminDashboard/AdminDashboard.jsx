@@ -13,7 +13,7 @@ const AdminDashboard = () => {
             <div >
                 <Sidebar></Sidebar>
             </div>
-            <div className='ml-[20%] mr-[3%]'>
+            <div className='lg:ml-[20%] md:ml-[35%] mr-[4%] ml-[4%]'>
                 <Outlet></Outlet>
             </div>
         </div>

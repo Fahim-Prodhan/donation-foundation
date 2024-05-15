@@ -1,4 +1,7 @@
 import React from 'react';
+import { FaUsers } from "react-icons/fa6";
+
+import { HiCurrencyDollar } from "react-icons/hi2";
 import {
     ComposedChart,
     Line,
@@ -52,29 +55,23 @@ const data = [
 
 const DashboardContent = () => {
     return (
-        <div className='grid  grid-rows-3 grid-cols-4 gap-4 mt-6'>
+        <div className='grid lg:grid-rows-3 lg:grid-cols-4 gap-4 mt-6'>
 
-            <div className="card bg-base-100 shadow-xl col-span-1">
-                <div className="card-body">
-                    <h2 className="card-title">Card title!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-end">
-                        <button className="btn btn-primary">Buy Now</button>
-                    </div>
+            <div className="card bg-[#0A6847] text-white shadow-xl col-span-1">
+                <div className="card-body text-center">
+                    <h2 className=" text-left text-3xl flex items-center gap-2"><FaUsers />Donors</h2>
+                    <p className='py-6 font-bold text-4xl items-center'>16549</p>
                 </div>
             </div>
 
-            <div className="card bg-base-100 shadow-xl">
-                <div className="card-body">
-                    <h2 className="card-title">Card title!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-end">
-                        <button className="btn btn-primary">Buy Now</button>
-                    </div>
+            <div className="card bg-[#F97300] shadow-xl text-white">
+                <div className="card-body text-center">
+                    <h2 className=" text-left text-3xl flex items-center gap-2"><HiCurrencyDollar />Amount</h2>
+                    <p className='py-6 font-bold text-4xl items-center'>45549</p>
                 </div>
             </div>
 
-            <div className="card bg-base-100 shadow-xl col-span-2 row-span-2">
+            <div className="card lg:order-none order-last bg-base-100 shadow-xl lg:col-span-2 lg:row-span-2">
                 <div className="card-body">
                     <ResponsiveContainer width="100%" height="100%">
                         <ComposedChart
@@ -82,10 +79,10 @@ const DashboardContent = () => {
                             height={400}
                             data={data}
                             margin={{
-                                top: 20,
-                                right: 20,
-                                bottom: 20,
-                                left: 20,
+                                top: 10,
+                                right: 10,
+                                bottom: 10,
+                                left: 10,
                             }}
                         >
                             <CartesianGrid stroke="#f5f5f5" />
@@ -100,22 +97,16 @@ const DashboardContent = () => {
                 </div>
             </div>
 
-            <div className="card bg-base-100 shadow-xl ">
-                <div className="card-body">
-                    <h2 className="card-title">Card title!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-end">
-                        <button className="btn btn-primary">Buy Now</button>
-                    </div>
+            <div className="card bg-[#FC4100] shadow-xl text-white">
+                <div className="card-body text-center">
+                    <h2 className=" text-left text-3xl flex items-center gap-2"><FaUsers />Projects</h2>
+                    <p className='py-6 font-bold text-4xl items-center'>1054</p>
                 </div>
             </div>
-            <div className="card bg-base-100 shadow-xl ">
-                <div className="card-body">
-                    <h2 className="card-title">Card title!</h2>
-                    <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <div className="card-actions justify-end">
-                        <button className="btn btn-primary">Buy Now</button>
-                    </div>
+            <div className="card bg-[#10439F] shadow-xl text-white">
+                <div className="card-body text-center">
+                    <h2 className=" text-left text-3xl flex items-center gap-2"><FaUsers />Blogs</h2>
+                    <p className='py-6 font-bold text-4xl items-center'>2214</p>
                 </div>
             </div>
 
