@@ -1,5 +1,6 @@
 import React from 'react';
-import { FaUsers } from "react-icons/fa6";
+import { FaBlogger, FaUsers } from "react-icons/fa6";
+import { GoProjectRoadmap } from 'react-icons/go';
 
 import { HiCurrencyDollar } from "react-icons/hi2";
 import {
@@ -99,13 +100,13 @@ const DashboardContent = () => {
 
             <div className="card bg-[#FC4100] shadow-xl text-white">
                 <div className="card-body text-center">
-                    <h2 className=" text-left text-3xl flex items-center gap-2"><FaUsers />Projects</h2>
+                    <h2 className=" text-left text-3xl flex items-center gap-2">< GoProjectRoadmap />Projects</h2>
                     <p className='py-6 font-bold text-4xl items-center'>1054</p>
                 </div>
             </div>
             <div className="card bg-[#10439F] shadow-xl text-white">
                 <div className="card-body text-center">
-                    <h2 className=" text-left text-3xl flex items-center gap-2"><FaUsers />Blogs</h2>
+                    <h2 className=" text-left text-3xl flex items-center gap-2">< FaBlogger />Blogs</h2>
                     <p className='py-6 font-bold text-4xl items-center'>2214</p>
                 </div>
             </div>

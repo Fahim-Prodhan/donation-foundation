@@ -8,6 +8,7 @@ import ResetPassword from "../pages/resetPassword/ResetPassword";
 import Home from "../pages/HomoComponents/home/Home";
 import AdminDashboard from "../admin/dashboard/adminDashboard/AdminDashboard";
 import DashboardContent from "../admin/dashboard/dashboardContent/DashboardContent";
+import Projects from "../admin/projectComponents/porjects/Projects";
 
 const router = createBrowserRouter([
     {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
             {
                 path:'dashboard',
                 element:<DashboardContent></DashboardContent>
+            },
+            {
+                path:'projects',
+                element:<Projects></Projects>
             }
         ]
     }
