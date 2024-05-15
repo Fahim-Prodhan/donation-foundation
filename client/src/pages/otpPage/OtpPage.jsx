@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import logo from '../../assets/images/Logo-FUNDAPROTAN.png';
-import toast from 'react-hot-toast';
 import useLogout from '../../Hooks/useLogout';
+import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
 
 const OtpPage = () => {
     const [otp, setOtp] = useState('');
@@ -17,14 +18,25 @@ const OtpPage = () => {
             if (response.data.error) {
                 throw new Error(response.data.error);
             }
-            toast.success('OTP verified! Please login you account');
-            setTimeout(() => {
-                logout()
-                // Redirect to login page
-                window.location.href = '/login';
-            }, 2800);
+            Swal.fire({
+                title: "Congratulations!",
+                text: "OTP verified! Please login you account",
+                confirmButtonText: "Ok",
+            }).then(result=>{
+                if (result.isConfirmed) {
+                    logout()
+                    // Redirect to login page
+                    window.location.href = '/login';
+                  } 
+            });
+            // setTimeout(() => {
+            //     logout()
+            //     // Redirect to login page
+            //     window.location.href = '/login';
+            // }, 2800);
         } catch (error) {
             // Handle error
+            toast.error("Incorrect or Invalid OTP")
             setError(error.message);
         }
     };
@@ -37,7 +49,7 @@ const OtpPage = () => {
                         <img className='w-32' src={logo} alt="" />
                     </div>
                     <div className='space-y-3' >
-                        <h1 className='font-bold text-xl md:text-3xl lg:text-4xl text-center'>Reset Your Account Password</h1>
+                        <h1 className='font-bold text-xl md:text-3xl lg:text-4xl text-center'>Please Check Your Email!</h1>
                     </div>
                     <form onSubmit={handleVerifyOTP}>
                         <div className="form-control">
@@ -48,7 +60,7 @@ const OtpPage = () => {
                         </div>
                         {error && <div className="text-red-500">{error}</div>}
                         <div className='text-center mt-4'>
-                            <button type="submit" className="btn bg-[#FDDE55]">Confirm</button>
+                            <button type="submit" className="btn bg-[#363062]">Confirm</button>
                         </div>
                     </form>
                 </div>

@@ -12,7 +12,9 @@ import { Toaster } from 'react-hot-toast'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthContextProvider>
-      <Toaster />
+      <Toaster
+        reverseOrder={true}
+      />
       <RouterProvider router={router}></RouterProvider>
     </AuthContextProvider>
   </React.StrictMode>,

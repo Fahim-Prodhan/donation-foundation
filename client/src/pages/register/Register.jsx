@@ -5,9 +5,14 @@ import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import logo from '../../assets/images/Logo-FUNDAPROTAN.png'
 import useSignup from '../../Hooks/useSignup';
+import toast from 'react-hot-toast';
 
 const Register = () => {
     const { signup } = useSignup();
+    const [eye, setEye] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
+
+
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -17,7 +22,12 @@ const Register = () => {
         confirmPassword: ''
     });
 
-    const [eye, setEye] = useState(false);
+
+
+    const handleCheckboxChange = (event) => {
+        event.preventDefault()
+        setIsChecked(event.target.checked);
+    };
 
     const togglePassword = () => {
         setEye(!eye);
@@ -33,17 +43,27 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const form = e.target;
-        await signup(formData);
-        form.reset();
+        const password = e.target.password.value
+        const confirmPassword = e.target.password.value
+        if(password != confirmPassword){
+            toast.error("Password not Match")
+        }else if (!isChecked) {
+            toast.error("Please Accept The Terms and Conditions")
+
+        } else {
+            await signup(formData);
+        }
+
 
     }
+
+
 
     return (
         <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto lg:mt-12'>
             <div className="">
                 <div className="grid md:grid-cols-2 gap-7">
-                <div className="lg:py-0 py-4 ">
+                    <div className="lg:py-0 py-4 ">
                         <div className='flex justify-center lg:justify-start my-6'>
                             <img className='lg:w-[40%] w-1/2' src={logo} alt="" />
                         </div>
@@ -98,14 +118,17 @@ const Register = () => {
                                     <input name="confirmPassword" type={eye ? "text" : "password"} className="grow" placeholder="confirm password" onChange={handleChange} />
                                     <span onClick={togglePassword} className="text-xl -ml-10 md:-ml-0">{eye ? <MdOutlineRemoveRedEye /> : <FaRegEyeSlash />}</span>
                                 </label>
-                            </div>                          
+                            </div>
 
                             <div className="form-control col-span-2">
                                 <label className="label">
                                     <p className="pt-2 text-sm">Already have an account? <span className="text-blue-400"><Link to='/login'>Login</Link></span></p>
                                 </label>
                                 <label className="label justify-start gap-3 cursor-pointer">
-                                    <input type="checkbox" className="checkbox" />
+                                    <input type="checkbox"
+                                        className="checkbox"
+                                        checked={isChecked}
+                                        onChange={handleCheckboxChange} />
                                     <span className="label-text">I have read and agree to the <span><a className='text-blue-400'>terms & conditions and privacy policy</a></span></span>
                                 </label>
                             </div>
@@ -116,6 +139,7 @@ const Register = () => {
                     </div>
                 </div>
             </div>
+           
         </div>
     );
 };

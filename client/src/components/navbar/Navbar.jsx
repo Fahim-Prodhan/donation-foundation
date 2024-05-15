@@ -123,7 +123,7 @@ const Navbar = () => {
                 authUser && authUser.role === "user" && <Link className="hidden md:flex">
                   <button
                     type="button"
-                    className=" text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
+                    className=" text-[#fff] font-medium hover:bg-[#099c6b] bg-[#03C988] rounded-[50px] focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center"
                   >
                     My Profile
                   </button>

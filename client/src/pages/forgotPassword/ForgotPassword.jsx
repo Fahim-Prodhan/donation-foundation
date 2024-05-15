@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import logo from '../../assets/images/Logo-FUNDAPROTAN.png'
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
+import Swal from 'sweetalert2';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState('');
@@ -11,25 +12,30 @@ const ForgotPassword = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        toast.success('Email is Sending......')
         fetch('/api/auth/forgot-password', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email }),
         })
-        .then((res) => {
-            if (res.ok) {
-                return res.json();
-            }
-            throw new Error('Username not found');
-        })
-        .then((data) => {
-            console.log(data);
-            toast.success('Password reset instructions sent to your email.');
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            toast.error(error.message);
-        });
+            .then((res) => {
+                if (res.ok) {
+                    return res.json();
+                }
+                throw new Error('Username not found');
+            })
+            .then((data) => {
+                console.log(data);
+                Swal.fire({
+                    title: "Check Your Email!",
+                    text: "Password reset instructions sent to your email.",
+                    icon: "success"
+                });
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                toast.error(error.message);
+            });
         // Perform further actions here, such as sending the email
     }
 
@@ -52,7 +58,7 @@ const ForgotPassword = () => {
                             <input type="email" name="email" value={email} onChange={handleChange} placeholder="email" className="input input-bordered rounded-md" required />
                         </div>
                         <div className='text-center mt-4'>
-                            <button type="submit" className="btn bg-[#FDDE55]">Send Email</button>
+                            <button type="submit" className="btn bg-[#363062] text-white">Send Email</button>
                         </div>
                     </form>
                 </div>
