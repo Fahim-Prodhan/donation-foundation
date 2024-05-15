@@ -68,7 +68,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <nav className=" bg-[#5BBCFF] ">
+      <nav className=" bg-[#435585] ">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           {/* Left side website name and logo */}
           <Link
@@ -88,7 +88,7 @@ const Navbar = () => {
                 <Link to="/admin/dashboard">
                   <button
                     type="button"
-                    className="text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
+                    className="text-[#fff] font-medium hover:bg-[#099c6b] bg-[#03C988] rounded-[50px]  focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center"
                   >
                     Dashboard
                   </button>
@@ -135,7 +135,7 @@ const Navbar = () => {
                   <button
                     onClick={logout}
                     type="button"
-                    className="text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center"
+                    className="text-[#fff] bg-[#F31559] hover:bg-[#fd4e14] rounded-[50px]  focus:ring-4 focus:outline-none font-medium text-sm px-4 py-2 text-center"
                   >
                     Logout
                   </button>
@@ -182,7 +182,7 @@ const Navbar = () => {
         </div>
 
         {/* For Small device */}
-        <div className={`lg:hidden fixed p-6 z-[99] duration-500 md:w-[50%] w-[60%] h-screen top-0 text-white bg-[#5BBCFF] ${hamburger ? "right-0" : "right-[-350px] md:right-[-700px]"}`}>
+        <div className={`lg:hidden fixed p-6 z-[99] duration-500 md:w-[50%] w-[60%] h-screen top-0 text-white bg-[#435585] ${hamburger ? "right-0" : "right-[-350px] md:right-[-700px]"}`}>
           <button onClick={handleHamburger} className="text-2xl">
             <IoMdClose />
           </button>

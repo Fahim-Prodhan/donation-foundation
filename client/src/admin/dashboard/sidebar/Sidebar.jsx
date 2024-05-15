@@ -26,7 +26,7 @@ const Sidebar = () => {
 
             <aside id="default-sidebar" className={`fixed left-0 z-40 w-64 h-screen transition-transform sm:translate-x-0 ${sidebar ? 'top-20' : '-translate-x-full'}`} aria-label="Sidebar">
 
-                <div className="h-full px-3 py-4 overflow-y-auto bg-gray-800">
+                <div className="h-full px-3 py-4 overflow-y-auto bg-[#363062] rounded-lg mt-1">
                     <ul className="space-y-2 font-medium">
                         <button onClick={handleSidebar} className='absolute right-4 text-white text-2xl md:hidden block'><IoCloseSharp /></button>
 
@@ -43,30 +43,54 @@ const Sidebar = () => {
 
                         {/* Others */}
                         <li>
-                            <NavLink to='/admin/dashboard' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                            <NavLink style={({ isActive }) => ({
+                                color: isActive ? "#fff" : "#fff",
+                                border: isActive ? '2px solid #FDDE55' : 'none',
+                                borderRadius: isActive ? '5px' : '',
+                                padding: isActive ? '5px 12px' : '',
+                                background: isActive ? "#1111111f" : "transparent",
+                            })} to='/admin/dashboard' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                                 <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' >< MdDashboard /></span></p>
                                 <span className="ms-3">Dashboard</span>
 
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to='/admin/projects' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                            <NavLink style={({ isActive }) => ({
+                                color: isActive ? "#fff" : "#fff",
+                                border: isActive ? '2px solid #FDDE55' : 'none',
+                                borderRadius: isActive ? '5px' : '',
+                                padding: isActive ? '5px 12px' : '',
+                                background: isActive ? "#1111111f" : "transparent",
+                            })} to='/admin/projects' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                                 <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' >< GoProjectRoadmap /></span></p>
                                 <span className="ms-3">Projects</span>
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to='/admin/blogs' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                            <NavLink style={({ isActive }) => ({
+                                color: isActive ? "#fff" : "#fff",
+                                border: isActive ? '2px solid #FDDE55' : 'none',
+                                borderRadius: isActive ? '5px' : '',
+                                padding: isActive ? '5px 12px' : '',
+                                background: isActive ? "#1111111f" : "transparent",
+                            })} to='/admin/blogs' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                                 <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' >< FaBlogger /></span></p>
                                 <span className="ms-3">Blogs</span>
-                                
+
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to='/admin/add-admin' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                            <NavLink style={({ isActive }) => ({
+                                color: isActive ? "#fff" : "#fff",
+                                border: isActive ? '2px solid #FDDE55' : 'none',
+                                borderRadius: isActive ? '5px' : '',
+                                padding: isActive ? '5px 12px' : '',
+                                background: isActive ? "#1111111f" : "transparent",
+                            })} to='/admin/add-admin' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
                                 <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' ><IoIosPersonAdd /></span></p>
                                 <span className="ms-3">Add Admin</span>
-                                
+
                             </NavLink>
                         </li>
 

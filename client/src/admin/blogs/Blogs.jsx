@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 
 const Blogs = () => {
+
+    const [count, SetCount] = useState(12)
+    const [itemsPerPage, setItemsPerPage] = useState(4)
+    const [currentPage, setCurrentPage] = useState(1)
+
+    const numberOfPages = Math.ceil(count / itemsPerPage)
+
+    const pages = [...Array(numberOfPages).keys()].map(e => e + 1)
+
+    const handlePrev = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1)
+        }
+    }
+    const handleNext = () => {
+        if (currentPage < pages.length) {
+            setCurrentPage(currentPage + 1)
+        }
+    }
     return (
         <div>
 
@@ -44,7 +63,7 @@ const Blogs = () => {
                     <label className="input input-bordered flex items-center gap-2">
                         <input name='search' type="text" className="grow" placeholder="Search" />
                     </label>
-                    <button type='submit' className="btn bg-[#F6B17A] text-white">Search</button>
+                    <button type='submit' className="btn bg-[#435585] text-white">Search</button>
                 </form>
             </div>
             <div className="overflow-x-auto">
@@ -67,7 +86,7 @@ const Blogs = () => {
                             <td>
                                 <div className='flex text-2xl gap-2'>
                                     {/* You can open the modal using document.getElementById('ID').showModal() method */}
-                                    <button  onClick={() => document.getElementById('my_modal_3').showModal()}><FaEdit className='text-blue-600'></FaEdit></button>
+                                    <button onClick={() => document.getElementById('my_modal_3').showModal()}><FaEdit className='text-blue-600'></FaEdit></button>
                                     <dialog id="my_modal_3" className="modal">
                                         <div className="modal-box">
                                             <form method="dialog">
@@ -124,7 +143,17 @@ const Blogs = () => {
                     </tbody>
                 </table>
             </div>
-
+            {/* pagination */}
+            <div className='flex justify-center mt-12 gap-4'>
+                <button onClick={handlePrev} className="btn">Prev</button>
+                {
+                    pages.map(page => <button
+                        onClick={() => setCurrentPage(page)}
+                        className={`btn  ${page == currentPage ? 'bg-[#435585] text-white' : ''}`}
+                        key={page}> {page}</button>)
+                }
+                <button onClick={handleNext} className="btn">Next</button>
+            </div>
         </div>
     );
 };
