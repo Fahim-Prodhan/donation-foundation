@@ -209,7 +209,19 @@ const Navbar = () => {
             </div>
           }
           {
-            authUser && <div className={`md:hidden flex gap-4 mt-6`}>
+            authUser && authUser.role == 'admin' && <div className={`mt-6`}>
+              <Link to="/admin/dashboard">
+                <button
+                  type="button"
+                  className="text-[#fff] font-medium hover:bg-[#099c6b] bg-[#03C988] rounded-lg focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center"
+                >
+                  Dashboard
+                </button>
+              </Link>
+            </div>
+          }
+          {
+            authUser && <div className={`md:hidden flex gap-4 mt-4`}>
               <Link
                 onClick={() => {
                   handleHamburger();
@@ -226,6 +238,7 @@ const Navbar = () => {
               </Link>
             </div>
           }
+            
         </div>
       </nav>
     </div>
