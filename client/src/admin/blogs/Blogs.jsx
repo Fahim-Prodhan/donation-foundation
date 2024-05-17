@@ -86,8 +86,8 @@ const Blogs = () => {
                             <td>
                                 <div className='flex text-2xl gap-2'>
                                     {/* You can open the modal using document.getElementById('ID').showModal() method */}
-                                    <button onClick={() => document.getElementById('my_modal_3').showModal()}><FaEdit className='text-blue-600'></FaEdit></button>
-                                    <dialog id="my_modal_3" className="modal">
+                                    <button onClick={() => document.getElementById('my_modal_4').showModal()}><FaEdit className='text-blue-600'></FaEdit></button>
+                                    <dialog id="my_modal_4" className="modal">
                                         <div className="modal-box">
                                             <form method="dialog">
                                                 {/* if there is a button in form, it will close the modal */}
