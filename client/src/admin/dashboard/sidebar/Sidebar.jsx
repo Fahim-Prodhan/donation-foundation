@@ -34,7 +34,7 @@ const Sidebar = () => {
                         <div className='mb-4 '>
                             <img className='w-20 mx-3 ' src={profile} alt="" />
                             <h1 className='font-bold pt-1 text-white mx-3'>@Admin</h1>
-                            <h1 className='text-xl font-bold text-white mx-3'>Fahim Prodhan</h1>
+                            <h1 className='text-xl font-bold text-white mx-3'>FundaProtan</h1>
                             <div className='my-6 border'>
                                 <hr />
                             </div>
