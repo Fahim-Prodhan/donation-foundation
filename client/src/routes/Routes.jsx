@@ -11,6 +11,7 @@ import DashboardContent from "../admin/dashboard/dashboardContent/DashboardConte
 import Projects from "../admin/projectComponents/porjects/Projects";
 import Blogs from "../admin/blogs/Blogs";
 import AddAdmin from "../admin/addAdmin/AddAdmin";
+import AllUsers from "../admin/allUsers/AllUsers";
 
 const router = createBrowserRouter([
     {
@@ -63,6 +64,10 @@ const router = createBrowserRouter([
             {
                 path:'add-admin',
                 element:<AddAdmin></AddAdmin>
+            },
+            {
+                path:'users',
+                element:<AllUsers></AllUsers>
             }
         ]
     }
