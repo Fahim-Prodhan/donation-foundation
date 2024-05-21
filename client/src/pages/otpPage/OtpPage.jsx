@@ -4,6 +4,7 @@ import logo from '../../assets/images/Logo-FUNDAPROTAN.png';
 import useLogout from '../../Hooks/useLogout';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
+import Navbar from '../../components/navbar/Navbar';
 
 const OtpPage = () => {
     const [otp, setOtp] = useState('');
@@ -50,29 +51,32 @@ const OtpPage = () => {
     };
 
     return (
-        <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto lg:mt-12'>
-            <div className='flex justify-center'>
-                <div className="lg:py-0 py-4">
-                    <div className='flex justify-center my-1'>
-                        <img className='w-32' src={logo} alt="" />
-                    </div>
-                    <div className='space-y-3'>
-                        <h1 className='font-bold text-xl md:text-3xl lg:text-4xl text-center'>Please Check Your Email!</h1>
-                    </div>
-                    <form onSubmit={handleVerifyOTP}>
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">OTP</span>
-                            </label>
-                            <input type="text" placeholder="OTP" className="input input-bordered rounded-md" value={otp} onChange={(e) => setOtp(e.target.value)} required />
+        <div>
+            <Navbar></Navbar>
+            <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto lg:mt-12'>
+                <div className='flex justify-center'>
+                    <div className="lg:py-0 py-4">
+                        <div className='flex justify-center my-1'>
+                            <img className='w-32' src={logo} alt="" />
                         </div>
-                        {error && <div className="text-red-500">{error}</div>}
-                        <div className='text-center mt-4 flex gap-5'>
-                            <button type="submit" className="btn bg-[#363062] text-white">Confirm</button>
-                            <button onClick={handleResendOTP} className="btn bg-[#363062] text-white">Resend OTP</button>
+                        <div className='space-y-3'>
+                            <h1 className='font-bold text-xl md:text-3xl lg:text-4xl text-center'>Please Check Your Email!</h1>
                         </div>
-                    </form>
-                   
+                        <form onSubmit={handleVerifyOTP}>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">OTP</span>
+                                </label>
+                                <input type="text" placeholder="OTP" className="input input-bordered rounded-md" value={otp} onChange={(e) => setOtp(e.target.value)} required />
+                            </div>
+                            {error && <div className="text-red-500">{error}</div>}
+                            <div className='text-center mt-4 flex gap-5'>
+                                <button type="submit" className="btn bg-[#363062] text-white">Confirm</button>
+                                <button onClick={handleResendOTP} className="btn bg-[#363062] text-white">Resend OTP</button>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
             </div>
         </div>
