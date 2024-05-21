@@ -53,6 +53,7 @@ const Blogs = () => {
                                 </label>
                                 <textarea type="text" placeholder="Enter Description of blogs" className="input input-bordered" required />
                             </div>
+                            <button className='btn mt-4 bg-[#363062] text-white'>Add Blogs</button>
 
                         </form>
                     </div>
@@ -108,6 +109,7 @@ const Blogs = () => {
                                                     </label>
                                                     <textarea type="text" placeholder="Enter Description of blogs" className="input input-bordered" required />
                                                 </div>
+                                                <button className='btn mt-4 bg-[#363062] text-white'>Update Blogs</button>
 
                                             </form>
                                         </div>

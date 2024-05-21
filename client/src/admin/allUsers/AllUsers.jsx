@@ -77,19 +77,31 @@ const AllUsers = () => {
                                             </form>
                                             <h1 className='text-center pb-6 text-2xl font-bold'>Update Project</h1>
                                             <form className='grid justify-center'>
-                                                <input type="file" className="file-input file-input-bordered w-full max-w-xs" />
+
                                                 <div className="form-control">
                                                     <label className="label">
-                                                        <span className="label-text font-bold">Title</span>
+                                                        <span className="label-text font-bold">Username</span>
                                                     </label>
-                                                    <input type="text" placeholder="Enter Title of project" className="input input-bordered" required />
+                                                    <input type="text" placeholder="update username" className="input input-bordered" required />
                                                 </div>
                                                 <div className="form-control">
                                                     <label className="label">
-                                                        <span className="label-text font-bold">Description</span>
+                                                        <span className="label-text font-bold">Email</span>
                                                     </label>
-                                                    <textarea type="text" placeholder="Enter Description of project" className="input input-bordered" required />
+                                                    <input type="text" placeholder="update email" className="input input-bordered" required />
                                                 </div>
+                                                <div className="form-control">
+                                                    <label className="label">
+                                                        <span className="label-text font-bold">Role</span>
+                                                    </label>
+                                                    <select className="select select-bordered w-full max-w-xs">
+                                                        <option>user</option>
+                                                        <option>admin</option>
+                                                    </select>
+                                                </div>
+
+                                                <button className='btn mt-4 bg-[#363062] text-white'>Update User</button>
+
                                             </form>
                                         </div>
                                     </dialog>

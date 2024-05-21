@@ -56,6 +56,8 @@ const Projects = () => {
                                 <textarea type="text" placeholder="Enter Description of project" className="input input-bordered" required />
                             </div>
 
+                            <button className='btn mt-4 bg-[#363062] text-white'>Add Project</button>
+
                         </form>
                     </div>
                 </dialog>
@@ -110,6 +112,7 @@ const Projects = () => {
                                                     </label>
                                                     <textarea type="text" placeholder="Enter Description of project" className="input input-bordered" required />
                                                 </div>
+                                                <button className='btn mt-4 bg-[#363062] text-white'>Update Project</button>
 
                                             </form>
                                         </div>
