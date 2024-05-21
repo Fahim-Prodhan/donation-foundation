@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { FaRegEyeSlash } from "react-icons/fa";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { Link } from 'react-router-dom';
-import useSignup from '../../Hooks/useSignup';
+// import useSignup from '../../Hooks/useSignup';
+import useAddAdmin from '../../Hooks/useAddAdmin';
 
 const AddAdmin = () => {
-    const { signup } = useSignup();
+    const { addAdmin } = useAddAdmin();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -13,7 +14,8 @@ const AddAdmin = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        role: 'admin'
+        role: 'admin',
+        verified:true
     });
 
     const [eye, setEye] = useState(false);
@@ -33,7 +35,7 @@ const AddAdmin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         const form = e.target;
-        await signup(formData);
+        await addAdmin(formData);
         form.reset();
 
     }
