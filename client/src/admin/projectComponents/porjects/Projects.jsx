@@ -4,7 +4,7 @@ import { MdDelete } from 'react-icons/md';
 
 const Projects = () => {
 
-    const [count, SetCount] = useState(12)
+    const [count, SetCount] = useState(32)
     const [itemsPerPage, setItemsPerPage] = useState(4)
     const [currentPage, setCurrentPage] = useState(1)
 
@@ -21,6 +21,20 @@ const Projects = () => {
         if (currentPage < pages.length) {
             setCurrentPage(currentPage + 1)
         }
+    }
+
+    
+    const getPageNumbers = () => {
+        if (numberOfPages <= 3) {
+            return [...Array(numberOfPages).keys()].map(e => e + 1);
+        }
+        if (currentPage === 1) {
+            return [1, 2, 3];
+        }
+        if (currentPage === numberOfPages) {
+            return [numberOfPages - 2, numberOfPages - 1, numberOfPages];
+        }
+        return [currentPage - 1, currentPage, currentPage + 1];
     }
 
 
@@ -152,10 +166,17 @@ const Projects = () => {
             <div className='flex justify-center mt-12 gap-4'>
                 <button onClick={handlePrev} className="btn">Prev</button>
                 {
-                    pages.map(page => <button
-                        onClick={() => setCurrentPage(page)}
-                        className={`btn  ${page == currentPage ? 'bg-[#435585] text-white' : ''}`}
-                        key={page}> {page}</button>)
+                    getPageNumbers().map(page => (
+                        <button
+                            onClick={() => setCurrentPage(page)}
+                            className={`btn ${page === currentPage ? 'bg-[#435585] text-white' : ''}`}
+                            key={page}>
+                            {page}
+                        </button>
+                    ))
+                }
+                {
+                    numberOfPages > 3 && currentPage < pages.length && <p className='btn'>....</p>
                 }
                 <button onClick={handleNext} className="btn">Next</button>
             </div>

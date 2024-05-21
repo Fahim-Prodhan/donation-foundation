@@ -9,6 +9,8 @@ const AllUsers = () => {
     const [currentPage, setCurrentPage] = useState(1)
 
     const numberOfPages = Math.ceil(count / itemsPerPage)
+    const pages = [...Array(numberOfPages).keys()].map(e => e + 1)
+
 
     const handlePrev = () => {
         if (currentPage > 1) {
@@ -146,6 +148,9 @@ const AllUsers = () => {
                             {page}
                         </button>
                     ))
+                }
+                  {
+                    numberOfPages > 3 && currentPage < pages.length && <p className='btn'>....</p>
                 }
                 <button onClick={handleNext} className="btn">Next</button>
             </div>
