@@ -12,7 +12,8 @@ const AddAdmin = () => {
         username: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        role: 'admin'
     });
 
     const [eye, setEye] = useState(false);
@@ -43,7 +44,7 @@ const AddAdmin = () => {
                 <div className="lg:px-36">
                     <div className="card w-full  shadow-2xl bg-base-100">
                         <h1 className="text-center text-3xl md:text-5xl font-bold py-4">Add Admin</h1>
-                        <form className="card-body lg:grid md:grid-cols-2" onSubmit={''}>
+                        <form className="card-body lg:grid md:grid-cols-2" onSubmit={handleSubmit}>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">First Name</span>

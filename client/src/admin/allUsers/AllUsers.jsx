@@ -4,13 +4,11 @@ import { MdDelete } from 'react-icons/md';
 
 const AllUsers = () => {
 
-    const [count, SetCount] = useState(12)
+    const [count, SetCount] = useState(32)
     const [itemsPerPage, setItemsPerPage] = useState(4)
     const [currentPage, setCurrentPage] = useState(1)
 
     const numberOfPages = Math.ceil(count / itemsPerPage)
-
-    const pages = [...Array(numberOfPages).keys()].map(e => e + 1)
 
     const handlePrev = () => {
         if (currentPage > 1) {
@@ -18,25 +16,34 @@ const AllUsers = () => {
         }
     }
     const handleNext = () => {
-        if (currentPage < pages.length) {
+        if (currentPage < numberOfPages) {
             setCurrentPage(currentPage + 1)
         }
     }
 
+    const getPageNumbers = () => {
+        if (numberOfPages <= 3) {
+            return [...Array(numberOfPages).keys()].map(e => e + 1);
+        }
+        if (currentPage === 1) {
+            return [1, 2, 3];
+        }
+        if (currentPage === numberOfPages) {
+            return [numberOfPages - 2, numberOfPages - 1, numberOfPages];
+        }
+        return [currentPage - 1, currentPage, currentPage + 1];
+    }
 
     return (
         <div>
-
             <div className='py-4 bg-base-200 text-center text-2xl md:text-4xl font-bold my-12'>
                 <h1>All Users</h1>
             </div>
 
             <div className='flex my-4 gap-4 flex-wrap'>
-                {/* You can open the modal using document.getElementById('ID').showModal() method */}
                 <button className="btn btn-outline btn-info">All Users</button>
                 <button className="btn btn-outline btn-accent">Admins</button>
                 <button className="btn btn-outline btn-primary">Users</button>
-                {/* Search Box */}
                 <form className='flex gap-1' onSubmit={''}>
                     <label className="input input-bordered flex items-center gap-2">
                         <input name='search' type="text" className="grow" placeholder="Search" />
@@ -44,9 +51,9 @@ const AllUsers = () => {
                     <button type='submit' className="btn bg-[#435585] text-white">Search</button>
                 </form>
             </div>
+
             <div className="overflow-x-auto">
                 <table className="table table-zebra">
-                    {/* head */}
                     <thead>
                         <tr>
                             <th></th>
@@ -56,19 +63,16 @@ const AllUsers = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* row 1 */}
                         <tr>
                             <th>1</th>
                             <td>Cy Ganderton</td>
                             <td>Quality Control Specialist</td>
                             <td>
                                 <div className='flex text-2xl gap-2'>
-                                    {/* You can open the modal using document.getElementById('ID').showModal() method */}
                                     <button onClick={() => document.getElementById('my_modal_4').showModal()}><FaEdit className='text-blue-500'></FaEdit></button>
                                     <dialog id="my_modal_4" className="modal">
                                         <div className="modal-box">
                                             <form method="dialog">
-                                                {/* if there is a button in form, it will close the modal */}
                                                 <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                                             </form>
                                             <h1 className='text-center pb-6 text-2xl font-bold'>Update Project</h1>
@@ -86,7 +90,6 @@ const AllUsers = () => {
                                                     </label>
                                                     <textarea type="text" placeholder="Enter Description of project" className="input input-bordered" required />
                                                 </div>
-
                                             </form>
                                         </div>
                                     </dialog>
@@ -94,7 +97,6 @@ const AllUsers = () => {
                                 </div>
                             </td>
                         </tr>
-                        {/* row 2 */}
                         <tr>
                             <th>2</th>
                             <td>Hart Hagerty</td>
@@ -106,7 +108,6 @@ const AllUsers = () => {
                                 </div>
                             </td>
                         </tr>
-                        {/* row 3 */}
                         <tr>
                             <th>3</th>
                             <td>Brice Swyre</td>
@@ -121,14 +122,18 @@ const AllUsers = () => {
                     </tbody>
                 </table>
             </div>
-            {/* pagination */}
+
             <div className='flex justify-center mt-12 gap-4'>
                 <button onClick={handlePrev} className="btn">Prev</button>
                 {
-                    pages.map(page => <button
-                        onClick={() => setCurrentPage(page)}
-                        className={`btn  ${page == currentPage ? 'bg-[#435585] text-white' : ''}`}
-                        key={page}> {page}</button>)
+                    getPageNumbers().map(page => (
+                        <button
+                            onClick={() => setCurrentPage(page)}
+                            className={`btn ${page === currentPage ? 'bg-[#435585] text-white' : ''}`}
+                            key={page}>
+                            {page}
+                        </button>
+                    ))
                 }
                 <button onClick={handleNext} className="btn">Next</button>
             </div>

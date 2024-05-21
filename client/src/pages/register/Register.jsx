@@ -19,7 +19,8 @@ const Register = () => {
         username: '',
         email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        role: 'user'
     });
 
 

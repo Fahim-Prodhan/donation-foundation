@@ -25,6 +25,7 @@ export const signup = async (req, res) => {
       username,
       email,
       password,
+      role
     } = req.body;
 
     // Check if username or email already exists
@@ -52,6 +53,7 @@ export const signup = async (req, res) => {
       password: hashedPassword,
       otp,
       otpExpires: otpExpiration,
+      role
     });
 
     // Save user to database
@@ -279,6 +281,7 @@ export const getUserById = async (req, res) => {
       lastName: user.lastName,
       email: user.email,
       role: user.role,
+      verified: user.verified,
     });
   } catch (error) {
     console.log("Error in getUserById controller", error.message);
