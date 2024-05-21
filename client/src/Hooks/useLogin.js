@@ -27,6 +27,7 @@ const useLogin = () => {
             localStorage.setItem("foundation", JSON.stringify(data));
             setAuthUser(data);
             navigate("/");
+            location.reload();
         } catch (error) {
             toast.error(error.message);
         } finally {
