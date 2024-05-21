@@ -98,10 +98,6 @@ export const login = async (req, res) => {
     // Respond with user data
     res.status(200).json({
       _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role,
     });
   } catch (error) {
     console.log("Error in login controller", error.message);
@@ -225,6 +221,67 @@ export const logout = (req, res) => {
     res.status(200).json({ message: "Logged out successfully" });
   } catch (error) {
     console.log("Error in logout controller", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const resendOTP = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (user.verified) {
+      return res.status(400).json({ error: "Email is already verified" });
+    }
+
+    // Generate new OTP
+    const otp = generateOTP();
+    const otpExpiration = new Date();
+    otpExpiration.setMinutes(otpExpiration.getMinutes() + 10); // OTP expires in 10 minutes
+
+    // Update user with new OTP and expiration time
+    user.otp = otp;
+    user.otpExpires = otpExpiration;
+
+    await user.save();
+
+    // Send OTP via email
+    await transporter.sendMail({
+      from: "fundaprotan.official@gmail.com",
+      to: user.email,
+      subject: "Resend OTP for Email Verification",
+      text: `Your new OTP for email verification is: ${otp}`,
+    });
+
+    res.status(200).json({ message: "Verification OTP resent to your email" });
+  } catch (error) {
+    console.log("Error in resendOTP controller", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getUserById = async (req, res) => {
+  try {
+    const userId = req.params.id; // Assuming the ID is passed as a URL parameter
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.status(200).json({
+      _id: user._id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role,
+    });
+  } catch (error) {
+    console.log("Error in getUserById controller", error.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

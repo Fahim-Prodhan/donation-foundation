@@ -10,7 +10,6 @@ const OtpPage = () => {
     const [error, setError] = useState('');
     const { logout } = useLogout()
 
-
     const handleVerifyOTP = async (e) => {
         e.preventDefault();
         try {
@@ -20,23 +19,32 @@ const OtpPage = () => {
             }
             Swal.fire({
                 title: "Congratulations!",
-                text: "OTP verified! Please login you account",
+                text: "OTP verified! Please login to your account",
                 confirmButtonText: "Ok",
-            }).then(result=>{
+            }).then(result => {
                 if (result.isConfirmed) {
                     logout()
                     // Redirect to login page
                     window.location.href = '/login';
-                  } 
+                }
             });
-            // setTimeout(() => {
-            //     logout()
-            //     // Redirect to login page
-            //     window.location.href = '/login';
-            // }, 2800);
         } catch (error) {
             // Handle error
             toast.error("Incorrect or Invalid OTP")
+            setError(error.message);
+        }
+    };
+
+    const handleResendOTP = async () => {
+        try {
+            const response = await axios.post('/api/auth/resend-otp');
+            if (response.data.error) {
+                throw new Error(response.data.error);
+            }
+            toast.success("OTP has been resent to your email");
+        } catch (error) {
+            // Handle error
+            toast.error("Failed to resend OTP");
             setError(error.message);
         }
     };
@@ -48,7 +56,7 @@ const OtpPage = () => {
                     <div className='flex justify-center my-1'>
                         <img className='w-32' src={logo} alt="" />
                     </div>
-                    <div className='space-y-3' >
+                    <div className='space-y-3'>
                         <h1 className='font-bold text-xl md:text-3xl lg:text-4xl text-center'>Please Check Your Email!</h1>
                     </div>
                     <form onSubmit={handleVerifyOTP}>
@@ -59,10 +67,12 @@ const OtpPage = () => {
                             <input type="text" placeholder="OTP" className="input input-bordered rounded-md" value={otp} onChange={(e) => setOtp(e.target.value)} required />
                         </div>
                         {error && <div className="text-red-500">{error}</div>}
-                        <div className='text-center mt-4'>
+                        <div className='text-center mt-4 flex gap-5'>
                             <button type="submit" className="btn bg-[#363062]">Confirm</button>
+                            <button onClick={handleResendOTP} className="btn bg-[#363062]">Resend OTP</button>
                         </div>
                     </form>
+                   
                 </div>
             </div>
         </div>
