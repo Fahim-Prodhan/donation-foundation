@@ -68,8 +68,8 @@ const OtpPage = () => {
                         </div>
                         {error && <div className="text-red-500">{error}</div>}
                         <div className='text-center mt-4 flex gap-5'>
-                            <button type="submit" className="btn bg-[#363062]">Confirm</button>
-                            <button onClick={handleResendOTP} className="btn bg-[#363062]">Resend OTP</button>
+                            <button type="submit" className="btn bg-[#363062] text-white">Confirm</button>
+                            <button onClick={handleResendOTP} className="btn bg-[#363062] text-white">Resend OTP</button>
                         </div>
                     </form>
                    
