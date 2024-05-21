@@ -13,6 +13,7 @@ import Blogs from "../admin/blogs/Blogs";
 import AddAdmin from "../admin/addAdmin/AddAdmin";
 import AllUsers from "../admin/allUsers/AllUsers";
 import OtpProtected from "./OtpProtected";
+import AdminProtected from "./AdminProtected";
 
 const router = createBrowserRouter([
     {
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
     },
     {
         path:'/admin',
-        element:<AdminDashboard></AdminDashboard>,
+        element:<AdminProtected><AdminDashboard></AdminDashboard></AdminProtected>,
         children:[
             {
                 path:'dashboard',

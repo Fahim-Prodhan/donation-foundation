@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import useLogin from '../Hooks/useLogin';
 import { AuthContext } from '../Context/AuthContext';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 const OtpProtected = ({ children }) => {
 
     const { loading } = useLogin();
     const { authUser } = useContext(AuthContext)
+
 
     if (loading) {
         return <div className="flex justify-center"><span className="loading loading-ring loading-xs"></span>
@@ -16,7 +17,10 @@ const OtpProtected = ({ children }) => {
     }
 
     if(authUser && authUser.verified === false) {
-        return <Navigate to='/otp'></Navigate>
+        
+        return (
+        <Navigate to='/otp'></Navigate>
+        )
     }else{
         return children
     }
