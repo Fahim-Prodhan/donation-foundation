@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import profile from '../../../assets/images/man.png'
 import { NavLink } from 'react-router-dom';
 import { MdDashboard } from "react-icons/md";
@@ -7,10 +7,12 @@ import { GoProjectRoadmap } from "react-icons/go";
 import { FaBlogger } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
 import { IoIosPersonAdd } from "react-icons/io";
+import { AuthContext } from '../../../Context/AuthContext';
 
 const Sidebar = () => {
 
     const [sidebar, SetSidebar] = useState(false)
+    const {authUser} = useContext(AuthContext)
 
     const handleSidebar = () => {
         SetSidebar(!sidebar)
@@ -34,7 +36,7 @@ const Sidebar = () => {
                         <div className='mb-4 '>
                             <img className='w-20 mx-3 ' src={profile} alt="" />
                             <h1 className='font-bold pt-1 text-white mx-3'>@Admin</h1>
-                            <h1 className='text-xl font-bold text-white mx-3'>FundaProtan</h1>
+                            <h1 className='text-xl font-bold text-white mx-3'>{authUser?.firstName} {authUser?.lastName}  </h1>
                             <div className='my-6 border'>
                                 <hr />
                             </div>

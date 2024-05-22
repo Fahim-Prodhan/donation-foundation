@@ -10,7 +10,7 @@ const Navbar = () => {
   const { logout } = useLogout()
 
   const { authUser } = useContext(AuthContext)
-  console.log(authUser);
+  // console.log(authUser);
 
   const handleHamburger = () => {
     setHamburger(!hamburger);
@@ -84,7 +84,7 @@ const Navbar = () => {
           {/* Right side Buttons */}
           <div className="flex lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse">
             {
-              authUser && authUser.role == 'admin' && <div className={`md:block space-x-3 gap-4 hidden mr-3`}>
+              authUser && authUser?.role == 'admin' && <div className={`md:block space-x-3 gap-4 hidden mr-3`}>
                 <Link to="/admin/dashboard">
                   <button
                     type="button"
@@ -120,7 +120,7 @@ const Navbar = () => {
 
             <div className={`flex items-center space-x-3 gap-2`}>
               {
-                authUser && authUser.role === "user" && <Link className="hidden md:flex">
+                authUser && authUser?.role === "user" && <Link className="hidden md:flex">
                   <button
                     type="button"
                     className=" text-[#fff] font-medium hover:bg-[#099c6b] bg-[#03C988] rounded-[50px] focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center"

@@ -12,6 +12,7 @@ const OtpPage = () => {
     const { logout } = useLogout();
     const [disableResend, setDisableResend] = useState(false);
     const [time, setTime] = useState(30);
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         let count;
@@ -56,12 +57,13 @@ const OtpPage = () => {
     };
 
     const handleResendOTP = async () => {
-        toast.success("OTP is sending.....");
+        setIsLoading(true)
         try {
             const response = await axios.post('/api/auth/resend-otp');
             if (response.data.error) {
                 throw new Error(response.data.error);
             }
+            setIsLoading(false)
             setDisableResend(true);
             toast.success("OTP has been resent to your email");
         } catch (error) {
@@ -98,14 +100,14 @@ const OtpPage = () => {
                             </div>
                             {error && <div className="text-red-500">{error}</div>}
                             <div className='text-center mt-4 flex gap-5'>
-                                <button type="submit" className="btn bg-[#363062] text-white">Confirm</button>
+                                <button type="submit" className="btn bg-[#363062] text-white">Confirm </button>
                                 <button 
                                     disabled={disableResend} 
                                     type='button' 
                                     onClick={handleResendOTP} 
                                     className="btn bg-[#363062] text-white"
                                 >
-                                    {!disableResend ? 'Resend OTP' : `Resend in ${time}s`}
+                                    {!disableResend ? 'Resend OTP' : `Resend in ${time}s`} {isLoading && <span className="loading loading-spinner loading-md"></span>}
                                 </button>
                             </div>
                         </form>

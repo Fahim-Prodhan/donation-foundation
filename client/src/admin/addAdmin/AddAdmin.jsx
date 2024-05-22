@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { FaRegEyeSlash } from "react-icons/fa";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-import { Link } from 'react-router-dom';
 // import useSignup from '../../Hooks/useSignup';
 import useAddAdmin from '../../Hooks/useAddAdmin';
+import toast from 'react-hot-toast';
 
 const AddAdmin = () => {
     const { addAdmin } = useAddAdmin();
@@ -19,6 +19,8 @@ const AddAdmin = () => {
     });
 
     const [eye, setEye] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
+
 
     const togglePassword = () => {
         setEye(!eye);
@@ -33,10 +35,16 @@ const AddAdmin = () => {
     }
 
     const handleSubmit = async (e) => {
+        setIsLoading(true)
         e.preventDefault();
-        const form = e.target;
-        await addAdmin(formData);
-        form.reset();
+        const password = e.target.password.value
+        const confirmPassword = e.target.password.value
+        if(password != confirmPassword){
+            toast.error("Password not Match")
+        }else {
+            await addAdmin(formData);
+        }
+        setIsLoading(false)
 
     }
 
@@ -90,17 +98,8 @@ const AddAdmin = () => {
                                 </label>
                             </div>                          
 
-                            <div className="form-control col-span-2">
-                                <label className="label">
-                                    <p className="pt-2 text-sm">Already have an account? <span className="text-blue-400"><Link to='/login'>Login</Link></span></p>
-                                </label>
-                                <label className="label justify-start gap-3 cursor-pointer">
-                                    <input type="checkbox" className="checkbox" />
-                                    <span className="label-text">I have read and agree to the <span><a className='text-blue-400'>terms & conditions and privacy policy</a></span></span>
-                                </label>
-                            </div>
                             <div className="form-control mt-6 col-span-2">
-                                <button type="submit" className="btn bg-[#363062] text-white">Add Admin</button>
+                                <button type="submit" className="btn bg-[#363062] text-white">Add Admin {isLoading && <span className="loading loading-spinner loading-md"></span>}</button>
                             </div>
                         </form>
                     </div>

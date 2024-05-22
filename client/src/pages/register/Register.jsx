@@ -11,6 +11,7 @@ const Register = () => {
     const { signup } = useSignup();
     const [eye, setEye] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
 
 
     const [formData, setFormData] = useState({
@@ -43,6 +44,7 @@ const Register = () => {
     }
 
     const handleSubmit = async (e) => {
+        setIsLoading(true)
         e.preventDefault();
         const password = e.target.password.value
         const confirmPassword = e.target.password.value
@@ -54,8 +56,7 @@ const Register = () => {
         } else {
             await signup(formData);
         }
-
-
+        setIsLoading(false)
     }
 
 
@@ -134,7 +135,7 @@ const Register = () => {
                                 </label>
                             </div>
                             <div className="form-control mt-6 col-span-2">
-                                <button type="submit" className="btn bg-[#363062] text-white">Register</button>
+                                <button type="submit" className="btn bg-[#363062] text-white">Register {isLoading && <span className="loading loading-spinner loading-md"></span>}</button>
                             </div>
                         </form>
                     </div>
