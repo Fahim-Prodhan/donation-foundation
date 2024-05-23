@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
+import UpdateRole from './updateRole/UpdateRole';
 
 const AllUsers = () => {
     const [users, setUsers] = useState([]);
@@ -9,7 +10,7 @@ const AllUsers = () => {
     const [itemsPerPage] = useState(4);
     const [roleFilter, setRoleFilter] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
-
+    const [userToUpdate, setUserToUpdate] = useState(null);
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -58,7 +59,10 @@ const AllUsers = () => {
         setSearchTerm(event.target.value);
         setCurrentPage(1);
     };
-
+    const openUpdateRoleModal = (user) => {
+        setUserToUpdate(user); // Set the user to be updated
+        document.getElementById('my_modal_4').showModal();
+    };
     return (
         <div>
             <div className='py-4 bg-base-200 text-center text-2xl md:text-4xl font-bold my-12'>
@@ -97,40 +101,11 @@ const AllUsers = () => {
                                 <td>{user.role}</td>
                                 <td>
                                     <div className='flex text-2xl gap-2'>
-                                        <button onClick={() => document.getElementById('my_modal_4').showModal()}><FaEdit className='text-blue-500'></FaEdit></button>
-                                        <dialog id="my_modal_4" className="modal">
-                                            <div className="modal-box">
-                                                <form method="dialog">
-                                                    <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                                                </form>
-                                                <h1 className='text-center pb-6 text-2xl font-bold'>Update User</h1>
-                                                <form className='grid justify-center'>
-                                                    <div className="form-control">
-                                                        <label className="label">
-                                                            <span className="label-text font-bold">Username</span>
-                                                        </label>
-                                                        <input type="text" placeholder="update username" className="input input-bordered" required />
-                                                    </div>
-                                                    <div className="form-control">
-                                                        <label className="label">
-                                                            <span className="label-text font-bold">Email</span>
-                                                        </label>
-                                                        <input type="text" placeholder="update email" className="input input-bordered" required />
-                                                    </div>
-                                                    <div className="form-control">
-                                                        <label className="label">
-                                                            <span className="label-text font-bold">Role</span>
-                                                        </label>
-                                                        <select className="select select-bordered w-full max-w-xs">
-                                                            <option>user</option>
-                                                            <option>admin</option>
-                                                        </select>
-                                                    </div>
-                                                    <button className='btn mt-4 bg-[#363062] text-white'>Update User</button>
-                                                </form>
-                                            </div>
-                                        </dialog>
+                                        <button onClick={() => openUpdateRoleModal(user)}><FaEdit className='text-blue-500'></FaEdit></button>
                                         <MdDelete className='text-error'></MdDelete>
+                                        <dialog id="my_modal_4">
+                                            <UpdateRole user={userToUpdate} />
+                                        </dialog>
                                     </div>
                                 </td>
                             </tr>

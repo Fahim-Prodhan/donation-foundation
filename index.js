@@ -8,6 +8,8 @@ import connectDB from "./server/DB/databaseConfigs.js";
 import { uploder } from "./server/middleware/uploder.js";
 import { v2 as cloudinary } from "cloudinary";
 import { uploadSingle } from "./server/middleware/uploadSingle.js";
+import blogRoutes from "./server/routes/blog.routes.js";
+import projectRoutes from "./server/routes/project.routes.js";
 
 const app = express();
 
@@ -20,6 +22,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static("uploads"));
 app.use("/api/auth", authRoutes);
+app.use('/api/blogs', blogRoutes);
+app.use('/api/project', projectRoutes);
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
 app.get("*", (req, res) => {

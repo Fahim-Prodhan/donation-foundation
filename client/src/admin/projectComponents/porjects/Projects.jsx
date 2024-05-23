@@ -1,71 +1,93 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
+import AddProjects from '../addProjects/AddProjects';
+import UpdateProjects from '../updateProjects/UpdateProjects';
 
 const Projects = () => {
+    const [projects, setProjects] = useState([]);
+    const [count, setCount] = useState(0);
+    const [itemsPerPage, setItemsPerPage] = useState(4);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [projectToUpdate, setProjectToUpdate] = useState(null);
 
-    const [count, SetCount] = useState(12)
-    const [itemsPerPage, setItemsPerPage] = useState(4)
-    const [currentPage, setCurrentPage] = useState(1)
+    const numberOfPages = Math.ceil(count / itemsPerPage);
+    const pages = [...Array(numberOfPages).keys()].map(e => e + 1);
 
-    const numberOfPages = Math.ceil(count / itemsPerPage)
+    const fetchProjects = async () => {
+        try {
+            const response = await fetch(`/api/project/projects?page=${currentPage}&limit=${itemsPerPage}&search=${searchTerm}`);
+            const data = await response.json();
+            setProjects(data.projects);
+            setCount(data.totalCount);
+        } catch (error) {
+            console.error('Error fetching projects:', error);
+        }
+    };
 
-    const pages = [...Array(numberOfPages).keys()].map(e => e + 1)
+    useEffect(() => {
+        fetchProjects();
+    }, [currentPage, itemsPerPage, searchTerm]);
 
     const handlePrev = () => {
         if (currentPage > 1) {
-            setCurrentPage(currentPage - 1)
+            setCurrentPage(currentPage - 1);
         }
-    }
+    };
+
     const handleNext = () => {
         if (currentPage < pages.length) {
-            setCurrentPage(currentPage + 1)
+            setCurrentPage(currentPage + 1);
         }
-    }
+    };
 
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+        setCurrentPage(1);
+    };
+
+    const handleDelete = async (projectId) => {
+        try {
+            const response = await fetch(`/api/project/delete/${projectId}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                // Refresh the project list after deletion
+                fetchProjects();
+                console.log('Project deleted successfully');
+            } else {
+                console.error('Failed to delete project');
+            }
+        } catch (error) {
+            console.error('Error deleting project:', error);
+        }
+    };
+
+    const getPageNumbers = () => {
+        if (numberOfPages <= 3) {
+            return [...Array(numberOfPages).keys()].map(e => e + 1);
+        }
+        if (currentPage === 1) {
+            return [1, 2, 3];
+        }
+        if (currentPage === numberOfPages) {
+            return [numberOfPages - 2, numberOfPages - 1, numberOfPages];
+        }
+        return [currentPage - 1, currentPage, currentPage + 1];
+    };
 
     return (
         <div>
-
             <div className='py-4 bg-base-200 text-center text-2xl md:text-4xl font-bold my-12'>
                 <h1>All Projects</h1>
             </div>
-
             <div className='flex my-4 gap-4 flex-wrap'>
-                {/* You can open the modal using document.getElementById('ID').showModal() method */}
-                <button className="btn btn-outline btn-info" onClick={() => document.getElementById('my_modal_3').showModal()}>Add Project</button>
-                <dialog id="my_modal_3" className="modal">
-                    <div className="modal-box">
-                        <form method="dialog">
-                            {/* if there is a button in form, it will close the modal */}
-                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                        </form>
-                        <h1 className='text-center pb-6 text-2xl font-bold'>Add Project</h1>
-                        <form className='grid justify-center'>
-                            <input type="file" className="file-input file-input-bordered w-full max-w-xs" />
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text font-bold">Title</span>
-                                </label>
-                                <input type="text" placeholder="Enter Title of project" className="input input-bordered" required />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text font-bold">Description</span>
-                                </label>
-                                <textarea type="text" placeholder="Enter Description of project" className="input input-bordered" required />
-                            </div>
-
-                            <button className='btn mt-4 bg-[#363062] text-white'>Add Project</button>
-
-                        </form>
-                    </div>
-                </dialog>
-
+                <AddProjects />
                 {/* Search Box */}
-                <form className='flex gap-1' onSubmit={''}>
+                <form className='flex gap-1' onSubmit={e => e.preventDefault()}>
                     <label className="input input-bordered flex items-center gap-2">
-                        <input name='search' type="text" className="grow" placeholder="Search" />
+                        <input name='search' type="text" className="grow" placeholder="Search" value={searchTerm} onChange={handleSearchChange} />
                     </label>
                     <button type='submit' className="btn bg-[#435585] text-white">Search</button>
                 </form>
@@ -75,88 +97,43 @@ const Projects = () => {
                     {/* head */}
                     <thead>
                         <tr>
-                            <th></th>
-                            <th>Name</th>
+                            <th>#</th>
+                            <th>Title</th>
                             <th>Description</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {/* row 1 */}
-                        <tr>
-                            <th>1</th>
-                            <td>Cy Ganderton</td>
-                            <td>Quality Control Specialist</td>
-                            <td>
-                                <div className='flex text-2xl gap-2'>
-                                    {/* You can open the modal using document.getElementById('ID').showModal() method */}
-                                    <button onClick={() => document.getElementById('my_modal_4').showModal()}><FaEdit className='text-blue-500'></FaEdit></button>
-                                    <dialog id="my_modal_4" className="modal">
-                                        <div className="modal-box">
-                                            <form method="dialog">
-                                                {/* if there is a button in form, it will close the modal */}
-                                                <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
-                                            </form>
-                                            <h1 className='text-center pb-6 text-2xl font-bold'>Update Project</h1>
-                                            <form className='grid justify-center'>
-                                                <input type="file" className="file-input file-input-bordered w-full max-w-xs" />
-                                                <div className="form-control">
-                                                    <label className="label">
-                                                        <span className="label-text font-bold">Title</span>
-                                                    </label>
-                                                    <input type="text" placeholder="Enter Title of project" className="input input-bordered" required />
-                                                </div>
-                                                <div className="form-control">
-                                                    <label className="label">
-                                                        <span className="label-text font-bold">Description</span>
-                                                    </label>
-                                                    <textarea type="text" placeholder="Enter Description of project" className="input input-bordered" required />
-                                                </div>
-                                                <button className='btn mt-4 bg-[#363062] text-white'>Update Project</button>
-
-                                            </form>
-                                        </div>
-                                    </dialog>
-                                    <MdDelete className='text-error'></MdDelete>
-                                </div>
-                            </td>
-                        </tr>
-                        {/* row 2 */}
-                        <tr>
-                            <th>2</th>
-                            <td>Hart Hagerty</td>
-                            <td>Desktop Support Technician</td>
-                            <td>
-                                <div className='flex text-2xl gap-2'>
-                                    <FaEdit className='text-blue-500'></FaEdit>
-                                    <MdDelete className='text-error'></MdDelete>
-                                </div>
-                            </td>
-                        </tr>
-                        {/* row 3 */}
-                        <tr>
-                            <th>3</th>
-                            <td>Brice Swyre</td>
-                            <td>Tax Accountant</td>
-                            <td>
-                                <div className='flex text-2xl gap-2'>
-                                    <FaEdit className='text-blue-500'></FaEdit>
-                                    <MdDelete className='text-error'></MdDelete>
-                                </div>
-                            </td>
-                        </tr>
+                        {projects.map((project, index) => (
+                            <tr key={project._id}>
+                                <th>{index + 1 + (currentPage - 1) * itemsPerPage}</th>
+                                <td>{project.title}</td>
+                                <td>{project.description}</td>
+                                <td>
+                                    <div className='flex text-2xl gap-2'>
+                                        <button onClick={() =>{ setProjectToUpdate(project); document.getElementById('my_modal_4').showModal(); }}><FaEdit className='text-blue-500'></FaEdit></button>
+                                        <UpdateProjects project={projectToUpdate} />
+                                        <button onClick={() => handleDelete(project._id)}><MdDelete className='text-error' /></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
             {/* pagination */}
             <div className='flex justify-center mt-12 gap-4'>
                 <button onClick={handlePrev} className="btn">Prev</button>
-                {
-                    pages.map(page => <button
+                {getPageNumbers().map(page => (
+                    <button
                         onClick={() => setCurrentPage(page)}
-                        className={`btn  ${page == currentPage ? 'bg-[#435585] text-white' : ''}`}
-                        key={page}> {page}</button>)
-                }
+                        className={`btn ${page === currentPage ? 'bg-[#435585] text-white' : ''}`}
+                        key={page}
+                    >
+                        {page}
+                    </button>
+                ))}
+                {numberOfPages > 3 && currentPage < pages.length && <p className='btn'>....</p>}
                 <button onClick={handleNext} className="btn">Next</button>
             </div>
         </div>

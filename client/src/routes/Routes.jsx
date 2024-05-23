@@ -12,11 +12,13 @@ import Projects from "../admin/projectComponents/porjects/Projects";
 import Blogs from "../admin/blogs/Blogs";
 import AddAdmin from "../admin/addAdmin/AddAdmin";
 import AllUsers from "../admin/allUsers/AllUsers";
+import OtpProtected from "./OtpProtected";
+import AdminProtected from "./AdminProtected";
 
 const router = createBrowserRouter([
     {
         path:'/',
-        element:<Root></Root>,
+        element:<OtpProtected><Root></Root></OtpProtected>,
         children:[
             {
                 path:'/',
@@ -36,18 +38,18 @@ const router = createBrowserRouter([
                 element:<ForgotPassword></ForgotPassword>
             },
             {
-                path:'/otp',
-                element:<OtpPage></OtpPage>
-            },
-            {
                 path:'/reset/:token',
                 element:<ResetPassword></ResetPassword>
             },
         ]
+    },            
+    {
+        path:'/otp',
+        element:<OtpPage></OtpPage>
     },
     {
         path:'/admin',
-        element:<AdminDashboard></AdminDashboard>,
+        element:<AdminProtected><AdminDashboard></AdminDashboard></AdminProtected>,
         children:[
             {
                 path:'dashboard',
