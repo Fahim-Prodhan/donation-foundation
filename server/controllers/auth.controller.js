@@ -288,3 +288,44 @@ export const getUserById = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, role, search } = req.query;
+
+    // Construct query object based on role and search criteria
+    const query = {};
+    if (role) query.role = role;
+    if (search) {
+      query.$or = [
+        { firstName: { $regex: search, $options: 'i' } }, // Case-insensitive search
+        { lastName: { $regex: search, $options: 'i' } },
+        { username: { $regex: search, $options: 'i' } },
+        { email: { $regex: search, $options: 'i' } },
+      ];
+    }
+
+    // Paginate users based on query
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+    const users = await User.find(query)
+      .select('-password -resetPasswordToken -resetPasswordExpires -otp -otpExpires')
+      .limit(limitNumber)
+      .skip((pageNumber - 1) * limitNumber)
+      .exec();
+
+    // Get total count of users for pagination
+    const count = await User.countDocuments(query);
+
+    // Send response
+    res.status(200).json({
+      users,
+      totalPages: Math.ceil(count / limitNumber),
+      currentPage: pageNumber,
+    });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
