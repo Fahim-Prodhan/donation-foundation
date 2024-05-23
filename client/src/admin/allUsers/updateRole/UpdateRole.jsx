@@ -10,14 +10,14 @@ const UpdateRole = () => {
                     <form method="dialog">
                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
-                    <h1 className='text-center pb-6 text-2xl font-bold'>Update Project</h1>
+                    <h1 className='text-center pb-6 text-2xl font-bold'>Update Role</h1>
                     <form className='grid justify-center'>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text font-bold">Role</span>
+                                <span className="label-text font-bold ">Role</span>
                             </label>
                             <select className="select select-bordered w-full max-w-xs">
-                                <option>user</option>
+                                <option>donor</option>
                                 <option>admin</option>
                             </select>
                         </div>
