@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useEffect, useState } from 'react';
 
 const UpdateProjects = ({ project }) => {
     const [updatedProject, setUpdatedProject] = useState({
@@ -6,6 +6,13 @@ const UpdateProjects = ({ project }) => {
         description: project?.description ,
         file: null,
     });
+    useEffect(() => {
+        setUpdatedProject({
+            title: project?.title ,
+            description: project?.description ,
+            file: null,
+        });
+    }, [project]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -74,7 +81,7 @@ const UpdateProjects = ({ project }) => {
                     >
                         ✕
                     </button>
-                    <h1 className='text-center pb-6 text-2xl font-bold'>Update Project </h1>
+                    <h1 className='text-center pb-6 text-2xl font-bold'>Update Project {project?._id}</h1>
                     <form className='grid justify-center' onSubmit={handleUpdateProject}>
                         <input
                             type="file"
