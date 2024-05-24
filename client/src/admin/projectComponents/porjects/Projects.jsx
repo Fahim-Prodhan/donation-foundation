@@ -111,7 +111,6 @@ const Projects = () => {
                     <label className="input input-bordered flex items-center gap-2">
                         <input name='search' type="text" className="grow" placeholder="Search" value={searchTerm} onChange={handleSearchChange} />
                     </label>
-                    <button type='submit' className="btn bg-[#435585] text-white">Search</button>
                 </form>
             </div>
             <div className="overflow-x-auto">
@@ -130,7 +129,7 @@ const Projects = () => {
                             <tr key={project._id}>
                                 <th>{index + 1 + (currentPage - 1) * itemsPerPage}</th>
                                 <td>{project.title}</td>
-                                <td>{project.description.slice(0, 130)} ...</td>
+                                <td>{project.description.slice(0, 50)} ...</td>
                                 <td>
                                     <div className='flex text-2xl gap-2'>
                                         <button onClick={() => { setProjectToUpdate(project); document.getElementById('my_modal_4').showModal(); }}><FaEdit className='text-blue-500'></FaEdit></button>

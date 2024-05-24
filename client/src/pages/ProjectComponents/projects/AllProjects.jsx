@@ -15,7 +15,7 @@ const AllProjects = () => {
     return (
         <div>
             <h1 className='text-center font-bold text-4xl bg-base-200 py-4 mb-12 '>Our Projects</h1>
-            <div className='lg:max-w-7xl mx-auto'>
+            <div className='lg:max-w-7xl mx-auto space-y-12'>
                 {
                     projects.map(project=> <AllProjectCard key={project._id} project={project}></AllProjectCard>)
                 }

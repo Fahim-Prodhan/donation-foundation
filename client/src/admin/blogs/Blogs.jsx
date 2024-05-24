@@ -122,7 +122,7 @@ const Blogs = () => {
                             <tr key={blog.id}>
                                 <th>{index + 1}</th>
                                 <td>{blog.title}</td>
-                                <td>{blog.description}</td>
+                                <td>{blog.description.slice(0,50)} ...</td>
                                 <td>
                                     <div className='flex text-2xl gap-2'>
                                     <button onClick={() =>{setUpdatedBlog(blog), document.getElementById('my_modal_4').showModal()}}><FaEdit className='text-blue-600'></FaEdit></button>

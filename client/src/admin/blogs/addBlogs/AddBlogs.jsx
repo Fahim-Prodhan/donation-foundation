@@ -10,11 +10,11 @@ const AddBlogs = () => {
         const title = event.target.elements.title.value;
         const description = event.target.elements.description.value;
         const file = event.target.elements.file.files[0];
-        
+
         // Create FormData object
         const formData = new FormData();
         formData.append('image', file);
-        
+
         try {
             setLoading(true)
             // Upload image to ImgBB
@@ -37,22 +37,25 @@ const AddBlogs = () => {
                 body: JSON.stringify(postData)
             });
             const postDataResponse = await postResponse.json();
+            if (postResponse.ok) {
+                document.getElementById('my_modal_3').close();
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Blog has been Saved",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(() => {
+                    location.reload()
+                });
+            }
             console.log('Blog post response:', postDataResponse);
         } catch (error) {
             console.error('Error adding blog:', error);
         }
 
-        Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Your work has been saved",
-            showConfirmButton: false,
-            timer: 1500
-          }).then(()=>{
-            location.reload()
-          });
-          setLoading(false)
-        
+        setLoading(false)
+
         // Clear the form if needed
         event.target.reset();
     };
@@ -62,7 +65,7 @@ const AddBlogs = () => {
             <button className="btn btn-outline btn-info" onClick={() => document.getElementById('my_modal_3').showModal()}>Add Blogs</button>
             <dialog id="my_modal_3" className="modal">
                 <div className="modal-box">
-                <form method="dialog">
+                    <form method="dialog">
                         {/* if there is a button in form, it will close the modal */}
                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
                     </form>
@@ -79,7 +82,7 @@ const AddBlogs = () => {
                             <label className="label">
                                 <span className="label-text font-bold">Description</span>
                             </label>
-                            <textarea name="description" type="text" placeholder="Enter Description of blogs" className="input input-bordered" required />
+                            <textarea name="description" type="text" placeholder="Enter Description of blogs" className="input input-bordered h-40" required />
                         </div>
                         <button type="submit" className='btn mt-4 bg-[#363062] text-white'>Add Blogs  {loading ? <span className="loading loading-spinner loading-sm"></span> : ''}</button>
                     </form>

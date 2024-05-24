@@ -60,12 +60,24 @@ const data = [
 const DashboardContent = () => {
 
 const [userCount, setUserCount] = useState(0)
+const [projectCount, setProjectCount] = useState(0)
+const [blogCount, setBlogCount] = useState(0)
 
     useEffect(()=>{
         axios.get(`/api/auth/userCount`)
         .then(res=>{
             const count = res.data.count;
             setUserCount(count)
+        })
+        axios.get(`/api/project/countProject`)
+        .then(res=>{
+            const count = res.data.count;
+            setProjectCount(count)
+        })
+        axios.get(`/api/blogs/countBlog`)
+        .then(res=>{
+            const count = res.data.count;
+            setBlogCount(count)
         })
     },[])
 
@@ -86,7 +98,8 @@ const [userCount, setUserCount] = useState(0)
             <div className="card bg-[#F97300] shadow-xl text-white">
                 <div className="card-body text-center">
                     <h2 className=" text-left text-3xl flex items-center gap-2"><HiCurrencyDollar />Amount</h2>
-                    <p className='py-6 font-bold text-4xl items-center flex justify-center'><CountUp
+                    <p className='py-6 font-bold text-4xl items-center flex justify-center'>
+                        <CountUp
                         start={0}
                         end={4580}
                         duration={1.5}
@@ -123,13 +136,19 @@ const [userCount, setUserCount] = useState(0)
             <div className="card bg-[#FC4100] shadow-xl text-white">
                 <div className="card-body text-center">
                     <h2 className=" text-left text-3xl flex items-center gap-2">< GoProjectRoadmap />Projects</h2>
-                    <p className='py-6 font-bold text-4xl items-center'>1054</p>
+                    <p className='py-6 font-bold text-4xl items-center flex justify-center'><CountUp
+                        start={0}
+                        end={projectCount}
+                        ></CountUp></p>
                 </div>
             </div>
             <div className="card bg-[#10439F] shadow-xl text-white">
                 <div className="card-body text-center">
                     <h2 className=" text-left text-3xl flex items-center gap-2">< FaBlogger />Blogs</h2>
-                    <p className='py-6 font-bold text-4xl items-center'>2214</p>
+                    <p className='py-6 font-bold text-4xl items-center'><CountUp
+                        start={0}
+                        end={blogCount}
+                        ></CountUp></p>
                 </div>
             </div>
 

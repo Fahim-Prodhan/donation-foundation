@@ -60,3 +60,16 @@ export const deleteProject = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+export const getProjectsCount = async (req, res) =>{
+    try {
+        // Count the documents in the User collection
+        const count = await Project.countDocuments();
+        // Send the count as the response
+        res.send({ count });
+      } catch (error) {
+        // Handle any errors that occur during the count operation
+        console.error('Error counting user documents:', error);
+        res.status(500).send('Internal Server Error');
+      }
+}

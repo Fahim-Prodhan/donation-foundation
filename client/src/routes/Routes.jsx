@@ -15,6 +15,7 @@ import AllUsers from "../admin/allUsers/AllUsers";
 import OtpProtected from "./OtpProtected";
 import AdminProtected from "./AdminProtected";
 import AllProjects from "../pages/ProjectComponents/projects/AllProjects";
+import AllBlogs from "../pages/blogsComponents/AllBlogs/AllBlogs";
 
 const router = createBrowserRouter([
     {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
             {
                 path:'/projects',
                 element:<AllProjects></AllProjects>
+            },
+            {
+                path:'/blogs',
+                element:<AllBlogs></AllBlogs>
             }
         ]
     },            

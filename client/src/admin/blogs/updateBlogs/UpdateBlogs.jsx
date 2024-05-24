@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 const UpdateBlogs = ({ blog }) => {
     const [updatedBlog, setUpdatedBlog] = useState({
@@ -62,6 +63,15 @@ const UpdateBlogs = ({ blog }) => {
                 // Optionally, refresh the blog list or provide feedback
                 console.log('Blog updated successfully');
                 document.getElementById('my_modal_4').close();
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Blog has been updated",
+                    showConfirmButton: false,
+                    timer: 1500
+                  }).then(()=>{
+                    location.reload()
+                  });
             } else {
                 console.error('Failed to update blog');
             }
@@ -106,7 +116,7 @@ const UpdateBlogs = ({ blog }) => {
                                 name="description"
                                 value={updatedBlog.description}
                                 placeholder="Enter Description of blog"
-                                className="input input-bordered"
+                                className="input input-bordered h-40"
                                 onChange={handleInputChange}
                                 required
                             />

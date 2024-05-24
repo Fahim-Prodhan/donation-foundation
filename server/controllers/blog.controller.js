@@ -81,3 +81,16 @@ export const deleteBlog = async (req, res) => {
 };
 
 
+export const getBlogsCount = async (req, res) =>{
+    try {
+        // Count the documents in the User collection
+        const count = await Blog.countDocuments();
+        // Send the count as the response
+        res.send({ count });
+      } catch (error) {
+        // Handle any errors that occur during the count operation
+        console.error('Error counting user documents:', error);
+        res.status(500).send('Internal Server Error');
+      }
+}
+

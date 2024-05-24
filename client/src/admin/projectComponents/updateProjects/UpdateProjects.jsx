@@ -1,4 +1,5 @@
 import  { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 
 const UpdateProjects = ({ project }) => {
     const [updatedProject, setUpdatedProject] = useState({
@@ -61,6 +62,15 @@ const UpdateProjects = ({ project }) => {
                 // Optionally, refresh the project list or provide feedback
                 console.log('Project updated successfully');
                 document.getElementById('my_modal_4').close();
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Project has been Updated",
+                    showConfirmButton: false,
+                    timer: 1500
+                  }).then(()=>{
+                    location.reload()
+                  });
             } else {
                 console.error('Failed to update project');
             }
@@ -81,7 +91,7 @@ const UpdateProjects = ({ project }) => {
                     >
                         ✕
                     </button>
-                    <h1 className='text-center pb-6 text-2xl font-bold'>Update Project {project?._id}</h1>
+                    <h1 className='text-center pb-6 text-2xl font-bold'>Update Project</h1>
                     <form className='grid justify-center' onSubmit={handleUpdateProject}>
                         <input
                             type="file"
@@ -111,7 +121,7 @@ const UpdateProjects = ({ project }) => {
                                 value={updatedProject.description}
                                 type="text"
                                 placeholder="Enter Description of project"
-                                className="input input-bordered"
+                                className="input input-bordered h-40"
                                 onChange={handleInputChange}
                                 required
                             />

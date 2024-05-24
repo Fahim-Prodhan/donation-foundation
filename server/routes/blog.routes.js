@@ -1,7 +1,7 @@
 // routes/blogRoutes.js
 
 import express from 'express';
-import { addBlog ,getBlogs ,updateBlog, deleteBlog } from '../controllers/blog.controller.js';
+import { addBlog ,getBlogs ,updateBlog, deleteBlog,getBlogsCount } from '../controllers/blog.controller.js';
 
 const router = express.Router();
 
@@ -10,5 +10,7 @@ router.post('/', addBlog);
 router.get('/', getBlogs);
 router.put('/update/:id', updateBlog);
 router.delete('/delete/:id', deleteBlog);
+router.get('/countBlog',getBlogsCount)
+
 
 export default router;
