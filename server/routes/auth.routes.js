@@ -1,5 +1,5 @@
 import express from "express";
-import { login, logout, signup, forgotPass, resetpass, verifyOTP,resendOTP,getUserById,getAllUsers } from "../controllers/auth.controller.js";
+import { login, logout, signup, forgotPass, resetpass, verifyOTP,resendOTP,getUserById,getAllUsers, getCountUser } from "../controllers/auth.controller.js";
 import protectRoute from "../middleware/protectRoute.js";
 const router = express.Router();
 
@@ -12,5 +12,6 @@ router.post("/verify-otp",protectRoute, verifyOTP);
 router.post("/resend-otp",protectRoute, resendOTP);
 router.get('/user/:id', getUserById);
 router.get('/users', getAllUsers);
+router.get('/userCount', getCountUser)
 
 export default router;

@@ -31,8 +31,8 @@ const useAddAdmin = () => {
 
 export default useAddAdmin;
 
-function handleInputErrors({ firstName, lastName, username, email, password, confirmPassword ,role }) {
-    if (!firstName || !lastName || !username || !email || !password || !confirmPassword || !role) {
+function handleInputErrors({ firstName, lastName, username, email, password, confirmPassword ,role, verified }) {
+    if (!firstName || !lastName || !username || !email || !password || !confirmPassword || !role || !verified) {
         toast.error("Please fill in all fields");
         return false;
     }

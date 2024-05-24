@@ -44,6 +44,7 @@ const AddAdmin = () => {
         }else {
             await addAdmin(formData);
         }
+        e.target.reset()
         setIsLoading(false)
 
     }

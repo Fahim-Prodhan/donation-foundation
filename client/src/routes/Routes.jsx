@@ -14,6 +14,7 @@ import AddAdmin from "../admin/addAdmin/AddAdmin";
 import AllUsers from "../admin/allUsers/AllUsers";
 import OtpProtected from "./OtpProtected";
 import AdminProtected from "./AdminProtected";
+import AllProjects from "../pages/ProjectComponents/projects/AllProjects";
 
 const router = createBrowserRouter([
     {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
                 path:'/reset/:token',
                 element:<ResetPassword></ResetPassword>
             },
+            {
+                path:'/projects',
+                element:<AllProjects></AllProjects>
+            }
         ]
     },            
     {

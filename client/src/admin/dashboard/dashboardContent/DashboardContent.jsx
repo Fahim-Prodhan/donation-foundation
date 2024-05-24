@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaBlogger, FaUsers } from "react-icons/fa6";
 import { GoProjectRoadmap } from 'react-icons/go';
+import CountUp from 'react-countup';
 
 import { HiCurrencyDollar } from "react-icons/hi2";
 import {
@@ -14,6 +15,8 @@ import {
     Legend,
     ResponsiveContainer,
 } from 'recharts';
+import axios from 'axios';
+import { FaDollarSign } from 'react-icons/fa';
 
 const data = [
     {
@@ -55,20 +58,39 @@ const data = [
 ];
 
 const DashboardContent = () => {
+
+const [userCount, setUserCount] = useState(0)
+
+    useEffect(()=>{
+        axios.get(`/api/auth/userCount`)
+        .then(res=>{
+            const count = res.data.count;
+            setUserCount(count)
+        })
+    },[])
+
+
     return (
         <div className='grid lg:grid-rows-3 lg:grid-cols-4 gap-4 mt-6'>
 
             <div className="card bg-[#0A6847] text-white shadow-xl col-span-1">
                 <div className="card-body text-center">
                     <h2 className=" text-left text-3xl flex items-center gap-2"><FaUsers />Donors</h2>
-                    <p className='py-6 font-bold text-4xl items-center'>16549</p>
+                    <p className='py-6 font-bold text-4xl items-center flex justify-center'><CountUp
+                        start={0}
+                        end={userCount}
+                        ></CountUp></p>
                 </div>
             </div>
 
             <div className="card bg-[#F97300] shadow-xl text-white">
                 <div className="card-body text-center">
                     <h2 className=" text-left text-3xl flex items-center gap-2"><HiCurrencyDollar />Amount</h2>
-                    <p className='py-6 font-bold text-4xl items-center'>45549</p>
+                    <p className='py-6 font-bold text-4xl items-center flex justify-center'><CountUp
+                        start={0}
+                        end={4580}
+                        duration={1.5}
+                        ></CountUp><FaDollarSign></FaDollarSign></p>
                 </div>
             </div>
 

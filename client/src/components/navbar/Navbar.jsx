@@ -29,7 +29,7 @@ const Navbar = () => {
           background: isActive ? "#1111111f" : "transparent",
         })}>Home</NavLink>
       </li>
-      <li><NavLink
+      {/* <li><NavLink
         onClick={hamburger}
         to="/about"
         style={({ isActive }) => ({
@@ -39,7 +39,7 @@ const Navbar = () => {
           padding: isActive ? '5px 12px' : '',
           background: isActive ? "#1111111f" : "transparent",
         })}>About</NavLink>
-      </li>
+      </li> */}
       <li><NavLink
         onClick={hamburger}
         to="/projects"

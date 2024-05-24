@@ -25,7 +25,8 @@ export const signup = async (req, res) => {
       username,
       email,
       password,
-      role
+      role,
+      verified
     } = req.body;
 
     // Check if username or email already exists
@@ -53,7 +54,8 @@ export const signup = async (req, res) => {
       password: hashedPassword,
       otp,
       otpExpires: otpExpiration,
-      role
+      role,
+      verified
     });
 
     // Save user to database
@@ -329,3 +331,17 @@ export const getAllUsers = async (req, res) => {
     res.status(500).json({ message: 'Server Error' });
   }
 };
+
+
+export const getCountUser = async (req,res) =>{
+  try {
+    // Count the documents in the User collection
+    const count = await User.countDocuments();
+    // Send the count as the response
+    res.send({ count });
+  } catch (error) {
+    // Handle any errors that occur during the count operation
+    console.error('Error counting user documents:', error);
+    res.status(500).send('Internal Server Error');
+  }
+}
