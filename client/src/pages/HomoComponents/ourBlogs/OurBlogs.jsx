@@ -13,7 +13,7 @@ const OurBlogs = () => {
     }, [])
     return (
         <div>
-        <h1 className='text-center pb-12 text-3xl md:text-5xl font-bold'>Our Blogs</h1>
+        <h1 className='text-center pb-12 text-3xl md:text-5xl font-bold'>Latest Blogs</h1>
         <div className='grid grid-cols-3 gap-6'>
             {
                 blogs.slice(0, 3).map(blog => <div key={blog._id} className="card card-compact w-96 bg-base-100 shadow-xl">
