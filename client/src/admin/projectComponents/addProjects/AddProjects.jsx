@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Swal from 'sweetalert2';
 
 const AddProjects = () => {
+    const [loading, setLoading] = useState(false)
+
     const handleAddProject = async (event) => {
         event.preventDefault();
         const title = event.target.elements.title.value;
         const description = event.target.elements.description.value;
         const file = event.target.elements.file.files[0];
-        
+
         // Create FormData object
         const formData = new FormData();
         formData.append('image', file);
-        
+
         try {
+            setLoading(true)
             // Upload image to ImgBB
             const response = await fetch('https://api.imgbb.com/1/upload?key=6b61fed2ade9e1cb6596b28fb4315762', {
                 method: 'POST',
@@ -19,12 +23,12 @@ const AddProjects = () => {
             });
             const imageData = await response.json();
             const imageUrl = imageData.data.url;
-            
+
             // Log the data and image URL
-            console.log("Title:", title);
-            console.log("Description:", description);
-            console.log("Image URL:", imageUrl);
-            
+            // console.log("Title:", title);
+            // console.log("Description:", description);
+            // console.log("Image URL:", imageUrl);
+
             // Post project data to server
             const projectData = { title, description, imageUrl };
             const postResponse = await fetch('/api/project/projects', {
@@ -37,11 +41,20 @@ const AddProjects = () => {
 
             const postResult = await postResponse.json();
             console.log('Project added:', postResult);
-            
+            setLoading(false)
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+              }).then(()=>{
+                location.reload()
+              });
+
         } catch (error) {
             console.error('Error uploading image or posting project:', error);
         }
-        
         // Clear the form if needed
         event.target.reset();
     };
@@ -71,7 +84,7 @@ const AddProjects = () => {
                             <textarea name="description" type="text" placeholder="Enter Description of project" className="input input-bordered" required />
                         </div>
 
-                        <button type="submit" className='btn mt-4 bg-[#363062] text-white'>Add Project</button>
+                        <button type="submit" className='btn mt-4 bg-[#363062] text-white'>Add Project {loading ? <span className="loading loading-spinner loading-sm"></span> : ''}</button>
                     </form>
                 </div>
             </dialog>

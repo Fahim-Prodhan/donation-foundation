@@ -77,7 +77,6 @@ const AllUsers = () => {
                     <label className="input input-bordered flex items-center gap-2">
                         <input name='search' type="text" className="grow" placeholder="Search" value={searchTerm} onChange={handleSearchChange} />
                     </label>
-                    <button type='submit' className="btn bg-[#435585] text-white">Search</button>
                 </form>
             </div>
 

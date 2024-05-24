@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Swal from 'sweetalert2';
 
 const AddBlogs = () => {
+
+    const [loading, setLoading] = useState(false)
+
     const handleAddBlogs = async (event) => {
         event.preventDefault();
         const title = event.target.elements.title.value;
@@ -12,6 +16,7 @@ const AddBlogs = () => {
         formData.append('image', file);
         
         try {
+            setLoading(true)
             // Upload image to ImgBB
             const response = await fetch('https://api.imgbb.com/1/upload?key=6b61fed2ade9e1cb6596b28fb4315762', {
                 method: 'POST',
@@ -36,6 +41,17 @@ const AddBlogs = () => {
         } catch (error) {
             console.error('Error adding blog:', error);
         }
+
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Your work has been saved",
+            showConfirmButton: false,
+            timer: 1500
+          }).then(()=>{
+            location.reload()
+          });
+          setLoading(false)
         
         // Clear the form if needed
         event.target.reset();
@@ -65,7 +81,7 @@ const AddBlogs = () => {
                             </label>
                             <textarea name="description" type="text" placeholder="Enter Description of blogs" className="input input-bordered" required />
                         </div>
-                        <button type="submit" className='btn mt-4 bg-[#363062] text-white'>Add Blogs</button>
+                        <button type="submit" className='btn mt-4 bg-[#363062] text-white'>Add Blogs  {loading ? <span className="loading loading-spinner loading-sm"></span> : ''}</button>
                     </form>
                 </div>
             </dialog>

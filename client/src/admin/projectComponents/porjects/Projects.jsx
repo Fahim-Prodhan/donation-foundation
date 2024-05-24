@@ -3,17 +3,23 @@ import { FaEdit } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import AddProjects from '../addProjects/AddProjects';
 import UpdateProjects from '../updateProjects/UpdateProjects';
+import Swal from 'sweetalert2';
 
 const Projects = () => {
     const [projects, setProjects] = useState([]);
     const [count, setCount] = useState(0);
-    const [itemsPerPage, setItemsPerPage] = useState(4);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [projectToUpdate, setProjectToUpdate] = useState(null);
 
     const numberOfPages = Math.ceil(count / itemsPerPage);
     const pages = [...Array(numberOfPages).keys()].map(e => e + 1);
+
+
+    useEffect(() => {
+        fetchProjects();
+    }, [currentPage, itemsPerPage, searchTerm]);
 
     const fetchProjects = async () => {
         try {
@@ -26,9 +32,7 @@ const Projects = () => {
         }
     };
 
-    useEffect(() => {
-        fetchProjects();
-    }, [currentPage, itemsPerPage, searchTerm]);
+    // fetchProjects();
 
     const handlePrev = () => {
         if (currentPage > 1) {
@@ -47,21 +51,39 @@ const Projects = () => {
         setCurrentPage(1);
     };
 
-    const handleDelete = async (projectId) => {
-        try {
-            const response = await fetch(`/api/project/delete/${projectId}`, {
-                method: 'DELETE',
-            });
-            if (response.ok) {
-                // Refresh the project list after deletion
-                fetchProjects();
-                console.log('Project deleted successfully');
-            } else {
-                console.error('Failed to delete project');
+    const handleDelete =  (projectId) => {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(`/api/project/delete/${projectId}`, {
+                        method: 'DELETE',
+                    });
+                    if (response.ok) {
+                        // Refresh the project list after deletion
+                        fetchProjects();
+                        console.log('Project deleted successfully');
+                    } else {
+                        console.error('Failed to delete project');
+                    }
+                } catch (error) {
+                    console.error('Error deleting project:', error);
+                }
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                });
             }
-        } catch (error) {
-            console.error('Error deleting project:', error);
-        }
+        });
     };
 
     const getPageNumbers = () => {
@@ -108,10 +130,10 @@ const Projects = () => {
                             <tr key={project._id}>
                                 <th>{index + 1 + (currentPage - 1) * itemsPerPage}</th>
                                 <td>{project.title}</td>
-                                <td>{project.description}</td>
+                                <td>{project.description.slice(0, 130)} ...</td>
                                 <td>
                                     <div className='flex text-2xl gap-2'>
-                                        <button onClick={() =>{ setProjectToUpdate(project); document.getElementById('my_modal_4').showModal(); }}><FaEdit className='text-blue-500'></FaEdit></button>
+                                        <button onClick={() => { setProjectToUpdate(project); document.getElementById('my_modal_4').showModal(); }}><FaEdit className='text-blue-500'></FaEdit></button>
                                         <UpdateProjects project={projectToUpdate} />
                                         <button onClick={() => handleDelete(project._id)}><MdDelete className='text-error' /></button>
                                     </div>

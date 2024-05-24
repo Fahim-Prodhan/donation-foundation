@@ -3,6 +3,7 @@ import AddBlogs from './addBlogs/AddBlogs';
 import UpdateBlogs from './updateBlogs/UpdateBlogs';
 import { FaEdit } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
+import Swal from 'sweetalert2';
 
 const Blogs = () => {
     const [blogs, setBlogs] = useState([]);
@@ -24,7 +25,7 @@ const Blogs = () => {
             console.error('Error fetching blogs:', error);
         }
     };
-    fetchData();
+    // fetchData();
 
     const handlePrev = () => {
         if (currentPage > 1) {
@@ -56,21 +57,39 @@ const Blogs = () => {
         console.log(searchTerm);
         setCurrentPage(1);
     };
-    const handleDelete = async (projectId) => {
-        try {
-            const response = await fetch(`/api/blogs/delete/${projectId}`, {
-                method: 'DELETE',
-            });
-            if (response.ok) {
-                // Refresh the project list after deletion
-                fetchData();
-                console.log('Project deleted successfully');
-            } else {
-                console.error('Failed to delete project');
+    const handleDelete =  (projectId) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(`/api/blogs/delete/${projectId}`, {
+                        method: 'DELETE',
+                    });
+                    if (response.ok) {
+                        // Refresh the project list after deletion
+                        fetchData();
+                        console.log('Project deleted successfully');
+                    } else {
+                        console.error('Failed to delete project');
+                    }
+                } catch (error) {
+                    console.error('Error deleting project:', error);
+                }
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your file has been deleted.",
+                icon: "success"
+              });
             }
-        } catch (error) {
-            console.error('Error deleting project:', error);
-        }
+          });
+        
     };
     return (
         <div>
