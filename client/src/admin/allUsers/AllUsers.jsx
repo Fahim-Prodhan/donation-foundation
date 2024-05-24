@@ -7,7 +7,7 @@ const AllUsers = () => {
     const [users, setUsers] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(4);
+    const [itemsPerPage] = useState(10);
     const [roleFilter, setRoleFilter] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [userToUpdate, setUserToUpdate] = useState(null);

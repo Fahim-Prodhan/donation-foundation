@@ -31,7 +31,7 @@ const OurProjects = () => {
             </div>
             <div className='text-center '>
                 <Link to='/projects'>
-                    <button className='btn btn-outline btn-info my-12'>See All</button>
+                    <button className='btn btn-outline btn-info mt-12'>See All</button>
                 </Link>
             </div>
         </div>

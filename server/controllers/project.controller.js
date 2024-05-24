@@ -23,6 +23,7 @@ export const getProjects = async (req, res) => {
 
     try {
         const projects = await Project.find(searchQuery)
+            .sort({_id: -1})
             .skip((pageNumber - 1) * pageSize)
             .limit(pageSize);
         const totalCount = await Project.countDocuments(searchQuery);
@@ -73,3 +74,20 @@ export const getProjectsCount = async (req, res) =>{
         res.status(500).send('Internal Server Error');
       }
 }
+
+export const getDetailsProject = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const project = await Project.findById(id);
+      if (!project) {
+        return res.status(404).send({ message: "project not found" });
+      }
+      res.status(200).send(project);
+    } catch (error) {
+      console.error("Error fetching project details:", error);
+      res
+        .status(500)
+        .send({ message: "An error occurred while fetching project details" });
+    }
+  };
+  

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const AllBlogsCard = ({blog}) => {
     const descriptionSlice = blog.description.slice(0, 100)
@@ -9,10 +10,9 @@ const AllBlogsCard = ({blog}) => {
                     <div>
                         <h1 className="md:text-4xl text-2xl font-bold">{blog.title}</h1>
                         <p className="py-6"> <span className='font-bold'>Description:</span> {descriptionSlice}...</p>
-                        <button className="btn btn-primary btn-outline">Read More</button>
+                       <Link to={`/blogs-details/${blog._id}`}> <button className="btn btn-primary btn-outline">Read More</button> </Link>
                     </div>
                     <img src={blog.imageUrl} className="md:max-w-md rounded-lg shadow-2xl" />
-
                 </div>
             </div>
         </div>

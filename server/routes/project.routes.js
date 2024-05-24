@@ -1,7 +1,7 @@
 // routes/projects.js
 
 import express from 'express';
-import { addProject ,getProjects,updateProject,deleteProject,getProjectsCount } from '../controllers/project.controller.js';
+import { addProject ,getProjects,updateProject,deleteProject,getProjectsCount,getDetailsProject } from '../controllers/project.controller.js';
 
 const router = express.Router();
 
@@ -10,6 +10,7 @@ router.get('/projects', getProjects);
 router.put('/update/:id', updateProject);
 router.delete('/delete/:id', deleteProject);
 router.get('/countProject',getProjectsCount)
+router.get('/details/:id',getDetailsProject)
 
 
 export default router;
