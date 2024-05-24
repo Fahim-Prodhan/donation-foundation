@@ -14,8 +14,8 @@ const ProjectDetails = () => {
     }, [id])
     return (
         <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto lg:mt-12'>
-            <div className='p-12 bg-base-200'>
-                <img className='rounded-lg max-w-3xl mx-auto' src= {project.imageUrl} alt="" />
+            <div className='lg:p-12 p-4 bg-base-200'>
+                <img className='rounded-lg lg:max-w-3xl mx-auto' src= {project.imageUrl} alt="" />
             </div>
             <div>
                 <h1 className='text-center my-3 font-bold text-4xl text-[#FF204E]'>{project.title}</h1>
