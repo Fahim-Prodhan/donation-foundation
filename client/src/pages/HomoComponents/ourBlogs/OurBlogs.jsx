@@ -22,7 +22,7 @@ const OurBlogs = () => {
                         <h2 className="card-title">{blog.title}</h2>
                         <p>{blog.description.slice(0, 100)}....</p>
 
-                        <button className="btn btn-primary btn-outline my-4">view Details</button>
+                        <Link  className="btn btn-primary btn-outline my-4" to={`/blogs-details/${blog._id}`}><button>view Details</button></Link>
                     </div>
                 </div>
                 )

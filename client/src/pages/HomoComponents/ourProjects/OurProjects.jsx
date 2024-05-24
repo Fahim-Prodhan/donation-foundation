@@ -23,7 +23,8 @@ const OurProjects = () => {
                             <h2 className="card-title">{project.title}</h2>
                             <p>{project.description.slice(0, 100)}....</p>
 
-                            <button className="btn btn-primary btn-outline my-4">view Details</button>
+                            <Link  className="btn btn-primary btn-outline my-4" to={`/project-details/${project._id}`}><button>view Details</button></Link>
+
                         </div>
                     </div>
                     )

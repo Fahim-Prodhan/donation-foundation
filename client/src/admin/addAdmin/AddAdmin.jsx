@@ -6,7 +6,7 @@ import useAddAdmin from '../../Hooks/useAddAdmin';
 import toast from 'react-hot-toast';
 
 const AddAdmin = () => {
-    const { addAdmin } = useAddAdmin();
+    const { loading, addAdmin } = useAddAdmin();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -19,7 +19,6 @@ const AddAdmin = () => {
     });
 
     const [eye, setEye] = useState(false);
-    const [isLoading, setIsLoading] = useState(false)
 
 
     const togglePassword = () => {
@@ -35,7 +34,7 @@ const AddAdmin = () => {
     }
 
     const handleSubmit = async (e) => {
-        setIsLoading(true)
+
         e.preventDefault();
         const password = e.target.password.value
         const confirmPassword = e.target.password.value
@@ -44,8 +43,7 @@ const AddAdmin = () => {
         }else {
             await addAdmin(formData);
         }
-        e.target.reset()
-        setIsLoading(false)
+
 
     }
 
@@ -100,7 +98,7 @@ const AddAdmin = () => {
                             </div>                          
 
                             <div className="form-control mt-6 col-span-2">
-                                <button type="submit" className="btn bg-[#363062] text-white">Add Admin {isLoading && <span className="loading loading-spinner loading-md"></span>}</button>
+                                <button type="submit" className="btn bg-[#363062] text-white">Add Admin {loading && <span className="loading loading-spinner loading-md"></span>}</button>
                             </div>
                         </form>
                     </div>
