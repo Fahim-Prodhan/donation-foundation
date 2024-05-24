@@ -8,7 +8,7 @@ const AllBlogsCard = ({ blog }) => {
             <div className="hero bg-base-100 shadow-xl">
                 <div className="hero-content flex-col-reverse lg:flex-row">
                     <div>
-                        <h1 className="md:text-4xl text-2xl font-bold">{blog.title}</h1>
+                        <h1 className="md:text-2xl text-xl font-bold">{blog.title}</h1>
                         <p className="py-6"> <span className='font-bold'>Description:</span> {descriptionSlice}...</p>
                         <Link to={`/blogs-details/${blog._id}`}> <button className="btn btn-primary btn-outline">Read More</button> </Link>
                     </div>
