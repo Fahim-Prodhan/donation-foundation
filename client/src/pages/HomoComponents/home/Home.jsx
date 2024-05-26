@@ -1,3 +1,4 @@
+import InvoiceCard from '../../../components/invoice/InvoiceCard';
 import HeaderBanner from '../HeaderBanner/HeaderBanner';
 import Mission from '../Mission/Mission';
 import OurBlogs from '../ourBlogs/OurBlogs';
@@ -13,6 +14,8 @@ const Home = () => {
                 <div className='mt-12 md:mt-[100px]'><Mission></Mission></div>
                 <div className='mt-12 md:mt-[100px]'><OurProjects></OurProjects></div>
                 <div className='mt-12 md:mt-[100px]'><OurBlogs></OurBlogs></div>
+                {/* <div className='mt-12 md:mt-[100px]'><InvoiceCard></InvoiceCard></div> */}
+
             </div>
         </div>
     );
