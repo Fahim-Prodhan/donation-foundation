@@ -11,16 +11,21 @@ const Blogs = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [updatedBlog, setUpdatedBlog] = useState(null);
+    const [loading, setLoading] = useState(false)
+
+
     useEffect(() => {
+        setLoading(true)
         fetchData();
     }, [currentPage, searchTerm]);
-    
+
     const fetchData = async () => {
         try {
             const response = await fetch(`/api/blogs?page=${currentPage}&search=${searchTerm}`);
             const data = await response.json();
             setBlogs(data.blogs);
             setTotalPages(data.totalPages);
+            setLoading(false)
         } catch (error) {
             console.error('Error fetching blogs:', error);
         }
@@ -57,7 +62,7 @@ const Blogs = () => {
         console.log(searchTerm);
         setCurrentPage(1);
     };
-    const handleDelete =  (projectId) => {
+    const handleDelete = (projectId) => {
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -66,7 +71,7 @@ const Blogs = () => {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!"
-          }).then(async (result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
                     const response = await fetch(`/api/blogs/delete/${projectId}`, {
@@ -82,15 +87,27 @@ const Blogs = () => {
                 } catch (error) {
                     console.error('Error deleting project:', error);
                 }
-              Swal.fire({
-                title: "Deleted!",
-                text: "Your file has been deleted.",
-                icon: "success"
-              });
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                });
             }
-          });
-        
+        });
+
     };
+
+    if (loading) {
+        return (
+            <div className="flex justify-center">
+                <span className="loading loading-ring loading-xs"></span>
+                <span className="loading loading-ring loading-sm"></span>
+                <span className="loading loading-ring loading-md"></span>
+                <span className="loading loading-ring loading-lg"></span>
+            </div>
+        );
+    }
+
     return (
         <div>
             <div className='py-4 bg-base-200 text-center text-2xl md:text-4xl font-bold my-12'>
@@ -122,12 +139,12 @@ const Blogs = () => {
                             <tr key={blog.id}>
                                 <th>{index + 1}</th>
                                 <td>{blog.title}</td>
-                                <td>{blog.description.slice(0,50)} ...</td>
+                                <td>{blog.description.slice(0, 50)} ...</td>
                                 <td>
                                     <div className='flex text-2xl gap-2'>
-                                    <button onClick={() =>{setUpdatedBlog(blog), document.getElementById('my_modal_4').showModal()}}><FaEdit className='text-blue-600'></FaEdit></button>
+                                        <button onClick={() => { setUpdatedBlog(blog), document.getElementById('my_modal_4').showModal() }}><FaEdit className='text-blue-600'></FaEdit></button>
                                         <UpdateBlogs blog={updatedBlog} />
-                                        <MdDelete className='text-error cursor-pointer' onClick={()=>handleDelete(blog._id)}/>
+                                        <MdDelete className='text-error cursor-pointer' onClick={() => handleDelete(blog._id)} />
                                     </div>
                                 </td>
                             </tr>

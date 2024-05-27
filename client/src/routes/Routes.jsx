@@ -12,17 +12,18 @@ import Projects from "../admin/projectComponents/porjects/Projects";
 import Blogs from "../admin/blogs/Blogs";
 import AddAdmin from "../admin/addAdmin/AddAdmin";
 import AllUsers from "../admin/allUsers/AllUsers";
-import OtpProtected from "./OtpProtected";
+// import OtpProtected from "./OtpProtected";
 import AdminProtected from "./AdminProtected";
 import AllProjects from "../pages/ProjectComponents/projects/AllProjects";
 import AllBlogs from "../pages/blogsComponents/AllBlogs/AllBlogs";
 import BlogsDetails from "../pages/blogsComponents/blogsDetails/BlogsDetails";
 import ProjectDetails from "../pages/ProjectComponents/projectDetails/ProjectDetails";
+import UserProtected from "./UserProtected";
 
 const router = createBrowserRouter([
     {
         path:'/',
-        element:<OtpProtected><Root></Root></OtpProtected>,
+        element:<UserProtected><Root></Root></UserProtected>,
         children:[
             {
                 path:'/',

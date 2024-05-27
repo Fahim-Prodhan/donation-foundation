@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { FaEdit } from 'react-icons/fa';
-import { MdDelete } from 'react-icons/md';
+// import { MdDelete } from 'react-icons/md';
 import UpdateRole from './updateRole/UpdateRole';
+import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const AllUsers = () => {
     const [users, setUsers] = useState([]);
@@ -11,18 +13,23 @@ const AllUsers = () => {
     const [roleFilter, setRoleFilter] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
     const [userToUpdate, setUserToUpdate] = useState(null);
+    const [loading, setLoading] = useState(false)
     useEffect(() => {
+        setLoading(true)
         const fetchUsers = async () => {
             try {
+               
                 const response = await fetch(`/api/auth/users?page=${currentPage}&limit=${itemsPerPage}&role=${roleFilter}&search=${searchTerm}`);
                 const data = await response.json();
                 setUsers(data.users);
                 setTotalPages(data.totalPages);
+                setLoading(false)
             } catch (error) {
                 console.error('Error fetching users:', error);
             }
         };
         fetchUsers();
+        
     }, [currentPage, itemsPerPage, roleFilter, searchTerm]);
 
     const handlePrev = () => {
@@ -50,6 +57,8 @@ const AllUsers = () => {
         return [currentPage - 1, currentPage, currentPage + 1];
     };
 
+
+
     const handleFilterChange = (role) => {
         setRoleFilter(role);
         setCurrentPage(1);
@@ -63,8 +72,59 @@ const AllUsers = () => {
         setUserToUpdate(user); // Set the user to be updated
         document.getElementById('my_modal_4').showModal();
     };
+
+
+    // changing Active Status
+    const handleActiveStatus = id => {
+        Swal.fire({
+            title: "Do you want change the status?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Change",
+            denyButtonText: `Don't Change`
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                axios.get(`/api/auth/user/${id}`)
+                    .then(res => {
+                        if (res.data.isActive) {
+                            axios.patch(`/api/auth/updateStatus/${id}`, { isActive: false })
+                                .then(res => {
+                                    Swal.fire(`${res.data.username} is Deactivated!`, "", "success")
+                                        .then(() => {
+                                            location.reload()
+                                        });
+                                })
+                        } else {
+                            axios.patch(`/api/auth/updateStatus/${id}`, { isActive: true })
+                                .then(res => {
+                                    Swal.fire(`${res.data.username} is Activated!`, "", "success")
+                                        .then(() => {
+                                            location.reload()
+                                        });
+                                })
+                        }
+                    })
+            } else if (result.isDenied) {
+                Swal.fire("Changes are not saved", "", "info");
+            }
+        });
+    }
+
+
+    if (loading) {
+        return (
+            <div className="flex justify-center">
+                <span className="loading loading-ring loading-xs"></span>
+                <span className="loading loading-ring loading-sm"></span>
+                <span className="loading loading-ring loading-md"></span>
+                <span className="loading loading-ring loading-lg"></span>
+            </div>
+        );
+    }
+
     return (
-        <div>
+        <div className='pb-12'>
             <div className='py-4 bg-base-200 text-center text-2xl md:text-4xl font-bold my-12'>
                 <h1>All Users</h1>
             </div>
@@ -88,7 +148,8 @@ const AllUsers = () => {
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>Actions</th>
+                            <th>Active Status</th>
+                            <th>Edit Role</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -98,11 +159,12 @@ const AllUsers = () => {
                                 <td>{user.username}</td>
                                 <td>{user.email}</td>
                                 <td>{user.role}</td>
+                                <td>{user.isActive ? <button onClick={() => handleActiveStatus(user?._id)} className='btn btn-success text-white'>True</button> : <button onClick={() => handleActiveStatus(user?._id)} className='btn btn-error text-white'>False</button>}</td>
                                 <td>
                                     <div className='flex text-2xl gap-2'>
                                         <button onClick={() => openUpdateRoleModal(user)}><FaEdit className='text-blue-500'></FaEdit></button>
-                                        <MdDelete className='text-error'></MdDelete>
-                                        <dialog id="my_modal_4">
+                                        {/* <MdDelete className='text-error'></MdDelete> */}
+                                        <dialog className='rounded-lg' id="my_modal_4">
                                             <UpdateRole user={userToUpdate} />
                                         </dialog>
                                     </div>

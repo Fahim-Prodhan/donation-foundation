@@ -8,16 +8,19 @@ import Swal from 'sweetalert2';
 const Projects = () => {
     const [projects, setProjects] = useState([]);
     const [count, setCount] = useState(0);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [itemsPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [projectToUpdate, setProjectToUpdate] = useState(null);
+    const [loading, setLoading] = useState(false)
+
 
     const numberOfPages = Math.ceil(count / itemsPerPage);
     const pages = [...Array(numberOfPages).keys()].map(e => e + 1);
 
 
     useEffect(() => {
+        setLoading(true)
         fetchProjects();
     }, [currentPage, itemsPerPage, searchTerm]);
 
@@ -27,6 +30,7 @@ const Projects = () => {
             const data = await response.json();
             setProjects(data.projects);
             setCount(data.totalCount);
+            setLoading(false)
         } catch (error) {
             console.error('Error fetching projects:', error);
         }
@@ -98,6 +102,19 @@ const Projects = () => {
         }
         return [currentPage - 1, currentPage, currentPage + 1];
     };
+
+
+    
+    if (loading) {
+        return (
+            <div className="flex justify-center">
+                <span className="loading loading-ring loading-xs"></span>
+                <span className="loading loading-ring loading-sm"></span>
+                <span className="loading loading-ring loading-md"></span>
+                <span className="loading loading-ring loading-lg"></span>
+            </div>
+        );
+    }
 
     return (
         <div>

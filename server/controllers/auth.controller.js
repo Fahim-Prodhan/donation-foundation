@@ -26,7 +26,8 @@ export const signup = async (req, res) => {
       email,
       password,
       role,
-      verified
+      verified,
+      isActive
     } = req.body;
 
     // Check if username or email already exists
@@ -55,7 +56,8 @@ export const signup = async (req, res) => {
       otp,
       otpExpires: otpExpiration,
       role,
-      verified
+      verified,
+      isActive
     });
 
     // Save user to database
@@ -284,6 +286,7 @@ export const getUserById = async (req, res) => {
       email: user.email,
       role: user.role,
       verified: user.verified,
+      isActive:user.isActive
     });
   } catch (error) {
     console.log("Error in getUserById controller", error.message);
@@ -343,5 +346,49 @@ export const getCountUser = async (req,res) =>{
     // Handle any errors that occur during the count operation
     console.error('Error counting user documents:', error);
     res.status(500).send('Internal Server Error');
+  }
+}
+
+export const UpdateRole = async (req, res) =>{
+  const { id } = req.params;
+  const { role } = req.body;
+  if (!role) {
+    return res.status(400).send({ error: 'Role is required' });
+  }
+
+  try {
+    const user = await User.findByIdAndUpdate(
+      id,
+      { role },
+      { new: true, runValidators: true }
+    );
+
+    if (!user) {
+      return res.status(404).send({ error: 'User not found' });
+    }
+
+    res.send(user);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+}
+
+export const UpdateActiveStatus = async (req, res) =>{
+  const { id } = req.params;
+  const { isActive } = req.body;
+  try {
+    const user = await User.findByIdAndUpdate(
+      id,
+      { isActive },
+      { new: true, runValidators: true }
+    );
+
+    if (!user) {
+      return res.status(404).send({ error: 'User not found' });
+    }
+
+    res.send(user);
+  } catch (error) {
+    res.status(400).send(error);
   }
 }

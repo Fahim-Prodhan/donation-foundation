@@ -87,7 +87,7 @@ const Navbar = () => {
             <Link to="#">
               <button
                 type="button"
-                className="text-[#fff] font-medium hover:bg-green-600 bg-green-500 rounded-[50px]  focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center mr-2 lg:block hidden"
+                className="text-[#fff] font-medium hover:bg-green-600 bg-green-500 rounded-[50px]  focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center mr-4 lg:block hidden"
               >
                 Donate
               </button>
@@ -98,7 +98,7 @@ const Navbar = () => {
                 <Link to="/admin/dashboard">
                   <button
                     type="button"
-                    className="text-[#fff] font-medium hover:bg-[#fcc41c] bg-[#FFA62F] rounded-[50px]  focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center"
+                    className="text-[#fff] font-medium hover:bg-[#fcc41c] bg-[#FFA62F] rounded-[50px]  focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center mr-4"
                   >
                     Dashboard
                   </button>
@@ -133,7 +133,7 @@ const Navbar = () => {
                 authUser && authUser?.role === "user" && <Link className="hidden md:flex">
                   <button
                     type="button"
-                    className=" text-[#fff] font-medium hover:bg-[#099c6b] bg-[#03C988] rounded-[50px] focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center"
+                    className=" text-[#fff] font-medium hover:bg-[#fcc41c] bg-[#FFA62F] rounded-[50px] focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center"
                   >
                     My Profile
                   </button>
@@ -145,7 +145,7 @@ const Navbar = () => {
                   <button
                     onClick={logout}
                     type="button"
-                    className="text-[#fff] bg-[#F31559] hover:bg-[#fd4e14] rounded-[50px]  focus:ring-4 focus:outline-none font-medium text-sm px-4 py-2 text-center ml-2"
+                    className="text-[#fff] bg-[#F31559] hover:bg-[#fd4e14] rounded-[50px]  focus:ring-4 focus:outline-none font-medium text-sm px-4 py-2 text-center "
                   >
                     Logout
                   </button>
@@ -224,7 +224,7 @@ const Navbar = () => {
               <Link to="/admin/dashboard">
                 <button
                   type="button"
-                  className="text-[#fff] font-medium hover:bg-[#099c6b] bg-[#03C988] rounded-lg focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center"
+                  className="text-[#fff] font-medium hover:bg-[#fcc41c] bg-[#FFA62F] rounded-lg focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center"
                 >
                   Dashboard
                 </button>
