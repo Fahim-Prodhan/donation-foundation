@@ -89,7 +89,7 @@ const Navbar = () => {
                 type="button"
                 className="text-[#fff] font-medium hover:bg-green-600 bg-green-500 rounded-[50px]  focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center mr-4 lg:block hidden"
               >
-                Donate
+                Donate Now
               </button>
             </Link>
 
@@ -236,7 +236,7 @@ const Navbar = () => {
               type="button"
               className="text-[#fff] font-medium hover:bg-[#099c6b] bg-[#03C988] rounded-[50px]  focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center mt-4 lg:hidden block"
             >
-              Donate
+              Donate Now
             </button>
           </Link>
           {

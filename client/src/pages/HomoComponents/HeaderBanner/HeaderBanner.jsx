@@ -43,7 +43,7 @@ function HeaderBanner() {
         <div className="px-6 lg:px-0 w-full md:space-y-4 text-center z-20 absolute top-[45%] left-1/2 text-white -translate-x-1/2 -translate-y-1/2">
           <h1 className="animate__animated animate__fadeInDown text-2xl lg:text-5xl lg:font-black font-bold pt-4">Change is Possible in Agriculture</h1>
           <p className="animate__animated animate__fadeInDown md:text-xl pt-4 pb-2 lg:pb-6">By supporting Farm Foundation, you can be part of the movement to help agriculture thrive.</p>
-          <button className="bg-green-500 md:text-xl font-semibold btn text-white border-none hover:bg-green-600 px-12">DONATE</button>
+          <button className="bg-green-500 md:text-xl font-semibold btn text-white border-none hover:bg-green-600 px-12">DONATE HERE</button>
         </div>
 
       </div>
