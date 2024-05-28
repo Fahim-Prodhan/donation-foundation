@@ -1,6 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Autoplay, Pagination } from 'swiper/modules';
+
+
 
 const OurProjects = () => {
 
@@ -14,21 +20,52 @@ const OurProjects = () => {
     }, [])
     return (
         <div>
-            <h1 className='text-center pb-12 text-3xl md:text-5xl font-bold'>Latest Projects</h1>
-            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-                {
-                    projects.slice(0, 3).map(project => <div key={project._id} className="card card-compact  bg-base-100 shadow-xl">
-                        <figure><img src={project.imageUrl} alt="Shoes" /></figure>
-                        <div className="card-body">
-                            <h2 className="card-title">{project.title}</h2>
-                            <p>{project.description.slice(0, 100)}....</p>
+            <h1 className='text-center pb-12 text-3xl md:text-5xl font-bold text-[#2C3333]'>Latest Projects</h1>
+            <div className='grid  gap-6'>
+                <Swiper
+                    slidesPerView={1}
+                    spaceBetween={5}
+                    pagination={{
+                        clickable: true,
+                    }}
+                    breakpoints={{
+                        640: {
+                            slidesPerView: 1,
+                            spaceBetween: 20,
+                        },
+                        768: {
+                            slidesPerView: 2,
+                            spaceBetween: 40,
+                        },
+                        1024: {
+                            slidesPerView: 3,
+                            spaceBetween: 30,
+                        },
+                    }}
+                    autoplay={{
+                        delay: 2000,
+                        disableOnInteraction: false,
+                      }}
+                      loop={true}
+                    modules={[Pagination,Autoplay]}
+                    className="mySwiper"
+                >
+                    {
+                        projects.slice(0, 6).map(project =>
+                            <SwiperSlide key={project._id}>
+                                <div className="card h-[450px] text-left card-compact bg-base-100 shadow-xl">
+                                    <figure><img src={project.imageUrl} alt="Shoes" /></figure>
+                                    <div className="card-body">
+                                        <h2 className="card-title text-[#02A95C]">{project.title}</h2>
+                                        <p>{project.description.slice(0, 100)}....</p>
 
-                            <Link  className="btn btn-primary btn-outline my-4" to={`/project-details/${project._id}`}><button>view Details</button></Link>
+                                        <Link className="btn bg-[#03C988] text-white my-4" to={`/project-details/${project._id}`}><button>view Details</button></Link>
 
-                        </div>
-                    </div>
-                    )
-                }
+                                    </div>
+                                </div>
+                            </SwiperSlide>
+                        )}
+                </Swiper>
             </div>
             <div className='text-center '>
                 <Link to='/projects'>
