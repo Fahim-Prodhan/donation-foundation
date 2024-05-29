@@ -23,6 +23,7 @@ import ChangePassword from "../pages/ChangePassword/ChangePassword";
 import Donate from "../pages/Donate/Donate";
 import Success from "../pages/Success/Success";
 import DonateProtected from "./DonateProtected";
+import MyProfile from "../pages/MyProfile/MyProfile";
 
 const router = createBrowserRouter([
     {
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
                 path:'/success',
                 element:<Success/>
             },
+            {
+                path:'my-profile',
+                element:<MyProfile></MyProfile>
+            }
         ]
     },
     {

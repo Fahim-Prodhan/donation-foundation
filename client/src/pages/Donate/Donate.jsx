@@ -52,7 +52,7 @@ const Donate = () => {
       <Navbar></Navbar>
       <div className='flex justify-center flex-col'>
       </div>
-      <div className="max-w-md mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md  my-12">
+      <div className="max-w-md mx-6 md:mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md  my-12">
         <img className='w-[25%] mx-auto rounded-lg' src={logo} alt="" />
         <p className='text-center font-semibold py-4'>Join us in sowing the seeds of hope and prosperity. Your donation helps farmers cultivate not just their crops, but their futures</p>
         <h2 className="text-2xl font-semibold text-center mb-6">Donate</h2>

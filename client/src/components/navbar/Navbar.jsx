@@ -153,7 +153,7 @@ const Navbar = () => {
 
             <div className={`flex items-center space-x-3 gap-2`}>
               {
-                authUser && authUser?.role === "user" && <Link className="hidden md:flex">
+                authUser && authUser?.role === "user" && <Link to='/my-profile' className="hidden md:flex">
                   <button
                     type="button"
                     className=" text-[#fff] font-medium hover:bg-[#fcc41c] bg-[#FFA62F] rounded-[50px] focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center"
@@ -242,6 +242,7 @@ const Navbar = () => {
               </Link>
             </div>
           }
+
           {
             authUser && authUser.role == 'admin' && <div className={`mt-6`}>
               <Link to="/admin/dashboard">
@@ -262,6 +263,18 @@ const Navbar = () => {
               Donate Now
             </button>
           </Link>
+
+          {
+                authUser && authUser?.role === "user" && <Link to='/my-profile'>
+                  <button
+                    type="button"
+                    className="mt-4 text-[#fff] font-medium hover:bg-[#fcc41c] bg-[#FFA62F] rounded-[50px] focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center"
+                  >
+                    My Profile
+                  </button>
+                </Link>
+              }
+          
           {
             authUser && <div className={`md:hidden flex gap-4 mt-4`}>
               <Link
@@ -273,7 +286,7 @@ const Navbar = () => {
               >
                 <button
                   type="button"
-                  className="text-[#111] bg-[#FDDE55] hover:bg-[#FDDE55] px-2 py-1 rounded-lg font-semibold"
+                  className="text-[#fff] bg-[#F31559] hover:bg-[#fd4e14]  px-2 py-1 rounded-lg font-semibold"
                 >
                   Logout
                 </button>
