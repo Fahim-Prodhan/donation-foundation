@@ -1,6 +1,7 @@
 import express from "express";
-import { login, logout, signup, forgotPass, resetpass, verifyOTP,resendOTP,getUserById,getAllUsers, getCountUser,UpdateRole,UpdateActiveStatus } from "../controllers/auth.controller.js";
+import { login, logout,changePassword, signup, forgotPass, resetpass, verifyOTP,resendOTP,getUserById,getAllUsers, getCountUser,UpdateRole,UpdateActiveStatus } from "../controllers/auth.controller.js";
 import protectRoute from "../middleware/protectRoute.js";
+import verifyAdmin from "../middleware/verifyAdmin.js";
 const router = express.Router();
 
 router.post("/signup", signup);
@@ -13,7 +14,8 @@ router.post("/resend-otp",protectRoute, resendOTP);
 router.get('/user/:id', getUserById);
 router.get('/users', getAllUsers);
 router.get('/userCount', getCountUser);
-router.patch('/updateRole/:id', UpdateRole);
-router.patch('/updateStatus/:id', UpdateActiveStatus)
+router.patch('/updateRole/:id',verifyAdmin, UpdateRole);
+router.patch('/updateStatus/:id',verifyAdmin, UpdateActiveStatus)
+router.post("/change-password", protectRoute, changePassword);
 
 export default router;

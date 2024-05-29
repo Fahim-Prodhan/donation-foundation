@@ -65,7 +65,29 @@ const Navbar = () => {
 
     </>
   );
-
+  const handlePayment = async () => {
+    try {
+        const order = {
+            orderItems: '',
+            shippingInfo: ''
+        }
+        
+        const res = await fetch('/api/donate/cheakout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(order),
+        });
+        const data = await res.json();
+        console.log(data);
+        if (data.session.url) {
+            window.location.href = data.session.url;
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
   return (
     <div>
       <nav className=" bg-[#435585] ">
@@ -86,6 +108,7 @@ const Navbar = () => {
 
             <Link to="#">
               <button
+              onClick={handlePayment}
                 type="button"
                 className="text-[#fff] font-medium hover:bg-green-600 bg-green-500 rounded-[50px]  focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center mr-4 lg:block hidden"
               >

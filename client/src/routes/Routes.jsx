@@ -19,6 +19,9 @@ import AllBlogs from "../pages/blogsComponents/AllBlogs/AllBlogs";
 import BlogsDetails from "../pages/blogsComponents/blogsDetails/BlogsDetails";
 import ProjectDetails from "../pages/ProjectComponents/projectDetails/ProjectDetails";
 import UserProtected from "./UserProtected";
+import ChangePassword from "../pages/ChangePassword/ChangePassword";
+import Donate from "../pages/Donate/Donate";
+import Success from "../pages/Success/Success";
 
 const router = createBrowserRouter([
     {
@@ -61,7 +64,19 @@ const router = createBrowserRouter([
             {
                 path:'blogs-details/:id',
                 element:<BlogsDetails></BlogsDetails>
-            }
+            },
+            {
+                path:'change-password',
+                element:<ChangePassword/>
+            },
+            {
+                path:'donate',
+                element:<Donate/>
+            },
+            {
+                path:'success',
+                element:<Success/>
+            },
         ]
     },            
     {

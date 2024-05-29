@@ -43,8 +43,9 @@
     "sass": "^1.77.0",
     "socket.io": "^4.7.4",
     "sslcommerz-lts": "^1.1.0",
-    "stripe": "^15.5.0",
-    "sweetalert2": "^11.11.0"
+    "stripe": "^15.8.0",
+    "sweetalert2": "^11.11.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.3"

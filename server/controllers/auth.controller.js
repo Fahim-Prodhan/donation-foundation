@@ -9,10 +9,10 @@ const generateOTP = () => {
 };
 
 const transporter = nodemailer.createTransport({
-  service: "gmail", // Change to your email service provider
+  service: "gmail", 
   auth: {
-    user: "fundaprotan.official@gmail.com", // Replace with your email
-    pass: "yzmw dixq epdw mzfy", // Replace with your email password
+    user: "fundaprotan.official@gmail.com", 
+    pass: "bybi iykl dygx kvth", 
   },
 });
 
@@ -392,3 +392,35 @@ export const UpdateActiveStatus = async (req, res) =>{
     res.status(400).send(error);
   }
 }
+
+export const changePassword = async (req, res) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const userId = req.user._id;
+
+    // Find user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Check if current password is correct
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!passwordMatch) {
+      return res.status(400).json({ error: "Current password is incorrect" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update user's password
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(200).json({ message: "Password changed successfully" });
+  } catch (error) {
+    console.log("Error in changePassword controller", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
