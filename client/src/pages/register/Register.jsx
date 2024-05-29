@@ -24,13 +24,6 @@ const Register = () => {
         role: 'user'
     });
 
-
-
-    const handleCheckboxChange = (event) => {
-        event.preventDefault()
-        setIsChecked(event.target.checked);
-    };
-
     const togglePassword = () => {
         setEye(!eye);
     }
@@ -62,7 +55,7 @@ const Register = () => {
 
 
     return (
-        <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto lg:mt-12'>
+        <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto lg:my-12 mb-8'>
             <div className="">
                 <div className="grid md:grid-cols-2 gap-7">
                     <div className="lg:py-0 py-4 ">
@@ -118,7 +111,7 @@ const Register = () => {
                                 </label>
                                 <label className="input input-bordered flex items-center gap-2 label">
                                     <input name="confirmPassword" type={eye ? "text" : "password"} className="grow" placeholder="confirm password" onChange={handleChange} />
-                                    <span onClick={togglePassword} className="text-xl -ml-10 md:-ml-0">{eye ? <MdOutlineRemoveRedEye /> : <FaRegEyeSlash />}</span>
+                                    {/* <span onClick={togglePassword} className="text-xl -ml-10 md:-ml-0">{eye ? <MdOutlineRemoveRedEye /> : <FaRegEyeSlash />}</span> */}
                                 </label>
                             </div>
 
@@ -130,7 +123,7 @@ const Register = () => {
                                     <input type="checkbox"
                                         className="checkbox"
                                         checked={isChecked}
-                                        onChange={handleCheckboxChange} />
+                                        onChange={()=>setIsChecked(!isChecked)} />
                                     <span className="label-text">I have read and agree to the <span><a className='text-blue-400'>terms & conditions and privacy policy</a></span></span>
                                 </label>
                             </div>

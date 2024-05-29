@@ -36,7 +36,7 @@ const Login = () => {
     }
 
     return (
-        <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto lg:mt-12'>
+        <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto lg:mb-16 mb-8'>
             <div className="relative md:top-10">
                 <div className="grid md:grid-cols-2 gap-7">
                     <div className="lg:py-0 py-4 ">

@@ -112,7 +112,7 @@ const Navbar = () => {
                 type="button"
                 className="text-[#fff] font-medium hover:bg-green-600 bg-green-500 rounded-[50px]  focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center mr-4 lg:block hidden"
               >
-                Donate
+                Donate Now
               </button>
             </Link>
 
@@ -143,7 +143,7 @@ const Navbar = () => {
                 <Link to={"/register"}>
                   <button
                     type="button"
-                    className="text-[#222] bg-[#FDDE55] hover:bg-[#ffd310] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center "
+                    className=" bg-[#ED5107] text-white hover:bg-[#ff6923] focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center "
                   >
                     Register
                   </button>
@@ -227,7 +227,7 @@ const Navbar = () => {
               <Link onClick={handleHamburger} to="/login">
                 <button
                   type="button"
-                  className="text-[#111] bg-[#FDDE55] hover:bg-[#FDDE55] px-2 py-1 rounded-lg font-semibold"
+                  className="bg-[#F31559] hover:bg-[#fd4e14] text-white  px-2 py-1 rounded-lg font-semibold"
                 >
                   Login
                 </button>
@@ -235,7 +235,7 @@ const Navbar = () => {
               <Link onClick={handleHamburger} to="/register">
                 <button
                   type="button"
-                  className="text-[#111] bg-[#FDDE55] hover:bg-[#FDDE55] px-2 py-1 rounded-lg font-semibold"
+                  className="bg-[#ED5107] text-white hover:bg-[#ff6923] px-2 py-1 rounded-lg font-semibold"
                 >
                   Register
                 </button>
@@ -259,7 +259,7 @@ const Navbar = () => {
               type="button"
               className="text-[#fff] font-medium hover:bg-[#099c6b] bg-[#03C988] rounded-[50px]  focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center mt-4 lg:hidden block"
             >
-              Donate
+              Donate Now
             </button>
           </Link>
           {
