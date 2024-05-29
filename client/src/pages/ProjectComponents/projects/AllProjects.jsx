@@ -38,7 +38,7 @@ const AllProjects = () => {
             <h1 className='text-center font-bold text-5xl py-4 mb-12 text-[#2C3333]'>OUR PROJECTS</h1>
             <div className='lg:max-w-7xl mx-auto space-y-12 pb-12'>
                 {
-                    projects.slice(0,index).map(project=> <AllProjectCard key={project._id} project={project}></AllProjectCard>)
+                    projects.map(project=> <AllProjectCard key={project._id} project={project}></AllProjectCard>)
                 }
             </div>
             <div className='text-center'>
