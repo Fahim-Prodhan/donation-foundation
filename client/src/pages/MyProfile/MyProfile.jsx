@@ -1,9 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import profileLogo from '../../assets/images/man.png'
 import { AuthContext } from '../../Context/AuthContext';
+import { format } from 'date-fns';
+import axios from 'axios';
 
 const MyProfile = () => {
     const { authUser } = useContext(AuthContext)
+    const [payments, setPayments] = useState([])
+    const [number, setNumber] = useState(10)
+    useEffect(() => {
+        axios.get(`/api/donate/payment-history/6654f3d4bcf4f017a4a13a7a`)
+            .then(res => {
+                setPayments(res.data)
+            })
+    }, [])
     return (
         <div className='mx-6'>
             <div className='text-center'>
@@ -13,7 +23,7 @@ const MyProfile = () => {
                 <h3 className=''><span className='font-bold'>Edit:</span> <span><a className='text-blue-500' href="/change-password">Change Password</a></span></h3>
             </div>
             <div className='mt-12'>
-                <h1 className='text-center text-2xl md:text-4xl font-bold'>My Donation History</h1>
+                <h1 className='text-center text-2xl md:text-4xl font-bold mb-6'>My Donation History</h1>
                 <div className="overflow-x-auto">
                     <table className="table table-zebra">
                         {/* head */}
@@ -21,34 +31,33 @@ const MyProfile = () => {
                             <tr>
                                 <th></th>
                                 <th>Name</th>
-                                <th>Job</th>
-                                <th>Favorite Color</th>
+                                <th>Transaction Date</th>
+                                <th>Transaction ID</th>
+                                <th>Amount</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {/* row 1 */}
-                            <tr>
-                                <th>1</th>
-                                <td>Cy Ganderton</td>
-                                <td>Quality Control Specialist</td>
-                                <td>Blue</td>
-                            </tr>
-                            {/* row 2 */}
-                            <tr>
-                                <th>2</th>
-                                <td>Hart Hagerty</td>
-                                <td>Desktop Support Technician</td>
-                                <td>Purple</td>
-                            </tr>
-                            {/* row 3 */}
-                            <tr>
-                                <th>3</th>
-                                <td>Brice Swyre</td>
-                                <td>Tax Accountant</td>
-                                <td>Red</td>
-                            </tr>
+                            {
+                                payments.slice(0,number).map((payment,index) =>
+                                 <tr key={payment._id}>
+                                    <th>{index+1}</th>
+                                    <td>{authUser?.firstName} {authUser?.lastName}</td>
+                                    <td>{payment?.createdAt ? format(new Date(payment.createdAt), 'dd-MM-yyyy') : ''}</td>
+                                    <td>{payment?.paymentId}</td>
+                                    <td>{payment?.amount} $</td>
+                                    <td>{payment?.status}</td>
+                                </tr>
+                                )
+                            }
+
                         </tbody>
                     </table>
+                    <div className='text-center mt-6'>
+                        {
+                            number < payments.length && <button onClick={()=>setNumber(number+10)} className="btn btn-accent text-white">See More</button>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

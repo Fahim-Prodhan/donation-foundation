@@ -103,3 +103,16 @@ export const handleSuccess = async (req, res) => {
     res.status(500).send("Error handling success");
   }
 };
+
+export const getUserPaymentHistory = async (req, res) => {
+    const { id } = req.params;
+    const query = { user: id };
+
+    try {
+        const paymentHistory = await Donate.find(query);
+        res.status(200).send(paymentHistory);
+    } catch (error) {
+        console.error('Error fetching payment history:', error);
+        res.status(500).send({ error: 'An error occurred while fetching the payment history.' });
+    }
+};

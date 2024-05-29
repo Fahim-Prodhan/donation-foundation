@@ -44,7 +44,7 @@ const ChangePassword = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md">
+    <div className="max-w-md mt-6 mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold text-center mb-6">Change Password</h2>
       {error && <p className="text-red-500 text-center mb-4">{error}</p>}
       {success && <p className="text-green-500 text-center mb-4">{success}</p>}
