@@ -5,7 +5,7 @@ const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: "fundaprotan.official@gmail.com",
-    pass: "bybi iykl dygx kvth",
+    pass: `bybi iykl dygx kvth`,
   },
 });
 
@@ -109,7 +109,7 @@ export const getUserPaymentHistory = async (req, res) => {
     const query = { user: id };
 
     try {
-        const paymentHistory = await Donate.find(query);
+        const paymentHistory = await Donate.find(query).sort({_id: -1});
         res.status(200).send(paymentHistory);
     } catch (error) {
         console.error('Error fetching payment history:', error);
