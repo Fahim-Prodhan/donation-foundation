@@ -22,6 +22,7 @@ import UserProtected from "./UserProtected";
 import ChangePassword from "../pages/ChangePassword/ChangePassword";
 import Donate from "../pages/Donate/Donate";
 import Success from "../pages/Success/Success";
+import DonateProtected from "./DonateProtected";
 
 const router = createBrowserRouter([
     {
@@ -54,7 +55,7 @@ const router = createBrowserRouter([
                 element:<AllProjects></AllProjects>
             },
             {
-                path:'project-details/:id',
+                path:'/project-details/:id',
                 element:<ProjectDetails></ProjectDetails>
             },
             {
@@ -62,22 +63,22 @@ const router = createBrowserRouter([
                 element:<AllBlogs></AllBlogs>
             },
             {
-                path:'blogs-details/:id',
+                path:'/blogs-details/:id',
                 element:<BlogsDetails></BlogsDetails>
             },
             {
-                path:'change-password',
+                path:'/change-password',
                 element:<ChangePassword/>
             },
             {
-                path:'donate',
-                element:<Donate/>
-            },
-            {
-                path:'success',
+                path:'/success',
                 element:<Success/>
             },
         ]
+    },
+    {
+       path:'/donate',
+       element:<DonateProtected><Donate/></DonateProtected>
     },            
     {
         path:'/otp',

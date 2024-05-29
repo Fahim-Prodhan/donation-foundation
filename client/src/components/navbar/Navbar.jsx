@@ -106,7 +106,7 @@ const Navbar = () => {
           {/* Right side Buttons */}
           <div className="flex lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse">
 
-            <Link to="#">
+            <Link to="/donate">
               <button
               onClick={handlePayment}
                 type="button"
@@ -254,7 +254,7 @@ const Navbar = () => {
               </Link>
             </div>
           }
-          <Link to="#">
+          <Link to="/donate">
             <button
               type="button"
               className="text-[#fff] font-medium hover:bg-[#099c6b] bg-[#03C988] rounded-[50px]  focus:ring-4 focus:outline-none text-sm px-4 py-2 text-center mt-4 lg:hidden block"
