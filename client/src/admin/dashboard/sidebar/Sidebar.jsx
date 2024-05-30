@@ -29,7 +29,7 @@ const Sidebar = () => {
 
             <aside id="default-sidebar" className={`fixed left-0 z-40 w-64 h-screen transition-transform sm:translate-x-0 ${sidebar ? 'top-20' : '-translate-x-full'}`} aria-label="Sidebar">
 
-                <div className="h-full px-3 py-4 overflow-y-auto bg-[#337357] rounded-lg mt-1">
+                <div className="h-full px-3 py-4 overflow-y-auto bg-[#0A6847] rounded-lg mt-1">
                     <ul className="space-y-2 font-medium">
                         <button onClick={handleSidebar} className='absolute right-4 text-white text-2xl md:hidden block'><IoCloseSharp /></button>
 
@@ -40,7 +40,7 @@ const Sidebar = () => {
                             <input type="file" id="fileInput" name="fileInput" className="hidden" />
                             <h1 className='font-bold pt-1 text-white mx-3'>@{authUser?.role}</h1>
                             <h1 className=' font-bold text-white mx-3 flex items-center gap-1'>{authUser?.firstName} {authUser?.lastName}  <CiEdit /></h1>
-                            <Link className=' mx-3 text-blue-400' to='/change-Password'>Change Password</Link>
+                            <Link className=' mx-3 text-[#FFBF00]' to='/change-Password'>Change Password</Link>
                             <div className='my-6 border'>
                                 <hr />
                             </div>
