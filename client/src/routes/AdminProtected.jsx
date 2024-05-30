@@ -44,7 +44,7 @@ const AdminProtected = ({ children }) => {
                 </div>
             </div>
         )
-    } else if (authUser && authUser?.role === "admin") {
+    } else if (authUser && authUser?.role === "admin" || authUser?.role === 'publisher') {
         return children
     }
     else {

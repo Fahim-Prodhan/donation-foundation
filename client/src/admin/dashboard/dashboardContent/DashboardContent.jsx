@@ -98,7 +98,7 @@ const [invoiceData, setInvoiceData] = useState([])
     return (
         <div className='grid lg:grid-rows-3 lg:grid-cols-4 gap-4 mt-6'>
 
-            <div className="card bg-[#0A6847] text-white shadow-xl col-span-1">
+            <div className="card bg-[#40A2E3] text-white shadow-xl col-span-1">
                 <div className="card-body text-center">
                     <h2 className=" text-left text-3xl flex items-center gap-2"><FaUsers />Donors</h2>
                     <p className='py-6 font-bold text-3xl items-center flex justify-center'><CountUp

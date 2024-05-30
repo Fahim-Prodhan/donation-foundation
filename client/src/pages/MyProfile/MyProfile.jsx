@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import React, { useContext, useEffect, useState } from 'react';
 import profileLogo from '../../assets/images/man.png'
 import { AuthContext } from '../../Context/AuthContext';
@@ -6,6 +7,8 @@ import axios from 'axios';
 import { FaFileDownload } from 'react-icons/fa';
 import { Line } from 'recharts';
 import { Link } from 'react-router-dom';
+import { CiEdit } from 'react-icons/ci';
+import { MdDriveFolderUpload } from 'react-icons/md';
 
 const MyProfile = () => {
     const { authUser } = useContext(AuthContext)
@@ -21,7 +24,11 @@ const MyProfile = () => {
         <div className='mx-6'>
             <div className='text-center'>
                 <img className='mx-auto mt-12' src={profileLogo} alt="" />
-                <h1 className='mt-4 font-bold text-2xl'>Name: {authUser.firstName} {authUser.lastName}</h1>
+                <div className='flex justify-center'>
+                    <label for="fileInput" className="cursor-pointer file-label flex items-center gap-1 bg-gray-400 w-36 mt-4 text-white rounded-lg px-2"><MdDriveFolderUpload /> Profile Photo</label>
+                    <input type="file" id="fileInput" name="fileInput" className="hidden" />
+                </div>
+                <h1 className='mt-4 font-bold text-2xl flex justify-center items-center gap-1'>Name: {authUser.firstName} {authUser.lastName} <CiEdit /></h1>
                 <h3 className='font-semibold'>Email: {authUser.email}</h3>
                 <h3 className=''><span className='font-bold'>Edit:</span> <span><a className='text-blue-500' href="/change-password">Change Password</a></span></h3>
             </div>
@@ -43,16 +50,16 @@ const MyProfile = () => {
                         </thead>
                         <tbody>
                             {
-                                payments.slice(0,number).map((payment,index) =>
-                                 <tr key={payment._id}>
-                                    <th>{index+1}</th>
-                                    <td>{authUser?.firstName} {authUser?.lastName}</td>
-                                    <td>{payment?.createdAt ? format(new Date(payment.createdAt), 'dd-MM-yyyy') : ''}</td>
-                                    <td>{payment?.paymentId}</td>
-                                    <td>{payment?.amount} $</td>
-                                    <td>{payment?.status}</td>
-                                    <td>{payment?.status==="completed" ? <Link to = {`/invoice/${payment._id}`}><button className='bg-green-500 px-2 text-white py-1 flex items-center gap-2 rounded-md'>Invoice <FaFileDownload /></button></Link>:''}</td>
-                                </tr>
+                                payments.slice(0, number).map((payment, index) =>
+                                    <tr key={payment._id}>
+                                        <th>{index + 1}</th>
+                                        <td>{authUser?.firstName} {authUser?.lastName}</td>
+                                        <td>{payment?.createdAt ? format(new Date(payment.createdAt), 'dd-MM-yyyy') : ''}</td>
+                                        <td>{payment?.paymentId}</td>
+                                        <td>{payment?.amount} $</td>
+                                        <td>{payment?.status}</td>
+                                        <td>{payment?.status === "completed" ? <Link to={`/invoice/${payment._id}`}><button className='bg-green-500 px-2 text-white py-1 flex items-center gap-2 rounded-md'>Invoice <FaFileDownload /></button></Link> : ''}</td>
+                                    </tr>
                                 )
                             }
 
@@ -60,7 +67,7 @@ const MyProfile = () => {
                     </table>
                     <div className='text-center mt-6'>
                         {
-                            number < payments.length && <button onClick={()=>setNumber(number+10)} className="btn btn-accent text-white">See More</button>
+                            number < payments.length && <button onClick={() => setNumber(number + 10)} className="btn btn-accent text-white">See More</button>
                         }
                     </div>
                 </div>

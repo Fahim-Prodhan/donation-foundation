@@ -3,11 +3,11 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-const useAddAdmin = () => {
+const useAddPublisher = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
 
-  const addAdmin = async ({
+  const addPublisher = async ({
     firstName,
     lastName,
     username,
@@ -30,7 +30,7 @@ const useAddAdmin = () => {
     if (!success) return;
     Swal.fire({
       title: "Are you sure?",
-      text: "You want add an admin?",
+      text: "You want add an publisher?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -40,7 +40,7 @@ const useAddAdmin = () => {
       if (result.isConfirmed) {
         setLoading(true);
         try {
-          const res = await fetch("/api/auth/addAdmin", {
+          const res = await fetch("/api/auth/addPublisher", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -58,7 +58,7 @@ const useAddAdmin = () => {
           if (data.error) {
             throw new Error(data.error);
           }
-          toast.success("New Admin is Added!");
+          toast.success("New Publisher is Added!");
         } catch (error) {
           toast.error(error.message);
         } finally {
@@ -68,10 +68,10 @@ const useAddAdmin = () => {
       }
     });
   };
-  return { loading, addAdmin };
+  return { loading, addPublisher };
 };
 
-export default useAddAdmin;
+export default useAddPublisher;
 
 function handleInputErrors({
   firstName,

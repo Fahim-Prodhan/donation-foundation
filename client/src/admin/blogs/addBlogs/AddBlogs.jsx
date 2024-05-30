@@ -40,7 +40,7 @@ const AddBlogs = () => {
             if (postResponse.ok) {
                 document.getElementById('my_modal_3').close();
                 Swal.fire({
-                    position: "top-end",
+                    position: "center",
                     icon: "success",
                     title: "Blog has been Saved",
                     showConfirmButton: false,

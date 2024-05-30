@@ -111,7 +111,7 @@ return (
           </Link>
 
           {
-            authUser && authUser?.role == 'admin' && <div className={`md:block space-x-3 gap-4 hidden mr-3`}>
+            authUser && (authUser?.role == 'admin' || authUser?.role=== 'publisher')  && <div className={`md:block space-x-3 gap-4 hidden mr-3`}>
               <Link to="/admin/dashboard">
                 <button
                   type="button"

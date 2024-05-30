@@ -63,6 +63,7 @@ const UpdateRole = ({ user }) => {
                         >
                             <option value="user">user</option>
                             <option value="admin">admin</option>
+                            <option value="publisher">publisher</option>
                         </select>
                     </div>
                     <button className='btn mt-4 bg-[#363062] text-white'>Update Role</button>

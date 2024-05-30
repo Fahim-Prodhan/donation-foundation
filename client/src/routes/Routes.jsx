@@ -26,6 +26,7 @@ import DonateProtected from "./DonateProtected";
 import MyProfile from "../pages/MyProfile/MyProfile";
 import Invoice from "../pages/invoice/Invoice";
 import LogoutProtected from "./LogoutProtected";
+import AddPublisher from "../admin/addPublisher/AddPublisher";
 
 const router = createBrowserRouter([
     {
@@ -94,6 +95,10 @@ const router = createBrowserRouter([
             {
                 path:'add-admin',
                 element:<AddAdmin></AddAdmin>
+            },
+            {
+                path:'add-publisher',
+                element:<AddPublisher></AddPublisher>
             },
             {
                 path:'users',

@@ -18,7 +18,7 @@ const verifyAdmin = async (req, res, next) => {
 			return res.status(404).json({ error: "User not found" });
 		}
 
-		if (user.role !== 'admin') {
+		if (user.role !== 'admin'  && user.role !== 'publisher') {
 			return res.status(403).json({ error: "Access denied. Admins only." });
 		}
 

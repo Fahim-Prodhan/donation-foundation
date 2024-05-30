@@ -39,7 +39,7 @@ const AddProjects = () => {
             if(postResponse.ok){
                 document.getElementById('my_modal_3').close();
                 Swal.fire({
-                    position: "top-end",
+                    position: "center",
                     icon: "success",
                     title: "Your work has been saved",
                     showConfirmButton: false,
