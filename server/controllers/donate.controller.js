@@ -81,9 +81,12 @@ export const handleSuccess = async (req, res) => {
             <div style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; max-width: 400px; margin: 20px auto;">
                 <p><strong>Transaction ID:</strong> ${paymentId}</p>
                 <p><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
-                <p><strong>Name:</strong> ${donate.user.firstName} ${donate.user.lastName}</p>
+                <p><strong>Name:</strong> ${donate.user.firstName} ${
+      donate.user.lastName
+    }</p>
                 <p><strong>Email:</strong> ${donate.user.email}</p>
                 <p><strong>Amount:</strong> ${donate.amount.toFixed(2)}</p>
+            
             </div>
             <p>Thank you for your donation!</p>
             <p>We sincerely appreciate your support.</p>
@@ -105,14 +108,44 @@ export const handleSuccess = async (req, res) => {
 };
 
 export const getUserPaymentHistory = async (req, res) => {
-    const { id } = req.params;
-    const query = { user: id };
+  const { id } = req.params;
+  const query = { user: id };
 
-    try {
-        const paymentHistory = await Donate.find(query).sort({_id: -1});
-        res.status(200).send(paymentHistory);
-    } catch (error) {
-        console.error('Error fetching payment history:', error);
-        res.status(500).send({ error: 'An error occurred while fetching the payment history.' });
+  try {
+    const paymentHistory = await Donate.find(query).sort({ _id: -1 });
+    res.status(200).send(paymentHistory);
+  } catch (error) {
+    console.error("Error fetching payment history:", error);
+    res
+      .status(500)
+      .send({ error: "An error occurred while fetching the payment history." });
+  }
+};
+
+export const getInvoice = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const invoice = await Donate.findById(id);
+    if (!invoice) {
+      return res.status(404).send({ message: "Invoice not found" });
     }
+    res.status(200).send(invoice);
+  } catch (error) {
+    console.error("Error fetching Invoice:", error);
+    res
+      .status(500)
+      .send({ message: "An error occurred while fetching Invoice" });
+  }
+};
+
+export const getAllInvoice = async (req, res) => {
+  try {
+    const result = await Donate.find().sort({_id: -1});
+    res.status(200).send(result);
+  } catch (error) {
+    console.error("Error fetching Invoice:", error);
+    res
+      .status(500)
+      .send({ message: "An error occurred while fetching Invoice" });
+  }
 };

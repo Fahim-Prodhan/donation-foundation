@@ -3,6 +3,9 @@ import profileLogo from '../../assets/images/man.png'
 import { AuthContext } from '../../Context/AuthContext';
 import { format } from 'date-fns';
 import axios from 'axios';
+import { FaFileDownload } from 'react-icons/fa';
+import { Line } from 'recharts';
+import { Link } from 'react-router-dom';
 
 const MyProfile = () => {
     const { authUser } = useContext(AuthContext)
@@ -35,6 +38,7 @@ const MyProfile = () => {
                                 <th>Transaction ID</th>
                                 <th>Amount</th>
                                 <th>Status</th>
+                                <th>invoice</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -47,6 +51,7 @@ const MyProfile = () => {
                                     <td>{payment?.paymentId}</td>
                                     <td>{payment?.amount} $</td>
                                     <td>{payment?.status}</td>
+                                    <td>{payment?.status==="completed" ? <Link to = {`/invoice/${payment._id}`}><button className='bg-green-500 px-2 text-white py-1 flex items-center gap-2 rounded-md'>Invoice <FaFileDownload /></button></Link>:''}</td>
                                 </tr>
                                 )
                             }

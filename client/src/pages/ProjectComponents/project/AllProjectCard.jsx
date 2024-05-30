@@ -12,7 +12,7 @@ const AllProjectCard = ({ project }) => {
                     <div>
                         <h1 className="md:text-2xl text-xl font-bold text-[#02A95C]">{project.title}</h1>
                         <p className="py-6"> <span className='font-bold'>Description:</span> {descriptionSlice}...</p>
-                      <Link to={`/project-details/${project._id}`}>  <button className="btn bg-[#00A1F1] text-white">Read More</button> </Link>
+                      <Link to={`/project-details/${project._id}`}>  <button className="btn bg-[#FF9800] text-white">Read More</button> </Link>
                     </div>
                 </div>
             </div>

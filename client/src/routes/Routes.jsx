@@ -24,6 +24,8 @@ import Donate from "../pages/Donate/Donate";
 import Success from "../pages/Success/Success";
 import DonateProtected from "./DonateProtected";
 import MyProfile from "../pages/MyProfile/MyProfile";
+import Invoice from "../pages/invoice/Invoice";
+import LogoutProtected from "./LogoutProtected";
 
 const router = createBrowserRouter([
     {
@@ -33,14 +35,6 @@ const router = createBrowserRouter([
             {
                 path:'/',
                 element:<Home></Home>
-            },
-            {
-                path:'/register',
-                element:<Register></Register>
-            },
-            {
-                path:'/login',
-                element:<Login></Login>
             }
             ,
             {
@@ -82,14 +76,6 @@ const router = createBrowserRouter([
         ]
     },
     {
-       path:'/donate',
-       element:<DonateProtected><Donate/></DonateProtected>
-    },            
-    {
-        path:'/otp',
-        element:<OtpPage></OtpPage>
-    },
-    {
         path:'/admin',
         element:<AdminProtected><AdminDashboard></AdminDashboard></AdminProtected>,
         children:[
@@ -114,7 +100,27 @@ const router = createBrowserRouter([
                 element:<AllUsers></AllUsers>
             }
         ]
-    }
+    },
+    {
+        path:'/donate',
+        element:<DonateProtected><Donate/></DonateProtected>
+     },            
+     {
+         path:'/otp',
+         element:<OtpPage></OtpPage>
+     },
+     {
+        path:'/invoice/:id',
+        element:<Invoice></Invoice>
+     },
+     {
+         path:'/register',
+         element:<LogoutProtected><Register></Register></LogoutProtected>
+     },
+     {
+         path:'/login',
+         element:<LogoutProtected><Login></Login></LogoutProtected>
+     }
 ])
 
 export default router;
