@@ -15,17 +15,19 @@ const MyProfile = () => {
     const [number, setNumber] = useState(10);
     const [firstName, setFirstName] = useState(authUser.firstName);
     const [lastName, setLastName] = useState(authUser.lastName);
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        axios.get(`/api/donate/payment-history/6654f3d4bcf4f017a4a13a7a`)
+        axios.get(`/api/donate/payment-history/${authUser?._id}`)
             .then(res => {
                 setPayments(res.data);
             });
-    }, []);
+    }, [authUser?._id]);
 
     const changeProfilePic = async (event) => {
         const file = event.target.files[0];
         if (file) {
+            setLoading(true)
             const formData = new FormData();
             formData.append('image', file);
             try {
@@ -37,11 +39,14 @@ const MyProfile = () => {
                 const imageUrl = imageData.data.url;
                 await axios.put('/api/auth/user/profile-pic', { profilePic: imageUrl });
                 setAuthUser((prev) => ({ ...prev, profilePic: imageUrl }));
+                setLoading(false)
             } catch (error) {
                 console.error('Error uploading image or updating profile picture:', error);
             }
         }
     };
+
+
 
     const updateName = async (e) => {
         e.preventDefault();
@@ -58,7 +63,14 @@ const MyProfile = () => {
     return (
         <div className='mx-6'>
             <div className='text-center'>
-                <img className='mx-auto mt-12 w-28 h-28 rounded-full' src={authUser.profilePic || profileLogo} alt="Profile" />
+
+                {
+                    loading ? <div className='mx-auto mt-12 w-28 h-28 rounded-full bg-[#eee] flex justify-center'>
+                        <span className="loading loading-spinner loading-lg"></span>
+                    </div> :
+                        <img className='mx-auto mt-12 w-28 h-28 rounded-full' src={authUser?.profilePic || profileLogo} alt="Profile" />
+                }
+
                 <div className='flex justify-center'>
                     <label htmlFor="fileInput" className="cursor-pointer file-label flex items-center gap-1 bg-gray-400 w-36 mt-4 text-white rounded-lg px-2">
                         <MdDriveFolderUpload /> Profile Photo
@@ -66,7 +78,7 @@ const MyProfile = () => {
                     <input type="file" id="fileInput" name="fileInput" className="hidden" onChange={changeProfilePic} />
                 </div>
                 <h1 className='mt-4 font-bold text-2xl flex justify-center items-center gap-1'>
-                    Name: {authUser.firstName} {authUser.lastName} <CiEdit className='cursor-pointer' onClick={() => document.getElementById('my_modal_name').showModal()}/>
+                    Name: {authUser.firstName} {authUser.lastName} <CiEdit className='cursor-pointer' onClick={() => document.getElementById('my_modal_name').showModal()} />
                 </h1>
                 <dialog id="my_modal_name" className="modal">
                     <div className="modal-box">

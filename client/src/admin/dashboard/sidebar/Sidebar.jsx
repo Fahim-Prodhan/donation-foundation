@@ -9,11 +9,54 @@ import { IoCloseSharp } from "react-icons/io5";
 import { IoIosPersonAdd } from "react-icons/io";
 import { AuthContext } from '../../../Context/AuthContext';
 import { CiEdit } from "react-icons/ci";
+import axios from 'axios';
 
 const Sidebar = () => {
 
+    const { authUser, setAuthUser } = useContext(AuthContext); // assuming setAuthUser is provided in AuthContext to update user data
     const [sidebar, SetSidebar] = useState(false)
-    const { authUser } = useContext(AuthContext)
+    // const { authUser } = useContext(AuthContext)
+    const [firstName, setFirstName] = useState(authUser.firstName);
+    const [lastName, setLastName] = useState(authUser.lastName);
+    const [loading, setLoading] = useState(false)
+
+
+    const changeProfilePic = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setLoading(true)
+            const formData = new FormData();
+            formData.append('image', file);
+            try {
+                const response = await fetch('https://api.imgbb.com/1/upload?key=6b61fed2ade9e1cb6596b28fb4315762', {
+                    method: 'POST',
+                    body: formData,
+                });
+                const imageData = await response.json();
+                const imageUrl = imageData.data.url;
+                await axios.put('/api/auth/user/profile-pic', { profilePic: imageUrl });
+                setAuthUser((prev) => ({ ...prev, profilePic: imageUrl }));
+                setLoading(false)
+            } catch (error) {
+                console.error('Error uploading image or updating profile picture:', error);
+            }
+        }
+    };
+
+
+
+    const updateName = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.put('/api/auth/user/name', { firstName, lastName });
+            console.log(response.data.message);
+            setAuthUser((prev) => ({ ...prev, firstName, lastName }));
+            document.getElementById('my_modal_name').close();
+        } catch (error) {
+            console.error('Error updating name:', error);
+        }
+    };
+
 
     const handleSidebar = () => {
         SetSidebar(!sidebar)
@@ -35,11 +78,43 @@ const Sidebar = () => {
 
                         {/* Profile Pic and name */}
                         <div className='mb-4 '>
-                            <img className='w-20 mx-3 rounded-[50px]' src={profile} alt="" />
+                            {
+                                loading ? <div className=' mt-1 w-28 h-28 rounded-full bg-[#eee] flex justify-center'>
+                                    <span className="loading loading-spinner loading-lg"></span>
+                                </div> :
+                                    <img className=' mt-1 w-28 h-28 rounded-full' src={authUser?.profilePic || profile} alt="Profile" />
+                            }
                             <label for="fileInput" className="cursor-pointer ml-3 file-label flex items-center gap-1 bg-gray-400 w-36 mt-4 mb-2 text-white rounded-lg px-2"><MdDriveFolderUpload /> Profile Photo</label>
-                            <input type="file" id="fileInput" name="fileInput" className="hidden" />
+                            <input type="file" id="fileInput" name="fileInput" className="hidden" onChange={changeProfilePic} />
                             <h1 className='font-bold pt-1 text-white mx-3'>@{authUser?.role}</h1>
-                            <h1 className=' font-bold text-white mx-3 flex items-center gap-1'>{authUser?.firstName} {authUser?.lastName}  <CiEdit /></h1>
+                            <h1 className=' font-bold text-white mx-3 flex items-center gap-1'>{authUser?.firstName} {authUser?.lastName}  <CiEdit className='cursor-pointer' onClick={() => document.getElementById('my_modal_name').showModal()} /></h1>
+                            <dialog id="my_modal_name" className="modal">
+                                <div className="modal-box">
+                                    <form method="dialog" onSubmit={updateName}>
+                                        <button type="button" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={() => document.getElementById('my_modal_name').close()}>✕</button>
+                                        <h3 className="font-bold text-lg">Update Name</h3>
+                                        <div className="py-4">
+                                            <input
+                                                type="text"
+                                                placeholder="First Name"
+                                                className="input input-bordered w-full mb-2"
+                                                value={firstName}
+                                                onChange={(e) => setFirstName(e.target.value)}
+                                            />
+                                            <input
+                                                type="text"
+                                                placeholder="Last Name"
+                                                className="input input-bordered w-full"
+                                                value={lastName}
+                                                onChange={(e) => setLastName(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="modal-action">
+                                            <button type="submit" className="btn btn-primary">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </dialog>
                             <Link className=' mx-3 text-[#FFBF00]' to='/change-Password'>Change Password</Link>
                             <div className='my-6 border'>
                                 <hr />

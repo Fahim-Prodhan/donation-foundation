@@ -35,7 +35,7 @@ const AllProjects = () => {
     }
     return (
         <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto lg:mt-12'>
-            <h1 className='text-center font-bold text-5xl py-4 mb-12 text-[#2C3333]'>OUR PROJECTS</h1>
+            <h1 className='text-center font-bold md:text-5xl text-3xl py-4 mb-12 text-[#2C3333]'>OUR PROJECTS</h1>
             <div className='lg:max-w-7xl mx-auto space-y-12 pb-12'>
                 {
                     projects.map(project=> <AllProjectCard key={project._id} project={project}></AllProjectCard>)

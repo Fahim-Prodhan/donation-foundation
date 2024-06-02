@@ -420,7 +420,8 @@ export const getUserById = async (req, res) => {
       email: user.email,
       role: user.role,
       verified: user.verified,
-      isActive:user.isActive
+      isActive:user.isActive,
+      profilePic:user.profilePic
     });
   } catch (error) {
     console.log("Error in getUserById controller", error.message);

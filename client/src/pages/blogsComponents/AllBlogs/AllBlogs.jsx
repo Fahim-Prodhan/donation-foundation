@@ -36,7 +36,7 @@ const AllBlogs = () => {
 
     return (
         <div className='max-w-sm px-6 md:max-w-3xl md:px-8 lg:max-w-7xl mx-auto lg:mt-12'>
-            <h1 className='text-center font-bold text-5xl text-[#2C3333] py-4 mb-12 '>Our Blogs</h1>
+            <h1 className='text-center font-bold md:text-5xl text-3xl text-[#2C3333] py-4 mb-12 '>Our Blogs</h1>
             <div className='lg:max-w-7xl mx-auto'>
                 {
                     blogs.slice(0, index).map(blog => <AllBlogsCard key={blogs._id} blog={blog}></AllBlogsCard>)
