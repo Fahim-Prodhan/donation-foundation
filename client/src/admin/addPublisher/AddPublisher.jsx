@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { FaRegEyeSlash } from "react-icons/fa";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-// import useSignup from '../../Hooks/useSignup';
-import useAddAdmin from '../../Hooks/useAddAdmin';
 import toast from 'react-hot-toast';
+import useAddPublisher from '../../Hooks/useAddPublisher';
 
-const AddAdmin = () => {
-    const { loading, addAdmin } = useAddAdmin();
+const AddPublisher = () => {
+    const { loading, addPublisher } = useAddPublisher();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -14,7 +13,7 @@ const AddAdmin = () => {
         email: '',
         password: '',
         confirmPassword: '',
-        role: 'admin',
+        role: 'publisher',
         verified:true
     });
 
@@ -41,7 +40,7 @@ const AddAdmin = () => {
         if(password != confirmPassword){
             toast.error("Password not Match")
         }else {
-            await addAdmin(formData);
+            await addPublisher(formData);
         }
 
 
@@ -52,7 +51,7 @@ const AddAdmin = () => {
             <div className="">
                 <div className="lg:px-36">
                     <div className="card w-full  shadow-2xl bg-base-100">
-                        <h1 className="text-center text-3xl md:text-5xl font-bold py-4">Add Admin</h1>
+                        <h1 className="text-center text-3xl md:text-5xl font-bold py-4">Add Publisher</h1>
                         <form className="card-body lg:grid md:grid-cols-2" onSubmit={handleSubmit}>
                             <div className="form-control">
                                 <label className="label">
@@ -98,7 +97,7 @@ const AddAdmin = () => {
                             </div>                          
 
                             <div className="form-control mt-6 col-span-2">
-                                <button type="submit" className="btn bg-[#363062] text-white">Add Admin {loading && <span className="loading loading-spinner loading-md"></span>}</button>
+                                <button type="submit" className="btn bg-[#363062] text-white">Add Publisher {loading && <span className="loading loading-spinner loading-md"></span>}</button>
                             </div>
                         </form>
                     </div>
@@ -108,4 +107,4 @@ const AddAdmin = () => {
     );
 };
 
-export default AddAdmin;
+export default AddPublisher;

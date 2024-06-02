@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
   service: "gmail", 
   auth: {
     user: "fundaprotan.official@gmail.com", 
-    pass: "bybi iykl dygx kvth", 
+    pass: `bybi iykl dygx kvth`, 
   },
 });
 
@@ -73,6 +73,140 @@ export const signup = async (req, res) => {
 
     // Generate JWT token and set cookie
     generateTokenAndSetCookie(newUser._id, res);
+
+    // Respond with success message
+    res.status(201).json({ message: "Verification OTP sent to your email" });
+  } catch (error) {
+    console.log("Error in signup controller", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+export const addAdmin = async (req, res) => {
+  try {
+    console.log(req.body);
+    const {
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+      role,
+      verified,
+      isActive
+    } = req.body;
+
+    // Check if username or email already exists
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    if (existingUser) {
+      return res.status(400).json({ error: "Username or email already exists" });
+    }
+
+    // Generate OTP
+    const otp = generateOTP();
+
+    // Save OTP and its expiration time to the user document
+    const otpExpiration = new Date();
+    otpExpiration.setMinutes(otpExpiration.getMinutes() + 10); // OTP expires in 10 minutes
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new user with hashed password
+    const newUser = new User({
+      firstName,
+      lastName,
+      username,
+      email,
+      password: hashedPassword,
+      otp,
+      otpExpires: otpExpiration,
+      role,
+      verified,
+      isActive
+    });
+
+    // Save user to database
+    await newUser.save();
+
+    // Send OTP via email
+    await transporter.sendMail({
+      from: "fundaprotan.official@gmail.com",
+      to: email,
+      subject: "OTP for Email Verification",
+      text: `Your OTP for email verification is: ${otp}`,
+    });
+
+    // Generate JWT token and set cookie
+    // generateTokenAndSetCookie(newUser._id, res);
+
+    // Respond with success message
+    res.status(201).json({ message: "Verification OTP sent to your email" });
+  } catch (error) {
+    console.log("Error in signup controller", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+export const addPublisher = async (req, res) => {
+  try {
+    console.log(req.body);
+    const {
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+      role,
+      verified,
+      isActive
+    } = req.body;
+
+    // Check if username or email already exists
+    const existingUser = await User.findOne({ $or: [{ username }, { email }] });
+    if (existingUser) {
+      return res.status(400).json({ error: "Username or email already exists" });
+    }
+
+    // Generate OTP
+    const otp = generateOTP();
+
+    // Save OTP and its expiration time to the user document
+    const otpExpiration = new Date();
+    otpExpiration.setMinutes(otpExpiration.getMinutes() + 10); // OTP expires in 10 minutes
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new user with hashed password
+    const newUser = new User({
+      firstName,
+      lastName,
+      username,
+      email,
+      password: hashedPassword,
+      otp,
+      otpExpires: otpExpiration,
+      role,
+      verified,
+      isActive
+    });
+
+    // Save user to database
+    await newUser.save();
+
+    // Send OTP via email
+    await transporter.sendMail({
+      from: "fundaprotan.official@gmail.com",
+      to: email,
+      subject: "OTP for Email Verification",
+      text: `Your OTP for email verification is: ${otp}`,
+    });
+
+    // Generate JWT token and set cookie
+    // generateTokenAndSetCookie(newUser._id, res);
 
     // Respond with success message
     res.status(201).json({ message: "Verification OTP sent to your email" });
@@ -422,5 +556,49 @@ export const changePassword = async (req, res) => {
   } catch (error) {
     console.log("Error in changePassword controller", error.message);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
+export const updateProfilePic = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { profilePic } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { profilePic },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'Profile picture updated successfully', user });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+
+// Controller to update first name and last name
+export const updateName = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { firstName, lastName } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { firstName, lastName },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'Name updated successfully', user });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
   }
 };

@@ -20,7 +20,7 @@ const UpdateRole = ({ user }) => {
                         console.log('Role updated successfully');
                         document.getElementById('my_modal_4').close();
                         Swal.fire({
-                            position: "top-end",
+                            position: "center",
                             icon: "success",
                             title: "Role has been updated",
                             showConfirmButton: false,
@@ -63,6 +63,7 @@ const UpdateRole = ({ user }) => {
                         >
                             <option value="user">user</option>
                             <option value="admin">admin</option>
+                            <option value="publisher">publisher</option>
                         </select>
                     </div>
                     <button className='btn mt-4 bg-[#363062] text-white'>Update Role</button>

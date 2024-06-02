@@ -22,6 +22,11 @@ import UserProtected from "./UserProtected";
 import ChangePassword from "../pages/ChangePassword/ChangePassword";
 import Donate from "../pages/Donate/Donate";
 import Success from "../pages/Success/Success";
+import DonateProtected from "./DonateProtected";
+import MyProfile from "../pages/MyProfile/MyProfile";
+import Invoice from "../pages/invoice/Invoice";
+import LogoutProtected from "./LogoutProtected";
+import AddPublisher from "../admin/addPublisher/AddPublisher";
 
 const router = createBrowserRouter([
     {
@@ -31,14 +36,6 @@ const router = createBrowserRouter([
             {
                 path:'/',
                 element:<Home></Home>
-            },
-            {
-                path:'/register',
-                element:<Register></Register>
-            },
-            {
-                path:'/login',
-                element:<Login></Login>
             }
             ,
             {
@@ -54,7 +51,7 @@ const router = createBrowserRouter([
                 element:<AllProjects></AllProjects>
             },
             {
-                path:'project-details/:id',
+                path:'/project-details/:id',
                 element:<ProjectDetails></ProjectDetails>
             },
             {
@@ -62,26 +59,22 @@ const router = createBrowserRouter([
                 element:<AllBlogs></AllBlogs>
             },
             {
-                path:'blogs-details/:id',
+                path:'/blogs-details/:id',
                 element:<BlogsDetails></BlogsDetails>
             },
             {
-                path:'change-password',
+                path:'/change-password',
                 element:<ChangePassword/>
             },
             {
-                path:'donate',
-                element:<Donate/>
-            },
-            {
-                path:'success',
+                path:'/success',
                 element:<Success/>
             },
+            {
+                path:'my-profile',
+                element:<MyProfile></MyProfile>
+            }
         ]
-    },            
-    {
-        path:'/otp',
-        element:<OtpPage></OtpPage>
     },
     {
         path:'/admin',
@@ -104,11 +97,35 @@ const router = createBrowserRouter([
                 element:<AddAdmin></AddAdmin>
             },
             {
+                path:'add-publisher',
+                element:<AddPublisher></AddPublisher>
+            },
+            {
                 path:'users',
                 element:<AllUsers></AllUsers>
             }
         ]
-    }
+    },
+    {
+        path:'/donate',
+        element:<DonateProtected><Donate/></DonateProtected>
+     },            
+     {
+         path:'/otp',
+         element:<OtpPage></OtpPage>
+     },
+     {
+        path:'/invoice/:id',
+        element:<Invoice></Invoice>
+     },
+     {
+         path:'/register',
+         element:<LogoutProtected><Register></Register></LogoutProtected>
+     },
+     {
+         path:'/login',
+         element:<LogoutProtected><Login></Login></LogoutProtected>
+     }
 ])
 
 export default router;

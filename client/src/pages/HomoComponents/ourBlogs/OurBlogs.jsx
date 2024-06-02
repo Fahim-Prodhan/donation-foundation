@@ -30,7 +30,7 @@ const OurBlogs = () => {
         </div>
         <div className='text-center '>
             <Link to='/blogs'>
-                <button className='btn btn-outline btn-info my-12'>See All</button>
+                <button className='btn btn-outline btn-success my-12'>See All</button>
             </Link>
         </div>
     </div>

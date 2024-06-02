@@ -5,19 +5,24 @@ import AllBlogsCard from '../allBlogsCard/AllBlogsCard';
 const AllBlogs = () => {
     const [blogs, setBlogs] = useState([])
     const [loading, setLoading] = useState(false)
+    const [index, setIndex] = useState(3)
 
-    
 
-    useEffect(()=>{
+
+    const handleSeeMore = () => {
+        setIndex(index + 3)
+    }
+
+    useEffect(() => {
         setLoading(true)
         axios.get(`/api/blogs`)
-        .then(res=>{
-            setBlogs(res.data.blogs)
-            setLoading(false)
-        })
-    },[])
+            .then(res => {
+                setBlogs(res.data.blogs)
+                setLoading(false)
+            })
+    }, [])
 
-        
+
     if (loading) {
         return (
             <div className="flex justify-center">
@@ -34,8 +39,11 @@ const AllBlogs = () => {
             <h1 className='text-center font-bold text-5xl text-[#2C3333] py-4 mb-12 '>Our Blogs</h1>
             <div className='lg:max-w-7xl mx-auto'>
                 {
-                    blogs.map(blog=> <AllBlogsCard key={blogs._id} blog={blog}></AllBlogsCard>)
+                    blogs.slice(0, index).map(blog => <AllBlogsCard key={blogs._id} blog={blog}></AllBlogsCard>)
                 }
+            </div>
+            <div className='text-center'>
+                <button onClick={handleSeeMore} className={`btn btn-outline btn-success mb-12 ${index >= blogs.length ? 'hidden' : ''}`}>See more</button>
             </div>
         </div>
     );

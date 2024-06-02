@@ -1,18 +1,19 @@
 /* eslint-disable react/no-unknown-property */
 import React, { useContext, useState } from 'react';
 import profile from '../../../assets/images/man.png'
-import { NavLink } from 'react-router-dom';
-import { MdDashboard } from "react-icons/md";
+import { Link, NavLink } from 'react-router-dom';
+import { MdDashboard, MdDriveFolderUpload } from "react-icons/md";
 import { GoProjectRoadmap } from "react-icons/go";
 import { FaBlogger } from "react-icons/fa";
 import { IoCloseSharp } from "react-icons/io5";
 import { IoIosPersonAdd } from "react-icons/io";
 import { AuthContext } from '../../../Context/AuthContext';
+import { CiEdit } from "react-icons/ci";
 
 const Sidebar = () => {
 
     const [sidebar, SetSidebar] = useState(false)
-    const {authUser} = useContext(AuthContext)
+    const { authUser } = useContext(AuthContext)
 
     const handleSidebar = () => {
         SetSidebar(!sidebar)
@@ -28,15 +29,18 @@ const Sidebar = () => {
 
             <aside id="default-sidebar" className={`fixed left-0 z-40 w-64 h-screen transition-transform sm:translate-x-0 ${sidebar ? 'top-20' : '-translate-x-full'}`} aria-label="Sidebar">
 
-                <div className="h-full px-3 py-4 overflow-y-auto bg-[#363062] rounded-lg mt-1">
+                <div className="h-full px-3 py-4 overflow-y-auto bg-[#0A6847] rounded-lg mt-1">
                     <ul className="space-y-2 font-medium">
                         <button onClick={handleSidebar} className='absolute right-4 text-white text-2xl md:hidden block'><IoCloseSharp /></button>
 
                         {/* Profile Pic and name */}
                         <div className='mb-4 '>
-                            <img className='w-20 mx-3 ' src={profile} alt="" />
-                            <h1 className='font-bold pt-1 text-white mx-3'>@Admin</h1>
-                            <h1 className='text-xl font-bold text-white mx-3'>{authUser?.firstName} {authUser?.lastName}  </h1>
+                            <img className='w-20 mx-3 rounded-[50px]' src={profile} alt="" />
+                            <label for="fileInput" className="cursor-pointer ml-3 file-label flex items-center gap-1 bg-gray-400 w-36 mt-4 mb-2 text-white rounded-lg px-2"><MdDriveFolderUpload /> Profile Photo</label>
+                            <input type="file" id="fileInput" name="fileInput" className="hidden" />
+                            <h1 className='font-bold pt-1 text-white mx-3'>@{authUser?.role}</h1>
+                            <h1 className=' font-bold text-white mx-3 flex items-center gap-1'>{authUser?.firstName} {authUser?.lastName}  <CiEdit /></h1>
+                            <Link className=' mx-3 text-[#FFBF00]' to='/change-Password'>Change Password</Link>
                             <div className='my-6 border'>
                                 <hr />
                             </div>
@@ -82,7 +86,7 @@ const Sidebar = () => {
 
                             </NavLink>
                         </li>
-                        <li>
+                        {authUser && authUser.role === 'admin' && <><li>
                             <NavLink style={({ isActive }) => ({
                                 color: isActive ? "#fff" : "#fff",
                                 border: isActive ? '2px solid #FDDE55' : 'none',
@@ -90,27 +94,38 @@ const Sidebar = () => {
                                 padding: isActive ? '5px 12px' : '',
                                 background: isActive ? "#1111111f" : "transparent",
                             })} to='/admin/add-admin' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
-                                <p className='text-2xl'><span className='text-gray-400 group-hover:text-white' ><IoIosPersonAdd /></span></p>
+                                <p className='text-2xl'><span className='text-gray-400 group-hover:text-white'><IoIosPersonAdd /></span></p>
                                 <span className="ms-3">Add Admin</span>
 
                             </NavLink>
-                        </li>
-                        <li>
-                            <NavLink style={({ isActive }) => ({
-                                color: isActive ? "#fff" : "#fff",
-                                border: isActive ? '2px solid #FDDE55' : 'none',
-                                borderRadius: isActive ? '5px' : '',
-                                padding: isActive ? '5px 12px' : '',
-                                background: isActive ? "#1111111f" : "transparent",
-                            })} to='/admin/users' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
-                                <p className='text-2xl'><svg className="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                                    <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
-                                </svg></p>
-                                <span className="ms-3">Users</span>
+                        </li><li>
+                                <NavLink style={({ isActive }) => ({
+                                    color: isActive ? "#fff" : "#fff",
+                                    border: isActive ? '2px solid #FDDE55' : 'none',
+                                    borderRadius: isActive ? '5px' : '',
+                                    padding: isActive ? '5px 12px' : '',
+                                    background: isActive ? "#1111111f" : "transparent",
+                                })} to='/admin/add-publisher' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                                    <p className='text-2xl'><span className='text-gray-400 group-hover:text-white'><IoIosPersonAdd /></span></p>
+                                    <span className="ms-3">Add Publisher</span>
 
-                            </NavLink>
-                        </li>
+                                </NavLink>
+                            </li><li>
+                                <NavLink style={({ isActive }) => ({
+                                    color: isActive ? "#fff" : "#fff",
+                                    border: isActive ? '2px solid #FDDE55' : 'none',
+                                    borderRadius: isActive ? '5px' : '',
+                                    padding: isActive ? '5px 12px' : '',
+                                    background: isActive ? "#1111111f" : "transparent",
+                                })} to='/admin/users' className="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group">
+                                    <p className='text-2xl'><svg className="flex-shrink-0 w-5 h-5 transition duration-75 text-gray-400 group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                        <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
+                                    </svg></p>
+                                    <span className="ms-3">Users</span>
 
+                                </NavLink>
+                            </li></>
+                        }
                     </ul>
                 </div>
             </aside>
