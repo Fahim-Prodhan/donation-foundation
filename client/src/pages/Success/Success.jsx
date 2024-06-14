@@ -19,17 +19,17 @@ function Success() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ preferenceId,transactionId}),
+                body: JSON.stringify({ preferenceId, transactionId }),
             })
-            .then((res) => res.json())
-            .then((data) => {
-                console.log(data);
-                setFetched(true);
-            });
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    setFetched(true);
+                });
         };
 
         if (!fetched) {
-            const timeout = setTimeout(fetchSuccessData, 1000); 
+            const timeout = setTimeout(fetchSuccessData, 1000);
             return () => clearTimeout(timeout);
         }
         setLoading(false)
@@ -40,11 +40,15 @@ function Success() {
         <div>
             <div className="flex items-center justify-center ">
                 <div className=" p-8 rounded-lg  max-w-md flex flex-col justify-center items-center">
-                    <img className="w-1/2 rounded-e-lg mb-4" src={logo} alt="" />                  
+                    <img className="w-1/2 rounded-e-lg mb-4" src={logo} alt="" />
                     <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">Payment Successful</h2>
                     <p className="text-gray-600 text-center mb-6">Thank you for your Donation</p>
-                    <Link to = '/my-profile'><button className="btn btn-accent text-white">{loading ? <p className="flex items-center gap-2"> Please Wait<span className="loading loading-spinner loading-md"></span></p> : 'Done'}</button></Link>
-                    
+                    {
+                    loading ?
+                        <button className="btn btn-accent text-white flex justify-center items-center gap-4">Sending Invoice <span className="loading loading-spinner loading-md"></span></button> :
+                        <Link to='/my-profile'><button className="btn btn-accent text-white">Done</button></Link>
+                    }
+
                 </div>
             </div>
         </div>
