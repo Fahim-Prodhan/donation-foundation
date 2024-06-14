@@ -2,14 +2,14 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../Context/AuthContext';
 import logo from '../../assets/images/6 Logo Verde.png'
 import Navbar from '../../components/navbar/Navbar';
-import Footer from '../../components/footer/Footer';
+// import Footer from '../../components/footer/Footer';
 
 const Donate = () => {
   const { authUser } = useContext(AuthContext)
   const [amount, setAmount] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  console.log(amount);
+  // console.log(amount);
   // console.log(authUser);
   const handleDonate = async (e) => {
     e.preventDefault();
@@ -29,17 +29,18 @@ const Donate = () => {
         email: authUser.email
       }
 
-      const res = await fetch('/api/donate/cheakout', {
+      const res = await fetch('/api/pay/create-payment', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(order),
       });
+      
       const data = await res.json();
       console.log(data);
-      if (data.session.url) {
-        window.location.href = data.session.url;
+      if (data.init_point) {
+        window.location.href = data.init_point;
       }
     } catch (error) {
       console.log(error);
