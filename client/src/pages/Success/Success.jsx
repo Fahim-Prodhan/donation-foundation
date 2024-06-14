@@ -5,18 +5,21 @@ import logo from '../../assets/images/6 Logo Verde.png'
 function Success() {
     const location = useLocation();
     const query = new URLSearchParams(location.search);
-    const transactionId = query.get("session_id");
+    const preferenceId = query.get("preference_id");
+    const transactionId = query.get("payment_id");
     const [fetched, setFetched] = useState(false);
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const fetchSuccessData = () => {
-            fetch("/api/donate/success", {
+            console.log('pre:', preferenceId);
+            console.log('tid:', transactionId);
+            fetch("/api/pay/pay-success", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ transactionId }),
+                body: JSON.stringify({ preferenceId,transactionId}),
             })
             .then((res) => res.json())
             .then((data) => {
@@ -31,7 +34,7 @@ function Success() {
         }
         setLoading(false)
 
-    }, [transactionId, fetched]);
+    }, [transactionId, fetched, preferenceId]);
 
     return (
         <div>

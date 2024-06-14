@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../Context/AuthContext';
 import logo from '../../assets/images/6 Logo Verde.png'
 import Navbar from '../../components/navbar/Navbar';
+import { Hidden } from '@mui/material';
 // import Footer from '../../components/footer/Footer';
 
 const Donate = () => {
@@ -9,19 +10,22 @@ const Donate = () => {
   const [amount, setAmount] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [loading, setLoading] = useState(false);
   // console.log(amount);
   // console.log(authUser);
   const handleDonate = async (e) => {
+    setLoading(true)
     e.preventDefault();
     setError('');
     setSuccess('');
 
-    if (!amount || isNaN(amount) || Number(amount) <= 0) {
+    if (!amount || isNaN(amount) || Number(amount) < 0.1) {
       setError('Please enter a valid amount');
       return;
     }
 
     try {
+      
       const order = {
         amount,
         firstName: authUser.firstName,
@@ -40,9 +44,11 @@ const Donate = () => {
       const data = await res.json();
       console.log(data);
       if (data.init_point) {
+        setLoading(false)
         window.location.href = data.init_point;
       }
     } catch (error) {
+      setLoading(false)
       console.log(error);
       setError('Please enter a valid amount');
     }
@@ -73,9 +79,9 @@ const Donate = () => {
           </div>
           <button
             type="submit"
-            className="w-full py-2 px-4 text-[#fff] hover:bg-[#099c6b] bg-[#03C988] font-semibold rounded-lg "
+            className="w-full py-2 px-4 text-[#fff] hover:bg-[#099c6b] bg-[#03C988] font-semibold rounded-lg flex items-center gap-4 justify-center "
           >
-            Donate
+            Donate <span className={`loading loading-spinner loading-md ${loading ? '': 'hidden'}`}></span>
           </button>
         </form>
       </div>

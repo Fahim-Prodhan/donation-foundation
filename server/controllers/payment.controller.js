@@ -19,7 +19,7 @@ export const createPayment = async (req, res) => {
     // Initialize Mercado Pago client with the provided access token
     const client = new MercadoPagoConfig({
       accessToken:
-        "TEST-209959251788759-060915-da341f5978a5c5033d2ec4a3877361cd-217118838",
+        `${process.env.MERCADO_SECRET_KEY}`,
       options: {
         timeout: 5000,
         idempotencyKey: "abc",
@@ -36,7 +36,7 @@ export const createPayment = async (req, res) => {
           title: "Donation",
           description: `Donated by ${firstName} ${lastName}`,
           quantity: 1,
-          unit_price: parseInt(amount), // Ensure unit price is a valid number
+          unit_price: parseFloat(amount), // Ensure unit price is a valid number
           currency_id: "USD", // Ensure currency_id is valid
           picture_url: "https://i.ibb.co/vXhdDHV/6-Logo-Verde.png",
         },
@@ -54,7 +54,7 @@ export const createPayment = async (req, res) => {
     const response = await preference.create({ body: preferenceData });
 
     // Handle the response
-    console.log(response);
+    // console.log(response);
 
     const donate = new Donate({
       user: user._id,
@@ -74,18 +74,23 @@ export const createPayment = async (req, res) => {
   }
 };
 
-export const handleSuccess = async (req, res) => {
-  const sessionId = req.query.preference_id;
+export const successTransaction = async (req, res) => {
+  const sessionId = req.body.preferenceId;
+  const transactionId = req.body.transactionId;
+  // console.log("api hit",transactionId);
 
   try {
     const donate = await Donate.findOne({ sessionId: sessionId }).populate(
       "user"
     );
 
+    // console.log("donate details: ",donate);
+
     if (!donate) {
       return res.status(404).send("Donation not found");
     }
 
+    donate.paymentId = transactionId;
     donate.status = "completed";
     await donate.save();
 
@@ -93,7 +98,7 @@ export const handleSuccess = async (req, res) => {
               Dear ${donate.user.firstName} ${donate.user.lastName},        
               <h2 style="text-align: center">Your Invoice</h2>
               <div style="border: 1px solid #ddd; padding: 10px; border-radius: 5px; max-width: 400px; margin: 20px auto;">
-                  <p><strong>Transaction ID:</strong> ${sessionId}</p>
+                  <p><strong>Transaction ID:</strong> ${transactionId}</p>
                   <p><strong>Date:</strong> ${new Date().toLocaleDateString()}</p>
                   <p><strong>Name:</strong> ${donate.user.firstName} ${
       donate.user.lastName
@@ -115,7 +120,7 @@ export const handleSuccess = async (req, res) => {
       html: emailContent,
     });
 
-    res.send({ sessionId });
+    res.send({ transactionId });
   } catch (error) {
     console.error("Error handling success:", error);
     res.status(500).send("Error handling success");
