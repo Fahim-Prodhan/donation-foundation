@@ -27,6 +27,7 @@ import MyProfile from "../pages/MyProfile/MyProfile";
 import Invoice from "../pages/invoice/Invoice";
 import LogoutProtected from "./LogoutProtected";
 import AddPublisher from "../admin/addPublisher/AddPublisher";
+import SubscriptionConfirm from "../pages/subscriptionConfirm/SubscriptionConfirm";
 
 const router = createBrowserRouter([
     {
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
             {
                 path:'/success',
                 element:<Success/>
+            },
+            {
+                path:'/confirm-subscription',
+                element:<SubscriptionConfirm/>
             },
             {
                 path:'my-profile',

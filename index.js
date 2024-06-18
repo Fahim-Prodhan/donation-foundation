@@ -12,6 +12,7 @@ import blogRoutes from "./server/routes/blog.routes.js";
 import projectRoutes from "./server/routes/project.routes.js";
 import donateRoutes from "./server/routes/donate.routes.js"
 import paymentRoutes from "./server/routes/payments.routes.js"
+import subscriptionRoutes from "./server/routes/subscription.routes.js"
 
 
 const app = express();
@@ -29,6 +30,7 @@ app.use('/api/blogs', blogRoutes);
 app.use('/api/project', projectRoutes);
 app.use('/api/donate', donateRoutes);
 app.use('/api/pay', paymentRoutes);
+app.use('/api/subscription', subscriptionRoutes);
 
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
