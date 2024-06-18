@@ -10,6 +10,7 @@ const Donate = () => {
   const [amount, setAmount] = useState('');
   const [subAmount, setSubAmount] = useState('');
   const [error, setError] = useState('');
+  const [subError, setSubError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const [subLoading, setSubLoading] = useState(false);
@@ -28,6 +29,7 @@ const Donate = () => {
     } else if (Number(amount) < 500) {
       setLoading(false)
       setError('Amount must at least 500');
+      return
     }
 
     try {
@@ -63,16 +65,17 @@ const Donate = () => {
   const handleSubscription = async (e) => {
     setSubLoading(true)
     e.preventDefault();
-    setError('');
+    setSubError('');
     setSuccess('');
 
     if (!subAmount || isNaN(subAmount)) {
       setSubLoading(false)
-      setError('Please enter a valid amount');
+      setSubError('Please enter a valid amount');
       return;
     } else if (Number(subAmount) < 4000) {
-      setError('Amount must at least 4000');
+      setSubError('Amount must at least 4000');
       setSubLoading(false)
+      return;
     }
 
     try {
@@ -101,7 +104,7 @@ const Donate = () => {
     } catch (error) {
       setSubLoading(false)
       console.log(error);
-      setError('Please enter a valid amount');
+      setSubError('Please enter a valid amount');
     }
   };
 
@@ -144,7 +147,7 @@ const Donate = () => {
           <img className='w-[25%] mx-auto rounded-lg' src={logo} alt="" />
           <p className='text-center font-semibold py-4'>Your subscription helps farmers cultivate not just their fields, but their futures. Subscribe today to sow the seeds of hope and prosperity!</p>
           <h2 className="text-2xl font-semibold text-center mb-6">Subscribe</h2>
-          {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+          {subError && <p className="text-red-500 text-center mb-4">{subError}</p>}
           {success && <p className="text-green-500 text-center mb-4">{success}</p>}
           <form onSubmit={handleSubscription}>
             <div className="mb-4">
