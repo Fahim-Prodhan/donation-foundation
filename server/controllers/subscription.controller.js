@@ -1,6 +1,13 @@
 import { MercadoPagoConfig, PreApprovalPlan } from "mercadopago";
+import Subscription from "../models/subscription.model.js";
 
 export const createSubscription = async (req, res) => {
+
+  const user = req.user;
+  const { amount } = req.body;
+
+
+
   try {
     // Initialize Mercado Pago client
     const client = new MercadoPagoConfig({
@@ -18,7 +25,7 @@ export const createSubscription = async (req, res) => {
         reason: "Monthly Donation",
         auto_recurring: {
           currency_id: "COP",
-          transaction_amount: 1742,
+          transaction_amount: parseFloat(amount),
           frequency: 1,
           frequency_type: "months",
           start_date: new Date().toISOString(),
@@ -32,6 +39,15 @@ export const createSubscription = async (req, res) => {
 
     // Log the response to console for debugging
     console.log("Subscription plan created:", createPlanResponse);
+
+    const subscription = new Subscription({
+      user: user._id,
+      amount: amount,
+      preApprovalPlanId: createPlanResponse.id,
+      status: "pending",
+    });
+
+    await subscription.save();
 
     // Send success response
     res
