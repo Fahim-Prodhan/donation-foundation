@@ -2,13 +2,17 @@ import { MercadoPagoConfig, PreApprovalPlan } from "mercadopago";
 import Subscription from "../models/subscription.model.js";
 
 export const createSubscription = async (req, res) => {
-
   const user = req.user;
   const { amount } = req.body;
 
-
-
   try {
+
+    const id = await Subscription.findOne({user:user._id})
+    if(id) {
+      res.send({message: 'user is already subscribed'})
+      return;
+    }
+
     // Initialize Mercado Pago client
     const client = new MercadoPagoConfig({
       accessToken: `${process.env.MERCADO_SECRET_KEY}`,
@@ -18,10 +22,18 @@ export const createSubscription = async (req, res) => {
     // Initialize PreApprovalPlan instance
     const preApprovalPlan = new PreApprovalPlan(client);
 
+    const subscription = new Subscription({
+      user:user._id,
+      amount: amount,
+      status: "pending",
+    });
+
+    const callBackUrl = `https://donation-foundation.onrender.com/confirm-subscription?subscriptionId=${subscription._id}`;
+
     // Create the subscription plan
     const createPlanResponse = await preApprovalPlan.create({
       body: {
-        back_url: `https://donation-foundation.onrender.com/confirm-subscription`,
+        back_url: callBackUrl,
         reason: "Monthly Donation",
         auto_recurring: {
           currency_id: "COP",
@@ -39,33 +51,28 @@ export const createSubscription = async (req, res) => {
 
     // Log the response to console for debugging
     console.log("Subscription plan created:", createPlanResponse);
+    console.log(
+      "Subscription plan created:",
+      createPlanResponse.api_response.headers
+    );
 
-    const subscription = new Subscription({
-      user: user._id,
-      amount: amount,
-      preApprovalPlanId: createPlanResponse.id,
-      status: "pending",
-    });
-
+    subscription.preApprovalPlanId = createPlanResponse.id;
     await subscription.save();
 
     // Send success response
-    res
-      .status(200)
-      .json({
-        message: "Subscription plan created successfully",
-        data: createPlanResponse,
-      });
+    res.status(200).json({
+      message: "Subscription plan created successfully",
+      data: createPlanResponse,
+    });
   } catch (error) {
     // Log the error for debugging
     console.error("Error creating subscription plan:", error);
-
     // Send error response
-    res
-      .status(500)
-      .json({
-        error: "Failed to create subscription plan",
-        message: error.message,
-      });
+    res.status(500).json({
+      error: "Failed to create subscription plan",
+      message: error.message,
+    });
   }
 };
+
+export const handleConfirmSubscription = async (req, res) => {};

@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 export const 
 createPayment = async (req, res) => {
   const user = req.user;
-  const { amount, email, firstName, lastName } = req.body;
+  const { currency, amount, email, firstName, lastName } = req.body;
 
   try {
     // Initialize Mercado Pago client with the provided access token
@@ -38,7 +38,7 @@ createPayment = async (req, res) => {
           description: `Donated by ${firstName} ${lastName}`,
           quantity: 1,
           unit_price: parseFloat(amount), // Ensure unit price is a valid number
-          currency_id: "COP", // Ensure currency_id is valid
+          currency_id: currency, // Ensure currency_id is valid
           picture_url: "https://i.ibb.co/vXhdDHV/6-Logo-Verde.png",
         },
       ],
