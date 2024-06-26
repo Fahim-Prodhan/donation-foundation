@@ -21,7 +21,7 @@ const Donate = () => {
     e.preventDefault();
     setError('');
     setSuccess('');
-    console.log(currency);
+    // console.log(currency);
 
     if (!amount || isNaN(amount)) {
       setError('Please enter a valid amount');

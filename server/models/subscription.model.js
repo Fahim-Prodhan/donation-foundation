@@ -15,9 +15,9 @@ const subscriptionSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    preferenceId: {
-        type: String,
-        default: null,
+    end_date:{
+        type: Date,
+        require:true
     },
     status: {
         type: String,

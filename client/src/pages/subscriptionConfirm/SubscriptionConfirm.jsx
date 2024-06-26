@@ -1,23 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const SubscriptionConfirm = () => {
     const location = useLocation();
-    useEffect(() => {
-        // Example: Handle Mercado Pago response
-        const queryParams = new URLSearchParams(location.search);
-        const status = queryParams.get('status');
+    const query = new URLSearchParams(location.search);
+    const preapprovalId = query.get("preapproval_id");
+    const [fetched, setFetched] = useState(false);
+    const [loading, setLoading] = useState(true)
 
-        if (status === 'approved') {
-            alert('Subscription successfully completed!');
-        } else if (status === 'pending') {
-            alert('Subscription is pending.');
-        } else if (status === 'failure') {
-            alert('Subscription failed.');
-        } else {
-            alert('Unknown status.');
+    useEffect(() => {
+        const fetchSuccessData = () => {
+            fetch("/api/subscription/confirm-subscribe", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ preapprovalId }),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log(data);
+                    setFetched(true);
+                });
+        };
+
+        if (!fetched) {
+            const timeout = setTimeout(fetchSuccessData, 1000);
+            return () => clearTimeout(timeout);
         }
-    }, [location.search]);
+        setLoading(false)
+
+    }, [fetched, preapprovalId]);
 
     return (
         <div>

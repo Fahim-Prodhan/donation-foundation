@@ -12,8 +12,6 @@ function Success() {
 
     useEffect(() => {
         const fetchSuccessData = () => {
-            console.log('pre:', preferenceId);
-            console.log('tid:', transactionId);
             fetch("/api/pay/pay-success", {
                 method: "POST",
                 headers: {

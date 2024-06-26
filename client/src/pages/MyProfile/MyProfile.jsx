@@ -109,6 +109,7 @@ const MyProfile = () => {
                 </dialog>
                 <h3 className='font-semibold'>Email: {authUser.email}</h3>
                 <h3 className=''><span className='font-bold'>Edit:</span> <span><a className='text-blue-500' href="/change-password">Change Password</a></span></h3>
+                <button className="btn btn-sm mt-2 btn-outline btn-success">Subscription Status</button>
             </div>
             <div className='mt-12'>
                 <h1 className='text-center text-2xl md:text-4xl font-bold mb-6'>My Donation History</h1>

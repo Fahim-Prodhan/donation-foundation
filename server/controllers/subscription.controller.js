@@ -6,10 +6,10 @@ export const createSubscription = async (req, res) => {
   const { amount } = req.body;
 
   try {
-
-    const id = await Subscription.findOne({user:user._id})
-    if(id) {
-      res.send({message: 'user is already subscribed'})
+    const id = await Subscription.findOne({ user: user._id });
+    console.log(id);
+    if (id && id.status === 'active') {
+      res.send({ message: "user is already subscribed" });
       return;
     }
 
@@ -23,12 +23,12 @@ export const createSubscription = async (req, res) => {
     const preApprovalPlan = new PreApprovalPlan(client);
 
     const subscription = new Subscription({
-      user:user._id,
+      user: user._id,
       amount: amount,
       status: "pending",
     });
 
-    const callBackUrl = `https://donation-foundation.onrender.com/confirm-subscription?subscriptionId=${subscription._id}`;
+    const callBackUrl = `https://donation-foundation.onrender.com/confirm-subscription`;
 
     // Create the subscription plan
     const createPlanResponse = await preApprovalPlan.create({
@@ -41,22 +41,16 @@ export const createSubscription = async (req, res) => {
           frequency: 1,
           frequency_type: "months",
           start_date: new Date().toISOString(),
-          end_date: new Date(
-            new Date().setFullYear(new Date().getFullYear() + 1)
-          ).toISOString(),
-        },
-        payer_email: "fahimprodhan0@gmail.com",
+          end_date: new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString(),
+        }
       },
     });
 
     // Log the response to console for debugging
     console.log("Subscription plan created:", createPlanResponse);
-    console.log(
-      "Subscription plan created:",
-      createPlanResponse.api_response.headers
-    );
 
     subscription.preApprovalPlanId = createPlanResponse.id;
+    subscription.end_date = new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString();
     await subscription.save();
 
     // Send success response
@@ -75,4 +69,24 @@ export const createSubscription = async (req, res) => {
   }
 };
 
-export const handleConfirmSubscription = async (req, res) => {};
+export const handleConfirmSubscription = async (req, res) => {
+  const preapprovalId = req.body.preapprovalId;
+  
+  try {
+    const subscription = await Subscription.findOne({ preApprovalPlanId: preapprovalId }).populate(
+      "user"
+    );
+
+    if (!subscription) {
+      return res.status(404).send("subscription not found");
+    }
+    subscription.status = "active";
+    await subscription.save();
+    res.send({ preapprovalId });
+
+  }catch (error) {
+    console.error("Error handling confirm subscription:", error);
+    res.status(500).send("Error handling confirm subscription");
+  }
+
+};
