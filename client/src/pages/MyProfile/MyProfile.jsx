@@ -16,13 +16,21 @@ const MyProfile = () => {
     const [firstName, setFirstName] = useState(authUser.firstName);
     const [lastName, setLastName] = useState(authUser.lastName);
     const [loading, setLoading] = useState(false)
+    const [show, setShow] = useState(false)
+    const [subDetails, setSubDetails] = useState(null)
 
     useEffect(() => {
         axios.get(`/api/donate/payment-history/${authUser?._id}`)
             .then(res => {
                 setPayments(res.data);
             });
-    }, [authUser?._id]);
+
+        axios.get('/api/subscription/find-subscription')
+            .then(res => {
+                // console.log(res.data);
+                setSubDetails(res.data)
+            })
+    }, [authUser?._id, show]);
 
     const changeProfilePic = async (event) => {
         const file = event.target.files[0];
@@ -59,6 +67,7 @@ const MyProfile = () => {
             console.error('Error updating name:', error);
         }
     };
+
 
     return (
         <div className='mx-6'>
@@ -109,7 +118,42 @@ const MyProfile = () => {
                 </dialog>
                 <h3 className='font-semibold'>Email: {authUser.email}</h3>
                 <h3 className=''><span className='font-bold'>Edit:</span> <span><a className='text-blue-500' href="/change-password">Change Password</a></span></h3>
-                <button className="btn btn-sm mt-2 btn-outline btn-success">Subscription Status</button>
+                <button onClick={() => setShow(!show)} className="btn btn-sm mt-2 btn-outline btn-success">Subscription Status</button>
+
+
+                <div className={`mt-12 ${show ? '' : 'hidden'}`}>
+                    <h1 className='text-center text-2xl md:text-4xl font-bold mb-6 text-blue-500'>Subscription Details</h1>
+                    {
+                        subDetails ? <>
+                            <div className="overflow-x-auto">
+                                <table className="table table-zebra">
+                                    {/* head */}
+                                    <thead>
+                                        <tr>
+                                            <th>Amount</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>$ {subDetails?.amount}</td>
+                                            <td>{subDetails?.createdAt ? format(new Date(subDetails.createdAt), 'dd-MM-yyyy') : ''}</td>
+                                            <td>{subDetails?.end_date ? format(new Date(subDetails.end_date), 'dd-MM-yyyy') : ''}</td>
+                                            <td>{subDetails?.status}</td>
+                                            <td><button className="btn btn-sm bg-error text-white">cancel</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </>:
+                        <div>
+                            <h1 className='text-2xl text-red-600'>You have no Subscription!</h1>
+                        </div>
+                    }
+                </div>
             </div>
             <div className='mt-12'>
                 <h1 className='text-center text-2xl md:text-4xl font-bold mb-6'>My Donation History</h1>

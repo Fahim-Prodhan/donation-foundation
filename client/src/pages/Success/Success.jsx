@@ -39,7 +39,12 @@ function Success() {
             <div className="flex items-center justify-center ">
                 <div className=" p-8 rounded-lg  max-w-md flex flex-col justify-center items-center">
                     <img className="w-1/2 rounded-e-lg mb-4" src={logo} alt="" />
+                    {
+                    loading ? 
+                    <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">Payment Processing...</h2>:
                     <h2 className="text-2xl font-bold text-center text-gray-800 mb-2">Payment Successful</h2>
+
+                    }
                     <p className="text-gray-600 text-center mb-6">Thank you for your Donation</p>
                     {
                     loading ?

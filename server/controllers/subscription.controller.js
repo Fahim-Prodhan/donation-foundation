@@ -6,10 +6,10 @@ export const createSubscription = async (req, res) => {
   const { amount } = req.body;
 
   try {
-    const id = await Subscription.findOne({ user: user._id });
+    const id = await Subscription.findOne({ user: user._id, status:'active' });
     console.log(id);
-    if (id && id.status === 'active') {
-      res.send({ message: "user is already subscribed" });
+    if (id) {
+      res.send({ message: "user already subscribed" });
       return;
     }
 
@@ -89,4 +89,62 @@ export const handleConfirmSubscription = async (req, res) => {
     res.status(500).send("Error handling confirm subscription");
   }
 
+};
+
+export const findUserActiveSubscription = async (req, res)=>{
+  const user = req.user;
+  try {
+    // Ensure the userId is a valid ObjectId
+    if (!user) {
+      throw new Error('user not found');
+    }
+
+    const subscription = await Subscription.findOne({
+      user: user._id,
+      status: 'active'
+    });
+
+     res.send(subscription);
+  } catch (error) {
+    console.error('Error finding active subscription:', error);
+    throw error;
+  }
+
+}
+
+export const cancelSubscription = async (req, res) => {
+  const user = req.user;
+
+  try {
+    const subscription = await Subscription.findOne({ user: user._id, status: 'active' });
+
+    if (!subscription) {
+      return res.status(404).json({ message: 'Active subscription not found' });
+    }
+
+    // Initialize Mercado Pago client
+    const client = new MercadoPagoConfig({
+      accessToken: process.env.MERCADO_SECRET_KEY,
+      options: { timeout: 5000 },
+    });
+
+    // Initialize PreApprovalPlan instance
+    const preApprovalPlan = new PreApprovalPlan(client);
+
+    const updateBody = {
+      reason: 'Cancel',
+      status: 'pending'
+    };
+
+    const updatePreApprovalPlan = await preApprovalPlan.update({ id: subscription.preApprovalPlanId, body: updateBody });
+
+    // Update the subscription status in your database
+    subscription.status = 'pending';
+    await subscription.save();
+
+    res.status(200).json({ message: 'Subscription cancellation initiated', data: updatePreApprovalPlan });
+  } catch (error) {
+    console.error('Error cancelling subscription:', error);
+    res.status(500).json({ message: 'Internal server error', error: error.message });
+  }
 };
