@@ -122,6 +122,8 @@ export const cancelSubscription = async (req, res) => {
       return res.status(404).json({ message: 'Active subscription not found' });
     }
 
+    console.log(subscription.preApprovalPlanId);
+
     // Initialize Mercado Pago client
     const client = new MercadoPagoConfig({
       accessToken: process.env.MERCADO_SECRET_KEY,
@@ -133,10 +135,10 @@ export const cancelSubscription = async (req, res) => {
 
     const updateBody = {
       reason: 'Cancel',
-      status: 'pending'
+      status: 'cancelled'
     };
 
-    const updatePreApprovalPlan = await preApprovalPlan.update({ id: subscription.preApprovalPlanId, body: updateBody });
+    const updatePreApprovalPlan = await preApprovalPlan.update({ id: subscription.preApprovalPlanId, updatePreApprovalPlanRequest: updateBody });
 
     // Update the subscription status in your database
     subscription.status = 'pending';

@@ -8,6 +8,7 @@ import { FaFileDownload } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { CiEdit } from 'react-icons/ci';
 import { MdDriveFolderUpload } from 'react-icons/md';
+import Swal from 'sweetalert2';
 
 const MyProfile = () => {
     const { authUser, setAuthUser } = useContext(AuthContext); // assuming setAuthUser is provided in AuthContext to update user data
@@ -67,6 +68,34 @@ const MyProfile = () => {
             console.error('Error updating name:', error);
         }
     };
+
+    const cancelSubscription = () => {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You Want to Cancel Your Subscription",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, cancel it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios.post('/api/subscription/cancel-subscription').then(res => {
+                    if (res.data) {
+                        Swal.fire({
+                            title: "Canceled!",
+                            text: "Your Subscription has been canceled.",
+                            icon: "success"
+                        }).then(()=>{
+                            location.reload()
+                        });
+                    }
+                })
+
+            }
+        });
+    }
 
 
     return (
@@ -143,15 +172,15 @@ const MyProfile = () => {
                                             <td>{subDetails?.createdAt ? format(new Date(subDetails.createdAt), 'dd-MM-yyyy') : ''}</td>
                                             <td>{subDetails?.end_date ? format(new Date(subDetails.end_date), 'dd-MM-yyyy') : ''}</td>
                                             <td>{subDetails?.status}</td>
-                                            <td><button className="btn btn-sm bg-error text-white">cancel</button></td>
+                                            <td><button onClick={cancelSubscription} className="btn btn-sm bg-error text-white">cancel</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
-                        </>:
-                        <div>
-                            <h1 className='text-2xl text-red-600'>You have no Subscription!</h1>
-                        </div>
+                        </> :
+                            <div>
+                                <h1 className='text-2xl text-red-600'>You have no Subscription!</h1>
+                            </div>
                     }
                 </div>
             </div>

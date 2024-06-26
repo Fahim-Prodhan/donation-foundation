@@ -9,7 +9,7 @@ const router = express.Router();
 router.post('/subscribe', protectRoute, createSubscription)
 router.post('/confirm-subscribe', protectRoute, handleConfirmSubscription)
 router.get('/find-subscription', protectRoute, findUserActiveSubscription)
-router.get('/cancel-subscription', protectRoute, cancelSubscription)
+router.post('/cancel-subscription', protectRoute, cancelSubscription)
 
 
 export default router
