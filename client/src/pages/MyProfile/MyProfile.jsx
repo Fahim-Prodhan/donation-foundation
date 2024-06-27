@@ -180,6 +180,7 @@ const MyProfile = () => {
                         </> :
                             <div>
                                 <h1 className='text-2xl text-red-600'>You have no Subscription!</h1>
+                               <Link to = '/donate'> <button className="mt-2 btn btn-accent btn-outline btn-sm">Subscribe Here</button></Link>
                             </div>
                     }
                 </div>
