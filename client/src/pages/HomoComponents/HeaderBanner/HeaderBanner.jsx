@@ -45,7 +45,7 @@ function HeaderBanner() {
           <h1 className="animate__animated animate__fadeInDown text-2xl lg:text-5xl lg:font-black font-bold pt-4">Change is Possible in Agriculture</h1>
           <p className="animate__animated animate__fadeInDown md:text-xl pt-4 pb-2 lg:pb-6">By supporting Farm Foundation, you can be part of the movement to help agriculture thrive.</p>
           <Link to='/donate'>
-            <button className="bg-green-500 md:text-xl font-semibold btn text-white border-none hover:bg-green-600 px-12">DONATE HERE</button>
+            <button className="bg-green-500 md:text-xl font-semibold btn text-white border-none hover:bg-green-600 px-12">Support Us</button>
           </Link>
         </div>
 

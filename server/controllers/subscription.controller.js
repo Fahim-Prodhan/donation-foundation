@@ -6,7 +6,7 @@ export const createSubscription = async (req, res) => {
   const { amount } = req.body;
 
   try {
-    const id = await Subscription.findOne({ user: user._id, status:'active' });
+    const id = await Subscription.findOne({ user: user._id, status: "active" });
     console.log(id);
     if (id) {
       res.send({ message: "user already subscribed" });
@@ -41,8 +41,10 @@ export const createSubscription = async (req, res) => {
           frequency: 1,
           frequency_type: "months",
           start_date: new Date().toISOString(),
-          end_date: new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString(),
-        }
+          end_date: new Date(
+            new Date().setMonth(new Date().getMonth() + 1)
+          ).toISOString(),
+        },
       },
     });
 
@@ -50,7 +52,9 @@ export const createSubscription = async (req, res) => {
     console.log("Subscription plan created:", createPlanResponse);
 
     subscription.preApprovalPlanId = createPlanResponse.id;
-    subscription.end_date = new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString();
+    subscription.end_date = new Date(
+      new Date().setMonth(new Date().getMonth() + 1)
+    ).toISOString();
     await subscription.save();
 
     // Send success response
@@ -71,11 +75,11 @@ export const createSubscription = async (req, res) => {
 
 export const handleConfirmSubscription = async (req, res) => {
   const preapprovalId = req.body.preapprovalId;
-  
+
   try {
-    const subscription = await Subscription.findOne({ preApprovalPlanId: preapprovalId }).populate(
-      "user"
-    );
+    const subscription = await Subscription.findOne({
+      preApprovalPlanId: preapprovalId,
+    }).populate("user");
 
     if (!subscription) {
       return res.status(404).send("subscription not found");
@@ -83,43 +87,43 @@ export const handleConfirmSubscription = async (req, res) => {
     subscription.status = "active";
     await subscription.save();
     res.send({ preapprovalId });
-
-  }catch (error) {
+  } catch (error) {
     console.error("Error handling confirm subscription:", error);
     res.status(500).send("Error handling confirm subscription");
   }
-
 };
 
-export const findUserActiveSubscription = async (req, res)=>{
+export const findUserActiveSubscription = async (req, res) => {
   const user = req.user;
   try {
     // Ensure the userId is a valid ObjectId
     if (!user) {
-      throw new Error('user not found');
+      throw new Error("user not found");
     }
 
     const subscription = await Subscription.findOne({
       user: user._id,
-      status: 'active'
+      status: "active",
     });
 
-     res.send(subscription);
+    res.send(subscription);
   } catch (error) {
-    console.error('Error finding active subscription:', error);
+    console.error("Error finding active subscription:", error);
     throw error;
   }
-
-}
+};
 
 export const cancelSubscription = async (req, res) => {
   const user = req.user;
 
   try {
-    const subscription = await Subscription.findOne({ user: user._id, status: 'active' });
+    const subscription = await Subscription.findOne({
+      user: user._id,
+      status: "active",
+    });
 
     if (!subscription) {
-      return res.status(404).json({ message: 'Active subscription not found' });
+      return res.status(404).json({ message: "Active subscription not found" });
     }
 
     console.log(subscription.preApprovalPlanId);
@@ -134,19 +138,68 @@ export const cancelSubscription = async (req, res) => {
     const preApprovalPlan = new PreApprovalPlan(client);
 
     const updateBody = {
-      reason: 'Cancel',
-      status: 'cancelled'
+      reason: "Cancel",
+      status: "cancelled",
     };
 
-    const updatePreApprovalPlan = await preApprovalPlan.update({ id: subscription.preApprovalPlanId, updatePreApprovalPlanRequest: updateBody });
+    const updatePreApprovalPlan = await preApprovalPlan.update({
+      id: subscription.preApprovalPlanId,
+      updatePreApprovalPlanRequest: updateBody,
+    });
 
     // Update the subscription status in your database
-    subscription.status = 'pending';
+    subscription.status = "pending";
     await subscription.save();
 
-    res.status(200).json({ message: 'Subscription cancellation initiated', data: updatePreApprovalPlan });
+    res
+      .status(200)
+      .json({
+        message: "Subscription cancellation initiated",
+        data: updatePreApprovalPlan,
+      });
   } catch (error) {
-    console.error('Error cancelling subscription:', error);
-    res.status(500).json({ message: 'Internal server error', error: error.message });
+    console.error("Error cancelling subscription:", error);
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
+  }
+};
+
+export const cancel = async (req, res) => {
+  try {
+    // Initialize Mercado Pago client
+    const client = new MercadoPagoConfig({
+      accessToken: process.env.MERCADO_SECRET_KEY,
+      options: { timeout: 5000 },
+    });
+
+    // Initialize PreApprovalPlan instance
+    const preApprovalPlan = new PreApprovalPlan(client);
+
+    const updateBody = {
+      reason: "Cancel",
+      status: "cancelled",
+    };
+
+    const updatePreApprovalPlan = await preApprovalPlan.update({
+      id: '2c93808490595c1b01905a3c505a0053',
+      updatePreApprovalPlanRequest: updateBody,
+    });
+
+    console.log(updatePreApprovalPlan);
+
+    // Update the subscription status in your database
+
+    res
+      .status(200)
+      .json({
+        message: "Subscription cancellation initiated",
+        data: updatePreApprovalPlan,
+      });
+  } catch (error) {
+    console.error("Error cancelling subscription:", error);
+    res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
