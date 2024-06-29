@@ -1,4 +1,4 @@
-import { MercadoPagoConfig, PreApprovalPlan } from "mercadopago";
+import { MercadoPagoConfig, PreApproval, PreApprovalPlan } from "mercadopago";
 import Subscription from "../models/subscription.model.js";
 
 export const createSubscription = async (req, res) => {
@@ -12,15 +12,14 @@ export const createSubscription = async (req, res) => {
       res.send({ message: "user already subscribed" });
       return;
     }
+ // Initialize Mercado Pago client
+ const client = new MercadoPagoConfig({
+  accessToken: `${process.env.MERCADO_SECRET_KEY}`,
+  options: { timeout: 5000 },
+});
 
-    // Initialize Mercado Pago client
-    const client = new MercadoPagoConfig({
-      accessToken: `${process.env.MERCADO_SECRET_KEY}`,
-      options: { timeout: 5000 },
-    });
-
-    // Initialize PreApprovalPlan instance
-    const preApprovalPlan = new PreApprovalPlan(client);
+// Initialize PreApprovalPlan instance
+const preApproval = new PreApproval(client);
 
     const subscription = new Subscription({
       user: user._id,
@@ -31,27 +30,25 @@ export const createSubscription = async (req, res) => {
     const callBackUrl = `https://donation-foundation.onrender.com/confirm-subscription`;
 
     // Create the subscription plan
-    const createPlanResponse = await preApprovalPlan.create({
+    const createPlanResponse = await preApproval.create({
       body: {
-        back_url: callBackUrl,
         reason: "Monthly Donation",
+        external_reference: 'S01',
+        payer_email:'fahimprodhan0@gmail.com',
         auto_recurring: {
-          currency_id: "COP",
-          transaction_amount: parseFloat(amount),
           frequency: 1,
           frequency_type: "months",
-          start_date: new Date().toISOString(),
-          end_date: new Date(
-            new Date().setMonth(new Date().getMonth() + 1)
-          ).toISOString(),
+          transaction_amount: parseFloat(amount),
+          currency_id: "COP",
         },
+        back_url: callBackUrl,
+        // status: 'pending'
       },
     });
-
     // Log the response to console for debugging
     console.log("Subscription plan created:", createPlanResponse);
 
-    subscription.preApprovalPlanId = createPlanResponse.id;
+    subscription.preApprovalId = createPlanResponse.id;
     subscription.end_date = new Date(
       new Date().setMonth(new Date().getMonth() + 1)
     ).toISOString();
@@ -73,12 +70,16 @@ export const createSubscription = async (req, res) => {
   }
 };
 
+
+
+
+//after successful payment
 export const handleConfirmSubscription = async (req, res) => {
   const preapprovalId = req.body.preapprovalId;
 
   try {
     const subscription = await Subscription.findOne({
-      preApprovalPlanId: preapprovalId,
+      preApprovalId: preapprovalId,
     }).populate("user");
 
     if (!subscription) {
@@ -86,6 +87,7 @@ export const handleConfirmSubscription = async (req, res) => {
     }
     subscription.status = "active";
     await subscription.save();
+
     res.send({ preapprovalId });
   } catch (error) {
     console.error("Error handling confirm subscription:", error);
@@ -113,6 +115,10 @@ export const findUserActiveSubscription = async (req, res) => {
   }
 };
 
+
+
+
+
 export const cancelSubscription = async (req, res) => {
   const user = req.user;
 
@@ -126,26 +132,21 @@ export const cancelSubscription = async (req, res) => {
       return res.status(404).json({ message: "Active subscription not found" });
     }
 
-    console.log(subscription.preApprovalPlanId);
+    console.log(subscription.preApprovalId);
 
-    // Initialize Mercado Pago client
-    const client = new MercadoPagoConfig({
+     // Initialize Mercado Pago client
+     const client = new MercadoPagoConfig({
       accessToken: process.env.MERCADO_SECRET_KEY,
       options: { timeout: 5000 },
     });
-
     // Initialize PreApprovalPlan instance
-    const preApprovalPlan = new PreApprovalPlan(client);
+    const preApproval = new PreApproval(client);
 
     const updateBody = {
-      reason: "Cancel",
-      status: "cancelled",
+      reason: 'Cancel',
+      status: 'cancelled'
     };
-
-    const updatePreApprovalPlan = await preApprovalPlan.update({
-      id: subscription.preApprovalPlanId,
-      updatePreApprovalPlanRequest: updateBody,
-    });
+    const updatePreApproval = await preApproval.update({ id: subscription.preApprovalId, body: updateBody });
 
     // Update the subscription status in your database
     subscription.status = "pending";
@@ -155,7 +156,7 @@ export const cancelSubscription = async (req, res) => {
       .status(200)
       .json({
         message: "Subscription cancellation initiated",
-        data: updatePreApprovalPlan,
+        data: updatePreApproval,
       });
   } catch (error) {
     console.error("Error cancelling subscription:", error);
@@ -165,41 +166,88 @@ export const cancelSubscription = async (req, res) => {
   }
 };
 
-export const cancel = async (req, res) => {
-  try {
-    // Initialize Mercado Pago client
-    const client = new MercadoPagoConfig({
-      accessToken: process.env.MERCADO_SECRET_KEY,
-      options: { timeout: 5000 },
-    });
 
-    // Initialize PreApprovalPlan instance
-    const preApprovalPlan = new PreApprovalPlan(client);
 
-    const updateBody = {
-      reason: "Cancel",
-      status: "cancelled",
-    };
 
-    const updatePreApprovalPlan = await preApprovalPlan.update({
-      id: '2c93808490595c1b01905a3c505a0053',
-      updatePreApprovalPlanRequest: updateBody,
-    });
+// export const cancel = async (req, res) => {
+//   try {
+//     // Initialize Mercado Pago client
+//     const client = new MercadoPagoConfig({
+//       accessToken: process.env.MERCADO_SECRET_KEY,
+//       options: { timeout: 5000 },
+//     });
 
-    console.log(updatePreApprovalPlan);
+//     // Initialize PreApprovalPlan instance
+//     const preApprovalPlan = new PreApprovalPlan(client);
 
-    // Update the subscription status in your database
+//     const updateBody = {
+//       reason: "Cancel",
+//       status: "cancelled",
+//     };
 
-    res
-      .status(200)
-      .json({
-        message: "Subscription cancellation initiated",
-        data: updatePreApprovalPlan,
+//     const updatePreApprovalPlan = await preApprovalPlan.update({
+//       id: '2c93808490595c1b01905a3c505a0053',
+//       updatePreApprovalPlanRequest: updateBody,
+//     });
+
+//     console.log(updatePreApprovalPlan);
+
+//     // Update the subscription status in your database
+
+//     res
+//       .status(200)
+//       .json({
+//         message: "Subscription cancellation initiated",
+//         data: updatePreApprovalPlan,
+//       });
+//   } catch (error) {
+//     console.error("Error cancelling subscription:", error);
+//     res
+//       .status(500)
+//       .json({ message: "Internal server error", error: error.message });
+//   }
+// };
+
+
+export const updateS = async (req, res)=>{
+  try{
+       // Initialize Mercado Pago client
+       const client = new MercadoPagoConfig({
+        accessToken: process.env.MERCADO_SECRET_KEY,
+        options: { timeout: 5000 },
       });
-  } catch (error) {
-    console.error("Error cancelling subscription:", error);
-    res
-      .status(500)
-      .json({ message: "Internal server error", error: error.message });
+      // Initialize PreApprovalPlan instance
+      const preApproval = new PreApproval(client);
+  
+      const updateBody = {
+        reason: 'update test',
+        status: 'cancelled'
+      };
+      const updatePreApproval = await preApproval.update({ id: '18c75ef590fd470b9a94e1ef87179536', body: updateBody });
+      console.log(updatePreApproval);
+      res.send(updatePreApproval)
+
+  }catch(error){
+    console.log(error);
   }
-};
+}
+
+
+export const getS = async (req,res) =>{
+try{
+      // Initialize Mercado Pago client
+      const client = new MercadoPagoConfig({
+        accessToken: process.env.MERCADO_SECRET_KEY,
+        options: { timeout: 5000 },
+      });
+  
+      // Initialize PreApprovalPlan instance
+      const preApprovalPlan = new PreApproval(client);
+  
+      const getPlan = await preApprovalPlan.get({ id: '18c75ef590fd470b9a94e1ef87179536' });
+      res.send(getPlan)
+      console.log(getPlan);
+  }catch(error){
+    console.log(error);
+  }
+}

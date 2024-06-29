@@ -93,12 +93,12 @@ const Donate = () => {
       });
 
       const data = await res.json();
-      if (data.message === 'user is already subscribed') {
+      if (data.message === 'user already subscribed') {
         setSubError('User is already subscribed');
         setSubLoading(false)
         return;
       }
-      console.log(data.data.init_point);
+      console.log(data.data);
       if (data.data.init_point) {
         setSubLoading(false)
         window.location.href = data.data.init_point;

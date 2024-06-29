@@ -10,7 +10,7 @@ const subscriptionSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    preApprovalPlanId: {
+    preApprovalId: {
         type: String,
         required: true,
         unique: true,
@@ -21,7 +21,7 @@ const subscriptionSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'completed', 'failed','active'],
+        enum: ['pending', 'completed', 'failed','active', 'authorized'],
         default: 'pending',
     },
 }, {
