@@ -88,12 +88,14 @@ export const handleConfirmSubscription = async (req, res) => {
     subscription.status = "active";
     await subscription.save();
 
-    res.send({ preapprovalId });
+    res.send({ message: "Successful" });
   } catch (error) {
     console.error("Error handling confirm subscription:", error);
     res.status(500).send("Error handling confirm subscription");
   }
 };
+
+
 
 export const findUserActiveSubscription = async (req, res) => {
   const user = req.user;
