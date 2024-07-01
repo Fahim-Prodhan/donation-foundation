@@ -32,7 +32,7 @@ const preApproval = new PreApproval(client);
     // Create the subscription plan
     const createPlanResponse = await preApproval.create({
       body: {
-        reason: "Monthly Donation",
+        reason: "FUNDAPROTAN",
         external_reference: 'S01',
         payer_email:'fahimprodhan0@gmail.com',
         auto_recurring: {
@@ -211,45 +211,45 @@ export const cancelSubscription = async (req, res) => {
 // };
 
 
-export const updateS = async (req, res)=>{
-  try{
-       // Initialize Mercado Pago client
-       const client = new MercadoPagoConfig({
-        accessToken: process.env.MERCADO_SECRET_KEY,
-        options: { timeout: 5000 },
-      });
-      // Initialize PreApprovalPlan instance
-      const preApproval = new PreApproval(client);
+// export const updateS = async (req, res)=>{
+//   try{
+//        // Initialize Mercado Pago client
+//        const client = new MercadoPagoConfig({
+//         accessToken: process.env.MERCADO_SECRET_KEY,
+//         options: { timeout: 5000 },
+//       });
+//       // Initialize PreApprovalPlan instance
+//       const preApproval = new PreApproval(client);
   
-      const updateBody = {
-        reason: 'update test',
-        status: 'cancelled'
-      };
-      const updatePreApproval = await preApproval.update({ id: '18c75ef590fd470b9a94e1ef87179536', body: updateBody });
-      console.log(updatePreApproval);
-      res.send(updatePreApproval)
+//       const updateBody = {
+//         reason: 'update test',
+//         status: 'cancelled'
+//       };
+//       const updatePreApproval = await preApproval.update({ id: '18c75ef590fd470b9a94e1ef87179536', body: updateBody });
+//       console.log(updatePreApproval);
+//       res.send(updatePreApproval)
 
-  }catch(error){
-    console.log(error);
-  }
-}
+//   }catch(error){
+//     console.log(error);
+//   }
+// }
 
 
-export const getS = async (req,res) =>{
-try{
-      // Initialize Mercado Pago client
-      const client = new MercadoPagoConfig({
-        accessToken: process.env.MERCADO_SECRET_KEY,
-        options: { timeout: 5000 },
-      });
+// export const getS = async (req,res) =>{
+// try{
+//       // Initialize Mercado Pago client
+//       const client = new MercadoPagoConfig({
+//         accessToken: process.env.MERCADO_SECRET_KEY,
+//         options: { timeout: 5000 },
+//       });
   
-      // Initialize PreApprovalPlan instance
-      const preApprovalPlan = new PreApproval(client);
+//       // Initialize PreApprovalPlan instance
+//       const preApprovalPlan = new PreApproval(client);
   
-      const getPlan = await preApprovalPlan.get({ id: '18c75ef590fd470b9a94e1ef87179536' });
-      res.send(getPlan)
-      console.log(getPlan);
-  }catch(error){
-    console.log(error);
-  }
-}
+//       const getPlan = await preApprovalPlan.get({ id: '18c75ef590fd470b9a94e1ef87179536' });
+//       res.send(getPlan)
+//       console.log(getPlan);
+//   }catch(error){
+//     console.log(error);
+//   }
+// }
