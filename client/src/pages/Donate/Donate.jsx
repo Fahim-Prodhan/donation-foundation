@@ -27,13 +27,13 @@ const Donate = () => {
       setError('Please enter a valid amount');
       setLoading(false)
       return;
-    } else if ( currency === 'COP' && Number(amount) < 500) {
+    } else if ( currency === 'COP' && Number(amount) < 1000) {
       setLoading(false)
-      setError('Amount must be at least 500 COP');
+      setError('Amount must be at least 1000 COP');
       return;
-    } else if ( currency === 'USD' && Number(amount) < 0.1) {
+    } else if ( currency === 'USD' && Number(amount) < 0.25) {
       setLoading(false)
-      setError('Amount must be at least 0.1 USD');
+      setError('Amount must be at least 0.25 USD');
       return;
     }
 
@@ -77,8 +77,8 @@ const Donate = () => {
       setSubLoading(false)
       setSubError('Please enter a valid amount');
       return;
-    } else if (Number(subAmount) < 1600) {
-      setSubError('Amount must be at least 1600');
+    } else if (Number(subAmount) < 4000) {
+      setSubError('Amount must be at least 4000');
       setSubLoading(false)
       return;
     }
@@ -153,7 +153,7 @@ const Donate = () => {
               </div>
             </div>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2 font-bold">Amount $:</label>
+              <label className="block text-gray-700 mb-2 font-bold">Amount (minimum 1,000 COP or 0.25 USD):</label>
               <input
                 type="number"
                 value={amount}
@@ -182,7 +182,7 @@ const Donate = () => {
           {success && <p className="text-green-500 text-center mb-4">{success}</p>}
           <form onSubmit={handleSubscription}>
             <div className="mb-4">
-              <label className="block text-gray-700 mb-2 font-bold">Amount $:</label>
+              <label className="block text-gray-700 mb-2 font-bold">Amount $ (minimum 4,000 COP):</label>
               <input
                 type="number"
                 value={subAmount}
