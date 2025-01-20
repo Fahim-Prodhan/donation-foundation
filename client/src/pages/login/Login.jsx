@@ -12,8 +12,8 @@ const Login = () => {
     const { login } = useLogin();
     const [eye, setEye] = useState(false);
     const [formData, setFormData] = useState({
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '123456'
     });
 
     const togglePassword = () => {
@@ -55,20 +55,20 @@ const Login = () => {
                             </div>
                         </div>
                         <div className="card w-full  shadow-2xl bg-base-100">
-                            <h1 className="text-center text-5xl font-bold py-4">Login</h1>
+                            <h1 className="text-center text-5xl font-bold py-4">Login to Demo Admin</h1>
                             <form className="card-body" onSubmit={handleSubmit}>
                                 <div className="form-control ">
                                     <label className="label">
                                         <span className="label-text">Username</span>
                                     </label>
-                                    <input name="username" type="text" placeholder="username" className="input input-bordered" required onChange={handleChange} />
+                                    <input defaultValue={'admin'} name="username" type="text" placeholder="username" className="input input-bordered" required onChange={handleChange} />
                                 </div>
                                 <div className="form-control">
                                     <label className="label">
                                         <span className="label-text">Password</span>
                                     </label>
                                     <label className="input input-bordered flex items-center gap-2 label">
-                                        <input name="password" type={eye ? "text" : "password"} className="grow" placeholder="password" onChange={handleChange} />
+                                        <input defaultValue={'123456'} name="password" type={eye ? "text" : "password"} className="grow" placeholder="password" onChange={handleChange} />
                                         <span onClick={togglePassword} className="text-xl -ml-10 md:-ml-0">{eye ? <MdOutlineRemoveRedEye /> : <FaRegEyeSlash />}</span>
                                     </label>
                                 </div>
