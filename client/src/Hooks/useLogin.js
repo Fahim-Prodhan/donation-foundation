@@ -26,7 +26,7 @@ const useLogin = () => {
             toast.success('Successfully Logged in!')
             localStorage.setItem("foundation", JSON.stringify(data));
             setAuthUser(data);
-            navigate(location.state ? `${location.state}` : '/admin/dashboard')
+            navigate(location.state ? `${location.state}` : '/')
             location.reload()
         } catch (error) {
             toast.error(error.message);
